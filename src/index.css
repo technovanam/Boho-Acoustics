@@ -1,0 +1,79 @@
+@import "tailwindcss";
+@source "../src/**/*.{js,jsx,ts,tsx}";
+
+@theme {
+  --color-brand-black: #050505;
+  --color-brand-offblack: #0f0f0f;
+  --color-brand-white: #ffffff;
+  --color-brand-gray: #1a1a1a;
+  --color-brand-lightgray: #f5f5f5;
+  --color-brand-gold: #F0A500;
+  --color-brand-gold-light: #FFD166;
+  --color-brand-teal: #00C9A7;
+  --color-brand-navy: #0D1B2A;
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+
+@layer base {
+  *, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  :root {
+    --foreground-rgb: 255, 255, 255;
+    --background-start-rgb: 0, 0, 0;
+    --background-end-rgb: 10, 10, 10;
+  }
+
+  body {
+    background-color: var(--color-brand-black);
+    color: var(--color-brand-white);
+    font-family: var(--font-body);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-heading);
+    letter-spacing: -0.02em;
+  }
+}
+
+@utility blend-overlay {
+  mix-blend-mode: overlay;
+}
+
+@utility glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@utility vertical-line {
+  width: 1px;
+  background: linear-gradient(to bottom, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+@utility horizontal-line {
+  height: 1px;
+  background: linear-gradient(to right, transparent, rgba(255,255,255,0.2), transparent);
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #000;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
