@@ -64,6 +64,53 @@ export default function Solutions() {
           ))}
         </div>
       </section>
+
+      {/* ── ENGINEERING TOOLS CTA ──────────────────────────── */}
+      <section className="py-24 px-6 md:px-12 border-t border-white/5 bg-[#080808]">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-12">
+          <div className="max-w-2xl">
+            <motion.div initial={{ opacity: 0, x: -20 }} whileInView={{ opacity: 1, x: 0 }} viewport={{ once: true }} className="flex items-center gap-4 mb-6">
+              <div className="w-12 h-[1px] bg-amber-500" />
+              <span className="text-[10px] font-black uppercase tracking-[0.4em] text-amber-500">Engineering Standard</span>
+            </motion.div>
+            <h2 className="text-4xl md:text-5xl font-black uppercase tracking-tighter mb-6 leading-none">
+              Precision Acoustic <span className="text-amber-500">Calculators</span>
+            </h2>
+            <p className="text-white/50 text-base leading-relaxed mb-8">
+              Acoustics is a game of logarithms and inverse square laws. We've built professional-grade tools for architects and engineers to calculate sound power levels and distance attenuation instantly.
+            </p>
+            <Link 
+              to="/tools/db-calculator" 
+              className="inline-flex items-center gap-4 px-10 py-5 bg-white text-black text-xs font-black uppercase tracking-[0.2em] rounded-sm hover:bg-amber-500 hover:-translate-y-1 transition-all duration-500 group"
+            >
+              <span>Launch dB Calculator</span>
+              <div className="w-8 h-[1px] bg-black/20 group-hover:bg-black transition-colors" />
+            </Link>
+          </div>
+          
+          <div className="relative w-full md:w-1/3 aspect-square border border-white/5 bg-black overflow-hidden group">
+            <div className="absolute inset-0 opacity-20 group-hover:opacity-40 transition-opacity duration-700">
+               <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(245,158,11,0.2)_0%,transparent_70%)]" />
+               <div className="grid grid-cols-10 grid-rows-10 h-full w-full opacity-10">
+                 {[...Array(100)].map((_, i) => (
+                   <div key={i} className="border-[0.5px] border-white/20" />
+                 ))}
+               </div>
+            </div>
+            <div className="absolute inset-0 flex flex-col items-center justify-center p-8">
+               <span className="text-amber-500 font-black text-6xl tracking-tighter mb-2">94.0</span>
+               <span className="text-white/40 text-[10px] font-bold uppercase tracking-[0.3em]">Decibels (dB)</span>
+               <div className="w-full h-1 bg-white/5 mt-8 relative overflow-hidden">
+                 <motion.div 
+                   animate={{ x: ['-100%', '100%'] }} 
+                   transition={{ duration: 3, repeat: Infinity, ease: 'linear' }}
+                   className="absolute inset-0 bg-amber-500/50 w-1/2" 
+                 />
+               </div>
+            </div>
+          </div>
+        </div>
+      </section>
     </div>
   );
 }

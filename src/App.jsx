@@ -8,6 +8,8 @@ import Portfolio from './pages/Portfolio';
 import About from './pages/About';
 import Consultation from './pages/Consultation';
 import Blog from './pages/Blog';
+import DBCalculator from './pages/DBCalculator';
+
 
 
 // Scroll to top helper
@@ -31,7 +33,9 @@ function App() {
           <Route path="/portfolio" element={<Portfolio />} />
           <Route path="/about" element={<About />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/tools/db-calculator" element={<DBCalculator />} />
           <Route path="/consultation" element={<Consultation />} />
+
 
           {/* Default Route */}
           <Route path="*" element={<Home />} />
