@@ -11,6 +11,7 @@ import Consultation from "./pages/Consultation";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
+import FloatingDbMeter from "./components/FloatingDbMeter";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 import { useEffect } from "react";
@@ -59,6 +60,7 @@ const App = () => {
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <FloatingDbMeter />
         <FloatingWhatsApp />
       </BrowserRouter>
     </TooltipProvider>
