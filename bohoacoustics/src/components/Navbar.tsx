@@ -34,7 +34,7 @@ const Navbar = () => {
       <div className="container mx-auto flex items-center justify-between px-6 lg:px-12">
         <Link to="/" className="flex items-center gap-3 group">
           <img 
-            src="/IMG_5751.PNG" 
+            src="../public/logo.png" 
             alt="Boho Acoustics Logo" 
             className="h-10 w-auto lg:h-12 object-contain group-hover:opacity-80 transition-opacity"
           />

@@ -8,7 +8,7 @@ const Footer = () => (
         <div className="space-y-10">
           <div>
             <img 
-              src="/IMG_5751.PNG" 
+              src="../public/logo.png" 
               alt="Boho Acoustics Logo" 
               className="h-12 w-auto object-contain mb-6 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all"
             />
