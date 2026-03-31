@@ -14,6 +14,7 @@ import NotFound from "./pages/NotFound";
 import Admin from "./pages/Admin";
 import FloatingDbMeter from "./components/FloatingDbMeter";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
+import ScrollToTop from "./components/ScrollToTop";
 
 import { useEffect } from "react";
 import Lenis from "lenis";
@@ -51,6 +52,7 @@ const App = () => {
       <Toaster />
       <Sonner />
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
+        <ScrollToTop />
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
