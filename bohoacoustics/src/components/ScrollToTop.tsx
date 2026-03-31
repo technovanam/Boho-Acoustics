@@ -23,15 +23,19 @@ const ScrollToTop = () => {
     }
 
     const forceScrollTop = () => {
-      window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      if ((window as any).lenis) {
+        (window as any).lenis.scrollTo(0, { immediate: true });
+      } else {
+        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
+      }
       document.documentElement.scrollTop = 0;
       document.body.scrollTop = 0;
     };
 
-    // Run immediately and again after paint so smooth-scroll controllers cannot retain old position.
+    // Run multiple times to overcome browser/Lenis state retention.
     forceScrollTop();
     const rafId = window.requestAnimationFrame(forceScrollTop);
-    const timeoutId = window.setTimeout(forceScrollTop, 40);
+    const timeoutId = window.setTimeout(forceScrollTop, 50);
 
     return () => {
       window.cancelAnimationFrame(rafId);
