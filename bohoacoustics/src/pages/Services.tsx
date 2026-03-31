@@ -75,7 +75,7 @@ const Services = () => (
 
                 {/* Main Heading */}
                 <div>
-                  <h2 className="font-display text-2xl lg:text-3xl font-black tracking-tight mb-4 group-hover:text-primary transition-colors">
+                  <h2 className="font-display text-2xl lg:text-3xl font-black tracking-tight mb-4 group-hover:text-primary transition-colors uppercase">
                     {s.title}
                   </h2>
                   <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed">
@@ -105,9 +105,9 @@ const Services = () => (
         <div className="mt-32 border border-white/10 p-12 lg:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px]" />
           <div className="mb-8 md:mb-0">
-            <h3 className="font-display text-4xl font-black tracking-tighter mb-4 leading-tight">
+            <h3 className="font-display text-4xl font-black tracking-tighter uppercase mb-4 leading-tight">
               Ready to begin <br />
-              <span className="text-primary italic">treatment?</span>
+              <span className="text-primary italic">Treatment?</span>
             </h3>
             <p className="text-white/40 text-sm max-w-sm">
               Connect with our lead engineer for a no-obligation technical diagnostic of your space.
