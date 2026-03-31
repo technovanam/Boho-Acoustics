@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import { Menu, X, Phone } from "lucide-react";
+import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { motion, AnimatePresence } from "framer-motion";
 
@@ -25,10 +25,10 @@ const Navbar = () => {
 
   return (
     <nav 
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 border-b ${
         scrolled 
-          ? "bg-black/95 backdrop-blur-md py-4 border-white/10" 
-          : "bg-transparent py-6 border-transparent"
+          ? "bg-black/92 backdrop-blur-xl py-4 border-white/10" 
+          : "bg-transparent py-7 border-transparent"
       }`}
     >
       <div className="container mx-auto flex items-center justify-between px-6 lg:px-12">
@@ -46,13 +46,13 @@ const Navbar = () => {
             <Link
               key={link.to}
               to={link.to}
-              className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:text-primary relative group ${
-                location.pathname === link.to ? "text-primary" : "text-white/60"
+              className={`text-[10px] font-medium tracking-[0.24em] uppercase transition-all duration-500 hover:text-white relative group ${
+                location.pathname === link.to ? "text-[#e6bf77]" : "text-white/45"
               }`}
             >
               {link.label}
-              <span className={`absolute -bottom-1 left-0 h-[1px] bg-primary transition-all duration-300 ${
-                location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
+              <span className={`absolute -bottom-1.5 left-0 h-[1px] bg-gradient-to-r from-[#f0ce8f] via-[#d6a55a] to-[#b88333] transition-all duration-500 ${
+                location.pathname === link.to ? "w-full opacity-100" : "w-0 opacity-0 group-hover:w-full group-hover:opacity-90"
               }`} />
             </Link>
           ))}
@@ -61,7 +61,7 @@ const Navbar = () => {
         <div className="hidden lg:flex items-center gap-8">
           <Link to="/consultation">
             <Button 
-              className="gradient-gold text-primary-foreground font-black text-[10px] tracking-widest px-8 h-12 rounded-none hover:opacity-90 transition-all uppercase"
+              className="premium-gold-gradient shine-effect text-black font-semibold text-[10px] tracking-[0.2em] px-10 h-12 rounded-none shadow-2xl hover:opacity-90 transition-all duration-500 uppercase"
             >
               BOOK CONSULTATION
             </Button>
@@ -71,7 +71,7 @@ const Navbar = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-white p-2"
+          className="lg:hidden text-white/90 p-2 transition-colors duration-300 hover:text-white"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
@@ -84,7 +84,8 @@ const Navbar = () => {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="lg:hidden absolute top-full left-0 w-full bg-black border-b border-white/10"
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+            className="lg:hidden absolute top-full left-0 w-full bg-black/95 backdrop-blur-xl border-b border-white/10"
           >
             <div className="flex flex-col p-8 gap-6">
               {navLinks.map((link) => (
@@ -92,15 +93,15 @@ const Navbar = () => {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`text-xl font-display font-bold tracking-tight py-2 ${
-                    location.pathname === link.to ? "text-primary" : "text-white"
+                  className={`text-xl font-display font-medium tracking-[0.02em] py-2 transition-colors duration-300 ${
+                    location.pathname === link.to ? "text-[#e6bf77]" : "text-white/80"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
               <Link to="/consultation" onClick={() => setMobileOpen(false)}>
-                <Button className="gradient-gold text-primary-foreground w-full h-14 font-bold rounded-none uppercase tracking-widest">
+                <Button className="premium-gold-gradient shine-effect text-black w-full h-14 font-semibold rounded-none uppercase tracking-[0.2em] text-xs">
                   BOOK CONSULTATION
                 </Button>
               </Link>

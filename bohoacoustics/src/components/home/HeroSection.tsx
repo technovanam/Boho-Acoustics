@@ -44,16 +44,16 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden">
+    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
       {/* Background Slideshow — Animated Cross-Fade & Ken Burns */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
           <motion.div
             key={currentBg}
-            initial={{ opacity: 0, scale: 1.1 }}
-            animate={{ opacity: 1, scale: 1.05 }}
-            exit={{ opacity: 0, transition: { duration: 1.5 } }}
-            transition={{ duration: 2, ease: "easeOut" }}
+            initial={{ opacity: 0, scale: 1.15, filter: "blur(10px)" }}
+            animate={{ opacity: 1, scale: 1.05, filter: "blur(0px)" }}
+            exit={{ opacity: 0, scale: 1, transition: { duration: 2 } }}
+            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
             <img
@@ -66,110 +66,144 @@ const HeroSection = () => {
           </motion.div>
         </AnimatePresence>
         
-        {/* Overlays */}
-        <div className="absolute inset-0 bg-background/70 backdrop-blur-[2px]" />
-        <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/30" />
+        {/* Overlays — Refined Vignette and Atmospheric Gradients */}
+        <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_90%)] opacity-60" />
+        
+        {/* Subtle Noise/Grain Overlay */}
+        <div className="absolute inset-0 noise-overlay pointer-events-none mix-blend-soft-light opacity-20" />
       </div>
 
-      {/* Content — Vertically centered at 100vh */}
-      <div className="relative z-10 w-full px-6 lg:px-12 flex flex-col items-center text-center pt-32 md:pt-40 pb-20">
+      {/* Content — Centered with refined spacing */}
+      <div className="relative z-10 w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-20">
 
-        {/* Label — Animated Reveal */}
-        <motion.p
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-primary font-semibold text-xs md:text-sm tracking-[0.3em] uppercase mb-6"
-        >
-          Specializing in {backgroundImages[currentBg].label}
-        </motion.p>
-
-        {/* Main headline — Animated Fluid Reveal */}
-        <motion.h1
-          initial={{ opacity: 0, y: 50 }}
+        {/* Label — Premium Spacing */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-bold leading-[1.05] mb-8
-                     text-[10vw] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem] tracking-tight text-balance"
+          className="mb-6 flex items-center gap-4"
         >
-          Perfect Sound,{" "}
-          <span className="gradient-gold-text">Designed</span>
-          <br /> for Your Space
+          <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-[#d4af37]" />
+          <p className="gradient-gold-text font-medium text-[10px] md:text-xs tracking-[0.5em] uppercase">
+            {backgroundImages[currentBg].label}
+          </p>
+          <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-[#d4af37]" />
+        </motion.div>
+
+        {/* Main headline — Elegant Serif Mix */}
+        <motion.h1
+          initial={{ opacity: 0, y: 40 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.7, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+          className="font-display font-medium leading-[1.1] mb-10
+                     text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-balance max-w-5xl"
+        >
+          <span className="text-white font-light italic">Perfect</span> Sound, {" "}
+          <span className="gradient-gold-text relative">
+            Designed
+            <motion.span 
+              initial={{ width: 0 }}
+              animate={{ width: "100%" }}
+              transition={{ delay: 1.5, duration: 1, ease: "easeInOut" }}
+              className="absolute -bottom-2 left-0 h-[1px] bg-gradient-to-r from-transparent to-transparent"
+            />
+          </span>
+          <br /> 
+          <span className="text-white/90">for Your Space</span>
         </motion.h1>
 
-        {/* Subtitle — Animated Fade-in */}
+        {/* Subtitle — Muted luxury body text */}
         <motion.p
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-muted-foreground text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-light text-balance px-4"
+          transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          className="text-[#cfcfcf] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide text-balance"
         >
-          We design, supply &amp; execute acoustic solutions — so you don't have to
-          understand acoustics. We handle everything from diagnostics to final measurement.
+          Bespoke acoustic solutions from diagnostics to execution. 
+          Uncompromising quality for those who demand excellence in sound.
         </motion.p>
 
-        {/* CTA — Staggered Reveal */}
+        {/* CTA — Refined Buttons */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row gap-5 items-center justify-center mb-20 w-full px-6"
+          transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
+          className="flex flex-col sm:flex-row gap-6 items-center justify-center mb-14 w-full"
         >
           <Link to="/consultation" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full sm:w-auto gradient-gold text-primary-foreground font-bold px-12 py-7 text-lg rounded-none glow-gold hover:scale-105 transition-all duration-300"
+              className="w-full sm:w-auto premium-gold-gradient shine-effect text-black font-semibold px-10 py-7 text-xs tracking-[0.2em] uppercase rounded-none hover:opacity-90 transition-all duration-500 shadow-2xl"
             >
-              Book Free Consultation
-              <ArrowRight className="ml-2 w-5 h-5" />
+              Book Consultation
+              <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
           <Link to="/solutions" className="w-full sm:w-auto">
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-border/40 text-foreground hover:bg-white/5 hover:text-white font-medium px-12 py-7 text-lg rounded-none backdrop-blur-[10px] transition-all duration-300"
+              className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-10 py-7 text-xs tracking-[0.2em] uppercase rounded-none backdrop-blur-md transition-all duration-500"
             >
-              Explore Solutions
+              Discover More
             </Button>
           </Link>
         </motion.div>
 
-        {/* Stats — Final Reveal */}
+        {/* Stats — Minimalist and Airy */}
         <motion.div
-          initial={{ opacity: 0, scale: 0.95 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ delay: 1.4, duration: 1, ease: "easeOut" }}
-          className="flex items-center gap-8 md:gap-12 flex-wrap justify-center overflow-x-auto max-w-full no-scrollbar pb-4"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.8, duration: 1.5 }}
+          className="flex items-center gap-12 md:gap-20 flex-wrap justify-center"
         >
           {[
-            { value: "200+", label: "Projects" },
-            { value: "98%", label: "Satisfaction" },
-            { value: "50+", label: "Cities" },
+            { value: "200+", label: "Success Stories" },
+            { value: "98%", label: "Client Love" },
+            { value: "50+", label: "Global Reach" },
           ].map((stat, i) => (
-            <div key={stat.label} className="flex items-center gap-8 md:gap-12 shrink-0">
+            <div key={stat.label} className="flex items-center gap-12 md:gap-20">
               <div className="text-center group">
-                <p className="font-display text-3xl md:text-5xl font-bold gradient-gold-text mb-1">
+                <p className="font-display text-3xl md:text-4xl font-light text-white mb-1">
                   {stat.value}
                 </p>
-                <p className="text-muted-foreground text-[10px] md:text-xs tracking-widest uppercase font-medium opacity-70 group-hover:opacity-100 transition-opacity">
+                <p className="text-white/40 text-[9px] tracking-[0.3em] uppercase font-medium">
                   {stat.label}
                 </p>
               </div>
               {i < 2 && (
-                <div className="hidden sm:block w-px h-10 bg-gradient-to-b from-transparent via-border to-transparent" />
+                <div className="hidden sm:block w-[1px] h-8 bg-white/10" />
               )}
             </div>
           ))}
         </motion.div>
       </div>
 
+      {/* Scroll Indicator */}
+      {/* <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2.5, duration: 1 }}
+        className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
+      >
+        <span className="text-[9px] tracking-[0.4em] uppercase text-white/30 font-medium">Scroll</span>
+        <div className="w-[1px] h-12 bg-gradient-to-b from-white/40 to-transparent relative overflow-hidden">
+          <motion.div 
+            animate={{ y: [0, 48] }}
+            transition={{ duration: 1.5, repeat: Infinity, ease: "easeInOut" }}
+            className="absolute top-0 left-0 w-full h-1/3 bg-[#d4af37]"
+          />
+        </div>
+      </motion.div> */}
+
       {/* Elegant bottom accent line */}
       <motion.div 
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
-        transition={{ delay: 1.5, duration: 1.5, ease: "easeInOut" }}
-        className="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/40 to-transparent" 
+        transition={{ delay: 2, duration: 2, ease: "easeInOut" }}
+        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
       />
     </section>
   );
