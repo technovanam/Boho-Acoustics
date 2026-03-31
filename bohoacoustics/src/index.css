@@ -112,7 +112,8 @@
   }
 
   .premium-gold-gradient {
-    background: linear-gradient(135deg, #b88d3e 0%, #f1d279 50%, #b88d3e 100%);
+    background: linear-gradient(135deg, #b88d3e 0%, #f1d279 30%, #d4af37 50%, #f1d279 70%, #b88d3e 100%);
+    background-size: 200% auto;
   }
 
   .shine-effect {
@@ -151,6 +152,23 @@
 
   .text-balance {
     text-wrap: balance;
+  }
+
+  .luxury-glow {
+    box-shadow: 0 0 30px rgba(212, 175, 55, 0.15), 0 0 60px rgba(212, 175, 55, 0.05);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+  }
+
+  .text-shadow-premium {
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+  }
+
+  .tracking-luxury {
+    letter-spacing: 0.1em;
+  }
+
+  .tracking-luxury-wide {
+    letter-spacing: 0.25em;
   }
 
   .noise-overlay {

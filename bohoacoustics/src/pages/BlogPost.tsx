@@ -1,6 +1,4 @@
 import { useParams, Link } from "react-router-dom";
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, Clock, Calendar, User, Share2 } from "lucide-react";
 
@@ -97,7 +95,6 @@ const BlogPost = () => {
 
   return (
     <div className="min-h-screen bg-[#050505]">
-      <Navbar />
       <article className="pt-32 pb-24 lg:pt-48 lg:pb-32">
         <div className="container mx-auto px-6 lg:px-12">
           {/* Header */}
@@ -179,7 +176,6 @@ const BlogPost = () => {
           </div>
         </div>
       </article>
-      <Footer />
     </div>
   );
 };

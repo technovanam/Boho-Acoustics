@@ -20,10 +20,15 @@ import { useEffect } from "react";
 import Lenis from "lenis";
 import { motion, AnimatePresence } from "framer-motion";
 
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+
 const queryClient = new QueryClient();
 
 const AppContent = () => {
   const { pathname } = useLocation();
+
+  const isAdmin = pathname === "/admin";
 
   return (
     <TooltipProvider>
@@ -31,15 +36,16 @@ const AppContent = () => {
       <Sonner />
       <ScrollToTop />
       
-      {/* Premium Page Transitions */}
+      {!isAdmin && <Navbar />}
+      
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-          className="min-h-screen"
+          transition={{ duration: 0.2, ease: "easeOut" }}
+          className="min-h-screen bg-background"
         >
           <Routes>
             <Route path="/" element={<Index />} />
@@ -55,6 +61,7 @@ const AppContent = () => {
         </motion.div>
       </AnimatePresence>
 
+      {!isAdmin && <Footer />}
       <FloatingDbMeter />
       <FloatingWhatsApp />
     </TooltipProvider>

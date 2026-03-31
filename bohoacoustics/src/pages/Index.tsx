@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import HeroSection from "@/components/home/HeroSection";
 import ProblemSection from "@/components/home/ProblemSection";
 import SolutionSection from "@/components/home/SolutionSection";
@@ -23,7 +21,6 @@ const sectionVariants = {
 
 const Index = () => (
   <div className="min-h-screen">
-    <Navbar />
     <HeroSection />
     
     <motion.div 
@@ -80,7 +77,6 @@ const Index = () => (
       <CTASection />
     </motion.div>
     
-    <Footer />
   </div>
 );
 

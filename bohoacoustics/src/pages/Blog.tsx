@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Clock, BookOpen } from "lucide-react";
@@ -41,7 +39,6 @@ const posts = [
 
 const Blog = () => (
   <div className="min-h-screen bg-[#050505]">
-    <Navbar />
     <section className="pt-32 pb-24 lg:pt-48 lg:pb-32">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mb-24">
@@ -118,7 +115,6 @@ const Blog = () => (
         </div>
       </div>
     </section>
-    <Footer />
   </div>
 );
 

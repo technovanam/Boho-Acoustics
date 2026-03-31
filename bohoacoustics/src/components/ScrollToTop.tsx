@@ -28,19 +28,10 @@ const ScrollToTop = () => {
       } else {
         window.scrollTo({ top: 0, left: 0, behavior: "auto" });
       }
-      document.documentElement.scrollTop = 0;
-      document.body.scrollTop = 0;
     };
 
-    // Run multiple times to overcome browser/Lenis state retention.
+    // Run once immediately on route change.
     forceScrollTop();
-    const rafId = window.requestAnimationFrame(forceScrollTop);
-    const timeoutId = window.setTimeout(forceScrollTop, 50);
-
-    return () => {
-      window.cancelAnimationFrame(rafId);
-      window.clearTimeout(timeoutId);
-    };
   }, [pathname, search, hash]);
 
   return null;

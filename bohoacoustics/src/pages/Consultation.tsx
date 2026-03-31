@@ -1,5 +1,3 @@
-import Navbar from "@/components/Navbar";
-import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -74,7 +72,6 @@ const Consultation = () => {
 
   return (
     <div className="min-h-screen bg-[#050505]">
-      <Navbar />
       <section className="pt-32 pb-24 lg:pt-48 lg:pb-32">
         <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
           <div className="mb-16 lg:mb-24">
@@ -209,7 +206,6 @@ const Consultation = () => {
           </form>
         </div>
       </section>
-      <Footer />
     </div>
   );
 };
