@@ -11,6 +11,7 @@ import Consultation from "./pages/Consultation";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
+import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 import { useEffect } from "react";
 import Lenis from "lenis";
@@ -58,6 +59,7 @@ const App = () => {
           <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <FloatingWhatsApp />
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
