@@ -1,4 +1,3 @@
-import SectionReveal from "@/components/SectionReveal";
 import { motion } from "framer-motion";
 
 const metrics = [
@@ -8,48 +7,59 @@ const metrics = [
 ];
 
 const BeforeAfterSection = () => (
-  <section className="py-24 lg:py-32">
-    <div className="container mx-auto px-4 lg:px-8">
-      <SectionReveal>
-        <p className="text-primary text-sm tracking-[0.2em] uppercase font-medium text-center mb-4">Measurable Impact</p>
-        <h2 className="font-display text-3xl lg:text-5xl font-bold text-center mb-4">
-          Before & After: <span className="gradient-gold-text">The Science Speaks</span>
+  <section className="py-10 lg:py-20 bg-[#050505] border-t border-white/5 relative">
+    <div className="container mx-auto px-6 lg:px-12">
+      <div className="max-w-4xl mb-24 text-left">
+        <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">MEASURABLE IMPACT</p>
+        <h2 className="font-display text-4xl lg:text-7xl font-bold leading-tight tracking-tighter mb-6">
+          Quantified <span className="text-white/20 italic font-light">Performance</span>
         </h2>
-        <p className="text-muted-foreground text-center max-w-2xl mx-auto mb-16">
-          We don't guess — we measure. Every project delivers quantified acoustic improvement.
+        <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed max-w-xl">
+          We don't guess — we measure. Every project is backed by scientific data with verified performance results.
         </p>
-      </SectionReveal>
+      </div>
 
-      <div className="max-w-3xl mx-auto space-y-6">
-        {metrics.map((m, i) => (
-          <SectionReveal key={m.label} delay={i * 0.1}>
-            <div className="glass-card rounded-xl p-6 lg:p-8">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                <div className="flex-1">
-                  <h3 className="font-display text-lg font-semibold mb-3">{m.label}</h3>
-                  <div className="flex items-center gap-6">
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">Before</p>
-                      <p className="text-xl font-body font-semibold text-destructive/80">{m.before}</p>
-                    </div>
-                    <div className="text-muted-foreground">→</div>
-                    <div>
-                      <p className="text-xs text-muted-foreground mb-1">After</p>
-                      <p className="text-xl font-body font-semibold text-primary">{m.after}</p>
-                    </div>
-                  </div>
+      <div className="max-w-5xl mx-auto border-t border-white/10">
+        {metrics.map((m) => (
+          <div 
+            key={m.label} 
+            className="group relative flex flex-col md:flex-row items-start md:items-center justify-between p-10 md:p-14 border-b border-white/10 hover:bg-white/[0.01] transition-colors gap-8"
+          >
+            {/* Visual Indicator Line (Sharp) */}
+            <div className="absolute top-0 left-0 w-12 h-px bg-primary/20 group-hover:bg-primary transition-colors" />
+            
+            <div className="flex-1">
+              <h3 className="font-display text-2xl font-black text-white group-hover:text-primary transition-colors mb-2">
+                {m.label}
+              </h3>
+              <p className="text-white/20 text-[10px] tracking-widest font-bold">VERIFIED METRIC</p>
+            </div>
+
+            <div className="flex items-center gap-12 lg:gap-20">
+              <div className="text-center md:text-left">
+                <p className="text-[10px] text-white/30 tracking-widest font-bold mb-3 uppercase">Before Treatment</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-3xl font-bold text-white/40">{m.before}</span>
                 </div>
-                <motion.div
-                  initial={{ scale: 0.8, opacity: 0 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true }}
-                  className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0"
-                >
-                  <span className="gradient-gold-text font-display text-xl font-bold">↑{m.improvement}</span>
-                </motion.div>
+              </div>
+
+              <div className="hidden md:block w-px h-12 bg-white/10" />
+
+              <div className="text-center md:text-left">
+                <p className="text-[10px] text-primary tracking-widest font-bold mb-3 uppercase">After Treatment</p>
+                <div className="flex items-baseline gap-2">
+                  <span className="text-4xl font-bold text-primary">{m.after}</span>
+                </div>
+              </div>
+
+              <div className="hidden lg:flex flex-col items-end">
+                <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2 uppercase">Improvement</p>
+                <div className="text-2xl font-black text-white/60 group-hover:text-white transition-colors">
+                  +{m.improvement}
+                </div>
               </div>
             </div>
-          </SectionReveal>
+          </div>
         ))}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { Menu, X, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -14,91 +14,97 @@ const navLinks = [
 
 const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const location = useLocation();
 
+  useEffect(() => {
+    const handleScroll = () => setScrolled(window.scrollY > 20);
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass-card border-b border-border/30">
-      <div className="container mx-auto flex items-center justify-between h-16 px-4 lg:px-8">
-        <Link to="/" className="flex items-center gap-2">
-          <div className="flex items-center gap-1">
-            {[...Array(4)].map((_, i) => (
-              <div
-                key={i}
-                className="w-1 bg-primary rounded-full animate-wave"
-                style={{
-                  height: `${12 + Math.random() * 12}px`,
-                  animationDelay: `${i * 0.15}s`,
-                }}
-              />
-            ))}
-          </div>
-          <span className="font-display text-xl font-bold tracking-wide">
-            <span className="gradient-gold-text">Boho</span>{" "}
-            <span className="text-foreground">Acoustics</span>
-          </span>
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 border-b ${
+        scrolled 
+          ? "bg-black/95 backdrop-blur-md py-4 border-white/10" 
+          : "bg-transparent py-6 border-transparent"
+      }`}
+    >
+      <div className="container mx-auto flex items-center justify-between px-6 lg:px-12">
+        <Link to="/" className="flex items-center gap-3 group">
+          <img 
+            src="/logo.png" 
+            alt="Boho Acoustics Logo" 
+            className="h-10 w-auto lg:h-12 object-contain group-hover:opacity-80 transition-opacity"
+          />
         </Link>
 
-        <div className="hidden lg:flex items-center gap-8">
+        {/* Desktop Nav */}
+        <div className="hidden lg:flex items-center gap-12">
           {navLinks.map((link) => (
             <Link
               key={link.to}
               to={link.to}
-              className={`text-sm font-medium transition-colors duration-200 hover:text-primary ${
-                location.pathname === link.to
-                  ? "text-primary"
-                  : "text-muted-foreground"
+              className={`text-[10px] font-bold tracking-[0.2em] uppercase transition-all duration-300 hover:text-primary relative group ${
+                location.pathname === link.to ? "text-primary" : "text-white/60"
               }`}
             >
               {link.label}
+              <span className={`absolute -bottom-1 left-0 h-[1px] bg-primary transition-all duration-300 ${
+                location.pathname === link.to ? "w-full" : "w-0 group-hover:w-full"
+              }`} />
             </Link>
           ))}
         </div>
 
-        <div className="hidden lg:flex items-center gap-3">
-          <a href="tel:+91" className="text-muted-foreground hover:text-primary transition-colors">
+        <div className="hidden lg:flex items-center gap-8">
+          <a href="tel:+91" className="text-white/40 hover:text-primary transition-colors">
             <Phone className="w-4 h-4" />
           </a>
           <Link to="/consultation">
-            <Button className="gradient-gold text-primary-foreground font-semibold text-sm px-6 hover:opacity-90 transition-opacity">
-              Book Consultation
+            <Button 
+              className="gradient-gold text-primary-foreground font-black text-[10px] tracking-widest px-8 h-12 rounded-none hover:opacity-90 transition-all uppercase"
+            >
+              BOOK CONSULTATION
             </Button>
           </Link>
         </div>
 
+        {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-foreground"
+          className="lg:hidden text-white p-2"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
         </button>
       </div>
 
+      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: "auto", opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="lg:hidden overflow-hidden glass-card border-t border-border/30"
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            className="lg:hidden absolute top-full left-0 w-full bg-black border-b border-white/10"
           >
-            <div className="flex flex-col p-4 gap-3">
+            <div className="flex flex-col p-8 gap-6">
               {navLinks.map((link) => (
                 <Link
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`text-sm font-medium py-2 transition-colors ${
-                    location.pathname === link.to
-                      ? "text-primary"
-                      : "text-muted-foreground"
+                  className={`text-xl font-display font-bold tracking-tight py-2 ${
+                    location.pathname === link.to ? "text-primary" : "text-white"
                   }`}
                 >
                   {link.label}
                 </Link>
               ))}
               <Link to="/consultation" onClick={() => setMobileOpen(false)}>
-                <Button className="gradient-gold text-primary-foreground w-full mt-2">
-                  Book Consultation
+                <Button className="gradient-gold text-primary-foreground w-full h-14 font-bold rounded-none uppercase tracking-widest">
+                  BOOK CONSULTATION
                 </Button>
               </Link>
             </div>
