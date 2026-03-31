@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&display=swap&format=woff2');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Inter:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -51,20 +51,19 @@
     --sidebar-border: 0 0% 10%;
     --sidebar-ring: 38 70% 55%;
 
-    --font-display: 'Syne', sans-serif;
-    --font-body: 'Syne', sans-serif;
+    --font-display: 'Playfair Display', serif;
+    --font-body: 'Inter', sans-serif;
   }
 }
 
 @layer base {
   * {
     @apply border-border;
-    font-family: 'Syne', sans-serif !important;
   }
 
   body {
     @apply bg-background text-foreground;
-    font-family: 'Syne', sans-serif;
+    font-family: 'Inter', sans-serif;
     cursor: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="16" y1="4" x2="16" y2="28" stroke="%23da9d40" stroke-width="1.5"/><line x1="4" y1="16" x2="28" y2="16" stroke="%23da9d40" stroke-width="1.5"/><rect x="14" y="14" width="4" height="4" fill="%23050505" stroke="%23da9d40" stroke-width="1.5"/></svg>') 16 16, crosshair;
   }
 
@@ -73,7 +72,15 @@
   }
 
   h1, h2, h3, h4, h5, h6 {
-    font-family: 'Syne', sans-serif;
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-display {
+    font-family: 'Playfair Display', serif;
+  }
+
+  .font-body {
+    font-family: 'Inter', sans-serif;
   }
 }
 

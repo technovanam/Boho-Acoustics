@@ -257,61 +257,82 @@ const FloatingDbMeter = () => {
       </button>
 
       {open && (
-        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/70 p-4 backdrop-blur-sm sm:items-center sm:p-6">
-          <div className="w-full max-w-md rounded-2xl border border-white/10 bg-zinc-950 p-5 text-white shadow-2xl animate-in fade-in-0 zoom-in-95 duration-200 sm:p-6">
-            <div className="mb-4 flex items-start justify-between gap-4">
+        <div className="fixed inset-0 z-[80] flex items-end justify-center bg-black/90 p-4 backdrop-blur-[20px] transition-all duration-500 sm:items-center sm:p-6 sm:bg-black/60">
+          <div className="w-full max-w-md border border-white/10 bg-zinc-950 p-0 text-white shadow-[0_0_50px_rgba(0,0,0,1)] animate-in fade-in-0 sm:zoom-in-95 duration-300">
+            {/* Header */}
+            <div className="p-8 border-b border-white/5 flex items-start justify-between">
               <div>
-                <p className="text-xs font-semibold uppercase tracking-[0.2em] text-primary/90">Live Acoustic Check</p>
-                <h3 className="mt-1 text-xl font-semibold">dB Meter</h3>
+                <p className="text-[10px] font-bold uppercase tracking-[0.4em] text-primary mb-2">Live Acoustic Check</p>
+                <h3 className="font-display text-4xl font-bold tracking-tighter">dB Meter</h3>
               </div>
               <button
                 type="button"
                 onClick={handleClose}
                 aria-label="Close dB meter"
-                className="rounded-md p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60"
+                className="p-2 text-white/30 transition-colors hover:text-white"
               >
-                <X className="h-5 w-5" />
+                <X className="h-6 w-6" />
               </button>
             </div>
 
-            <div className="rounded-xl border border-white/10 bg-zinc-900/70 p-4">
-              <div className="mb-3 flex items-end justify-between">
-                <p className="text-sm text-zinc-400">Current level</p>
-                <p className="text-3xl font-bold leading-none">{stats.current.toFixed(1)} <span className="text-base font-medium text-zinc-400">dB</span></p>
-              </div>
-              <div className="h-2 w-full overflow-hidden rounded-full bg-zinc-800">
-                <div
-                  className="h-full rounded-full bg-gradient-to-r from-emerald-400 via-amber-400 to-rose-500 transition-[width] duration-150"
-                  style={{ width: `${levelPercent}%` }}
-                />
-              </div>
-              <div className="mt-4 grid grid-cols-3 gap-3 text-center text-xs sm:text-sm">
-                <div className="rounded-lg bg-zinc-900/80 p-2">
-                  <p className="text-zinc-500">Min</p>
-                  <p className="mt-1 font-semibold">{stats.min.toFixed(1)} dB</p>
+            {/* Main Meter Area */}
+            <div className="p-8 space-y-12">
+              <div className="relative">
+                <div className="flex items-baseline justify-between mb-6">
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-white/40">Current Pressure</p>
+                  <p className="font-display text-6xl font-bold tracking-tighter text-white">
+                    {stats.current.toFixed(1)} <span className="text-xl text-primary font-body tracking-normal ml-2">dB</span>
+                  </p>
                 </div>
-                <div className="rounded-lg bg-zinc-900/80 p-2">
-                  <p className="text-zinc-500">Avg</p>
-                  <p className="mt-1 font-semibold">{stats.avg.toFixed(1)} dB</p>
+                
+                {/* Scientific Scale Bar */}
+                <div className="relative h-4 w-full bg-white/5 overflow-hidden">
+                  <div 
+                    className="absolute top-0 left-0 h-full bg-primary transition-[width] duration-200 ease-out"
+                    style={{ width: `${levelPercent}%` }}
+                  />
+                  {/* Decorative Scale Ticks */}
+                  <div className="absolute inset-0 flex justify-between px-1 pointer-events-none opacity-20">
+                    {[...Array(20)].map((_, i) => (
+                      <div key={i} className="w-[1px] h-full bg-black/40" />
+                    ))}
+                  </div>
                 </div>
-                <div className="rounded-lg bg-zinc-900/80 p-2">
-                  <p className="text-zinc-500">Max</p>
-                  <p className="mt-1 font-semibold">{stats.max.toFixed(1)} dB</p>
+                <div className="flex justify-between mt-2">
+                   <span className="text-[9px] font-bold text-white/20 tracking-tighter">0 DB</span>
+                   <span className="text-[9px] font-bold text-white/20 tracking-tighter">85 DB</span>
+                </div>
+              </div>
+
+              {/* Stats Grid — Architectural Layout */}
+              <div className="grid grid-cols-3 border border-white/10">
+                <div className="p-4 border-r border-white/10 text-center">
+                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase mb-2">Min</p>
+                  <p className="font-display text-xl font-bold text-white">{stats.min.toFixed(1)}</p>
+                </div>
+                <div className="p-4 border-r border-white/10 text-center bg-white/[0.02]">
+                  <p className="text-[9px] font-bold tracking-[0.2em] text-primary uppercase mb-2">Avg</p>
+                  <p className="font-display text-xl font-bold text-primary">{stats.avg.toFixed(1)}</p>
+                </div>
+                <div className="p-4 text-center">
+                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase mb-2">Max</p>
+                  <p className="font-display text-xl font-bold text-white">{stats.max.toFixed(1)}</p>
                 </div>
               </div>
             </div>
 
             {errorMessage && (
-              <div className="mt-4 rounded-xl border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-amber-100">
+              <div className="mx-8 mb-8 border-l border-primary/50 bg-primary/5 p-4 text-[11px] font-bold tracking-widest text-primary uppercase">
                 {errorMessage}
               </div>
             )}
 
-            <div className="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            {/* Footer Actions */}
+            <div className="grid grid-cols-2">
               <button
                 type="button"
                 onClick={handleClose}
-                className="inline-flex items-center justify-center rounded-md border border-white/15 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-white/5"
+                className="border-t border-r border-white/10 py-6 text-xs font-bold tracking-widest text-white/40 uppercase hover:bg-white/5 hover:text-white transition-all"
               >
                 Close
               </button>
@@ -319,10 +340,10 @@ const FloatingDbMeter = () => {
                 type="button"
                 onClick={startMonitoring}
                 disabled={requestingMic || isRunning}
-                className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground transition-opacity hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+                className="border-t border-white/10 py-6 text-xs font-bold tracking-widest text-primary-foreground bg-primary uppercase hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
               >
-                <Mic className="mr-2 h-4 w-4" />
-                {requestingMic ? "Requesting mic..." : isRunning ? "Monitoring" : "Start Monitoring"}
+                {isRunning ? <div className="w-2 h-2 rounded-full bg-white animate-pulse" /> : <Mic className="h-4 w-4" />}
+                {requestingMic ? "Requesting..." : isRunning ? "Monitoring" : "Initiate Meter"}
               </button>
             </div>
           </div>
@@ -330,49 +351,53 @@ const FloatingDbMeter = () => {
       )}
 
       {noisePopupOpen && (
-        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/65 p-4 backdrop-blur-sm">
-          <div className="w-full max-w-lg rounded-2xl border border-rose-400/30 bg-zinc-950 p-5 text-white shadow-2xl animate-in fade-in-0 zoom-in-95 duration-300 sm:p-6">
-            <div className="mb-4 flex items-start justify-between gap-4">
-              <div className="flex items-center gap-3">
-                <span className="inline-flex h-10 w-10 items-center justify-center rounded-full bg-rose-500/15 text-rose-300">
-                  <AlertTriangle className="h-5 w-5" />
-                </span>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-[0.18em] text-rose-300">Noise Warning</p>
-                  <h4 className="mt-1 text-lg font-semibold">High noise levels detected</h4>
+        <div className="fixed inset-0 z-[95] flex items-center justify-center bg-black/85 p-4 backdrop-blur-[30px] animate-in fade-in duration-500">
+          <div className="w-full max-w-lg border border-primary/30 bg-zinc-950 p-0 text-white shadow-[0_0_100px_rgba(218,157,64,0.15)]">
+            <div className="p-10">
+              <div className="flex items-start justify-between gap-6 mb-8">
+                <div className="flex items-center gap-6">
+                  <div className="w-16 h-16 border border-primary/30 flex items-center justify-center text-primary">
+                    <AlertTriangle className="h-8 w-8" />
+                  </div>
+                  <div>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary mb-2">Acoustic Criticality</p>
+                    <h4 className="font-display text-3xl font-bold tracking-tighter">Excessive Noise Detected</h4>
+                  </div>
+                </div>
+                <button
+                  type="button"
+                  onClick={dismissNoisePopup}
+                  className="p-2 text-white/30 hover:text-white transition-colors"
+                >
+                  <X className="h-6 w-6" />
+                </button>
+              </div>
+
+              <div className="space-y-6">
+                <p className="text-white/60 font-light leading-relaxed">
+                  Real-time diagnostics indicate sound pressure levels frequently exceeding <span className="text-primary font-bold">85dB</span>. Continued exposure or use of this facility without treatment may result in significant acoustic fatigue and performance loss.
+                </p>
+                <div className="p-6 border border-white/5 bg-white/[0.02]">
+                  <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase mb-2">Peak Analysis</p>
+                  <p className="text-xl font-display font-bold">CURRENT: {stats.current.toFixed(1)} DB / MAX: {stats.max.toFixed(1)} DB</p>
                 </div>
               </div>
-              <button
-                type="button"
-                onClick={dismissNoisePopup}
-                aria-label="Close warning popup"
-                className="rounded-md p-2 text-zinc-400 transition-colors hover:bg-white/5 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-rose-300/70"
-              >
-                <X className="h-5 w-5" />
-              </button>
             </div>
 
-            <p className="text-sm leading-relaxed text-zinc-200">
-              High noise levels detected. Your space may need acoustic treatment.
-            </p>
-            <p className="mt-2 text-sm text-zinc-400">
-              Monitoring is still active in the background. Current: {stats.current.toFixed(1)} dB, Max: {stats.max.toFixed(1)} dB.
-            </p>
-
-            <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+            <div className="grid grid-cols-2">
               <button
                 type="button"
                 onClick={dismissNoisePopup}
-                className="inline-flex items-center justify-center rounded-md border border-white/15 px-4 py-2 text-sm font-medium text-zinc-200 transition-colors hover:bg-white/5"
+                className="border-t border-r border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase hover:bg-white/5 hover:text-white transition-all"
               >
-                Dismiss
+                Dismiss Assessment
               </button>
               <Link
                 to="/consultation"
                 onClick={dismissNoisePopup}
-                className="inline-flex items-center justify-center rounded-md bg-primary px-4 py-2 text-sm font-semibold uppercase tracking-[0.1em] text-primary-foreground transition-opacity hover:opacity-90"
+                className="border-t border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-primary-foreground bg-primary uppercase hover:opacity-90 transition-all text-center flex items-center justify-center"
               >
-                Book Consultation
+                Book Diagnostic View
               </Link>
             </div>
           </div>
