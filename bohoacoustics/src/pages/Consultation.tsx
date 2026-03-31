@@ -1,11 +1,10 @@
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import SectionReveal from "@/components/SectionReveal";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Upload } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 
@@ -23,126 +22,145 @@ const Consultation = () => {
     setSubmitting(true);
     setTimeout(() => {
       setSubmitting(false);
-      toast.success("Thank you! We'll get back to you within 24 hours.");
+      toast.success("TECHNICAL REQUEST RECEIVED. WE WILL RESPOND SHORTLY.");
     }, 1500);
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#050505]">
       <Navbar />
-      <section className="pt-32 pb-24 lg:pb-32">
-        <div className="container mx-auto px-4 lg:px-8 max-w-2xl">
-          <SectionReveal>
-            <p className="text-primary text-sm tracking-[0.2em] uppercase font-medium text-center mb-4">Free Consultation</p>
-            <h1 className="font-display text-4xl lg:text-5xl font-bold text-center mb-4">
-              Get a Custom <span className="gradient-gold-text">Acoustic Plan</span>
+      <section className="pt-32 pb-24 lg:pt-48 lg:pb-32">
+        <div className="container mx-auto px-6 lg:px-12 max-w-4xl">
+          <div className="mb-16 lg:mb-24">
+            <div className="flex items-center gap-4 mb-4">
+              <span className="w-8 h-[1px] bg-primary"></span>
+              <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold">DIAGNOSTIC INTAKE</p>
+            </div>
+            <h1 className="font-display text-4xl lg:text-[4.5rem] font-black leading-[1.1] tracking-tighter  mb-6">
+              Request Space <br />
+              <span className="text-white/20 italic font-light">Analysis</span>
             </h1>
-            <p className="text-muted-foreground text-center mb-12">
-              Tell us about your space and we'll design the perfect acoustic solution. No obligation.
+            <p className="text-white/40 text-sm lg:text-base font-light leading-relaxed max-w-xl">
+              Submit your project specifications below. Our engineering team will review your requirements and provide a preliminary acoustic assessment.
             </p>
-          </SectionReveal>
+          </div>
 
-          <SectionReveal delay={0.1}>
-            <form onSubmit={handleSubmit} className="glass-card rounded-xl p-8 lg:p-10 space-y-6">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Name *</label>
-                  <Input required placeholder="Your full name" className="bg-secondary border-border" />
-                </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Phone / Email *</label>
-                  <Input required placeholder="How to reach you" className="bg-secondary border-border" />
-                </div>
-              </div>
+          <form onSubmit={handleSubmit} className="border border-white/10 p-8 lg:p-12 relative overflow-hidden bg-black group">
+            <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px]" />
+            <div className="relative z-10 space-y-8">
 
-              <div>
-                <label className="text-sm font-medium text-foreground mb-2 block">Project Type *</label>
-                <Select required>
-                  <SelectTrigger className="bg-secondary border-border">
-                    <SelectValue placeholder="Select project type" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="home-theatre">Home Theatre</SelectItem>
-                    <SelectItem value="office">Office</SelectItem>
-                    <SelectItem value="auditorium">Auditorium</SelectItem>
-                    <SelectItem value="residential">Residential</SelectItem>
-                    <SelectItem value="studio">Studio</SelectItem>
-                    <SelectItem value="other">Other</SelectItem>
-                  </SelectContent>
-                </Select>
-              </div>
-
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Area (sq ft)</label>
-                  <Input placeholder="e.g. 500" className="bg-secondary border-border" />
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 pb-4 border-b border-white/5">
+                  <span className="text-[10px] font-black text-white/20 tracking-widest">01</span>
+                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Client Specifications</h3>
                 </div>
-                <div>
-                  <label className="text-sm font-medium text-foreground mb-2 block">Location</label>
-                  <Input placeholder="City, State" className="bg-secondary border-border" />
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Full Name</label>
+                    <Input required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Contact Preference</label>
+                    <Input required placeholder="EMAIL OR PHONE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                </div>
+                
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">City / Area</label>
+                    <Input required placeholder="E.G. BANDRA, MUMBAI" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">State</label>
+                    <Input required placeholder="E.G. MAHARASHTRA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
                 </div>
               </div>
 
-              <div>
-                <label className="text-sm font-medium text-foreground mb-2 block">Budget Range (Optional)</label>
-                <Select>
-                  <SelectTrigger className="bg-secondary border-border">
-                    <SelectValue placeholder="Select budget range" />
-                  </SelectTrigger>
-                  <SelectContent>
-                    <SelectItem value="under-1l">Under ₹1 Lakh</SelectItem>
-                    <SelectItem value="1-3l">₹1 - 3 Lakhs</SelectItem>
-                    <SelectItem value="3-5l">₹3 - 5 Lakhs</SelectItem>
-                    <SelectItem value="5-10l">₹5 - 10 Lakhs</SelectItem>
-                    <SelectItem value="above-10l">Above ₹10 Lakhs</SelectItem>
-                  </SelectContent>
-                </Select>
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 pb-4 border-b border-white/5 mt-12">
+                  <span className="text-[10px] font-black text-white/20 tracking-widest">02</span>
+                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Project Parameters</h3>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Facility Type</label>
+                    <Select required>
+                      <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white uppercase text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+                        <SelectValue placeholder="SELECT ENVIRONMENT" />
+                      </SelectTrigger>
+                      <SelectContent className="bg-black border-white/10 rounded-none">
+                        <SelectItem value="home-theatre" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Home Theatre</SelectItem>
+                        <SelectItem value="office" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Office / Commercial</SelectItem>
+                        <SelectItem value="auditorium" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Auditorium</SelectItem>
+                        <SelectItem value="residential" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Residential Core</SelectItem>
+                        <SelectItem value="studio" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Recording Studio</SelectItem>
+                        <SelectItem value="other" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Other</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                  <div>
+                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
+                    <Input placeholder="TOTAL AREA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                </div>
               </div>
 
-              <div>
-                <label htmlFor="consultation-file-upload" className="text-sm font-medium text-foreground mb-2 block">
-                  Upload Project File (Optional)
-                </label>
-                <input
-                  id="consultation-file-upload"
-                  type="file"
-                  accept="application/pdf,.pdf,image/*,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                  onChange={handleFileChange}
-                  className="sr-only"
-                />
-                <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-border bg-secondary/60 px-4 py-3 transition-colors duration-200 hover:border-primary/50 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30">
-                  <label
-                    htmlFor="consultation-file-upload"
-                    className="inline-flex cursor-pointer items-center justify-center rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/20 hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
-                  >
-                    Select File
+              <div className="space-y-6">
+                <div className="flex items-center gap-4 pb-4 border-b border-white/5 mt-12">
+                  <span className="text-[10px] font-black text-white/20 tracking-widest">03</span>
+                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Technical Documentation</h3>
+                </div>
+
+                <div>
+                  <label htmlFor="consultation-file-upload" className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">
+                    Upload Floor Plans (Optional)
                   </label>
-                  <span className="truncate text-sm text-muted-foreground" title={selectedFileName}>
-                    {selectedFileName}
-                  </span>
+                  <input
+                    id="consultation-file-upload"
+                    type="file"
+                    accept=".pdf,image/*,.doc,.docx"
+                    onChange={handleFileChange}
+                    className="sr-only"
+                  />
+                  <div className="flex items-center border border-white/10 bg-white/[0.02] h-14 group-hover:border-white/20 transition-colors">
+                    <label
+                      htmlFor="consultation-file-upload"
+                      className="h-full flex items-center justify-center gap-3 border-r border-white/10 bg-white/5 px-6 cursor-pointer hover:text-primary hover:bg-white/10 transition-colors uppercase text-[10px] font-bold tracking-widest"
+                    >
+                      <Upload className="w-4 h-4" /> BROWSE
+                    </label>
+                    <span className="px-6 text-xs text-white/40 uppercase tracking-widest truncate">
+                      {selectedFileName}
+                    </span>
+                  </div>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
+                  <Textarea placeholder="DESCRIBE THE ACOUSTIC ISSUES (E.G., ECHO, REVERBERATION, SOUND BLEED)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 uppercase text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                 </div>
               </div>
 
-              <div>
-                <label className="text-sm font-medium text-foreground mb-2 block">Tell us about your space</label>
-                <Textarea placeholder="Describe your acoustic challenges, goals, or any specific requirements..." className="bg-secondary border-border min-h-[100px]" />
+              <div className="pt-8 mt-12 border-t border-white/10 flex flex-col sm:flex-row items-center justify-between gap-6">
+                <p className="text-[9px] text-white/30 tracking-[0.2em] uppercase font-bold text-center sm:text-left">
+                  ALL DATA REMAINS STRICTLY CONFIDENTIAL.
+                </p>
+
+                <Button
+                  type="submit"
+                  className="gradient-gold text-primary-foreground font-black text-sm tracking-widest px-12 h-16 rounded-none hover:translate-x-2 transition-transform uppercase w-full sm:w-auto"
+                  disabled={submitting}
+                >
+                  {submitting ? "SUBMITTING..." : "INITIATE DIAGNOSTIC"}
+                  {!submitting && <ArrowRight className="ml-4 w-5 h-5" />}
+                </Button>
               </div>
 
-              <Button
-                type="submit"
-                size="lg"
-                className="gradient-gold text-primary-foreground font-semibold w-full hover:opacity-90 transition-opacity"
-                disabled={submitting}
-              >
-                {submitting ? "Sending..." : "Get Custom Acoustic Plan"}
-                {!submitting && <ArrowRight className="ml-2 w-4 h-4" />}
-              </Button>
-
-              <p className="text-xs text-muted-foreground text-center">
-                Free consultation. No obligation. We respond within 24 hours.
-              </p>
-            </form>
-          </SectionReveal>
+            </div>
+          </form>
         </div>
       </section>
       <Footer />

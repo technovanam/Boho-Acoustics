@@ -45,7 +45,7 @@ const CTASection = () => (
               <Button 
                 size="lg" 
                 variant="outline" 
-                className="w-full h-20 border-white/10 text-white font-bold tracking-widest text-xs uppercase rounded-none hover:bg-white/5 transition-all hover:translate-x-2"
+                className="w-full h-20 border-white/10 text-white font-bold tracking-widest text-xs uppercase rounded-none hover:bg-white/5 hover:text-white transition-all hover:translate-x-2"
               >
                 WHATSAPP EXPERT
                 <MessageSquare className="ml-4 w-4 h-4 opacity-40 group-hover:opacity-100" />

@@ -6,9 +6,9 @@ import { motion, AnimatePresence } from "framer-motion";
 
 const navLinks = [
   { label: "Home", to: "/" },
+  { label: "About", to: "/about" },
   { label: "Services", to: "/services" },
   { label: "Solutions", to: "/solutions" },
-  { label: "About", to: "/about" },
   { label: "Blog", to: "/blog" },
 ];
 
@@ -41,7 +41,7 @@ const Navbar = () => {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-12">
+        <div className="hidden lg:flex items-center gap-12 absolute left-1/2 -translate-x-1/2">
           {navLinks.map((link) => (
             <Link
               key={link.to}
@@ -59,9 +59,6 @@ const Navbar = () => {
         </div>
 
         <div className="hidden lg:flex items-center gap-8">
-          <a href="tel:+91" className="text-white/40 hover:text-primary transition-colors">
-            <Phone className="w-4 h-4" />
-          </a>
           <Link to="/consultation">
             <Button 
               className="gradient-gold text-primary-foreground font-black text-[10px] tracking-widest px-8 h-12 rounded-none hover:opacity-90 transition-all uppercase"

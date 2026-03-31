@@ -118,7 +118,7 @@ const HeroSection = () => {
           <Link to="/consultation">
             <Button
               size="lg"
-              className="gradient-gold text-primary-foreground font-bold px-12 py-7 text-lg rounded-full glow-gold hover:scale-105 transition-all duration-300"
+              className="gradient-gold text-primary-foreground font-bold px-12 py-7 text-lg rounded-none glow-gold hover:scale-105 transition-all duration-300"
             >
               Book Free Consultation
               <ArrowRight className="ml-2 w-5 h-5" />
@@ -128,7 +128,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               variant="outline"
-              className="border-border/40 text-foreground hover:bg-secondary font-medium px-12 py-7 text-lg rounded-full backdrop-blur-[10px] transition-all duration-300"
+              className="border-border/40 text-foreground hover:bg-white/5 hover:text-white font-medium px-12 py-7 text-lg rounded-none backdrop-blur-[10px] transition-all duration-300"
             >
               Explore Solutions
             </Button>

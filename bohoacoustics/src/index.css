@@ -64,6 +64,11 @@
   body {
     @apply bg-background text-foreground;
     font-family: 'Syne', sans-serif;
+    cursor: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="16" y1="4" x2="16" y2="28" stroke="%23da9d40" stroke-width="1.5"/><line x1="4" y1="16" x2="28" y2="16" stroke="%23da9d40" stroke-width="1.5"/><rect x="14" y="14" width="4" height="4" fill="%23050505" stroke="%23da9d40" stroke-width="1.5"/></svg>') 16 16, crosshair;
+  }
+
+  a, button, [role="button"], input, select, textarea, .cursor-pointer {
+    cursor: url('data:image/svg+xml;utf8,<svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg"><line x1="16" y1="0" x2="16" y2="32" stroke="%23ffffff" stroke-width="1.5"/><line x1="0" y1="16" x2="32" y2="16" stroke="%23ffffff" stroke-width="1.5"/><rect x="12" y="12" width="8" height="8" fill="%23050505" stroke="%23ffffff" stroke-width="1.5"/></svg>') 16 16, crosshair !important;
   }
 
   h1, h2, h3, h4, h5, h6 {
