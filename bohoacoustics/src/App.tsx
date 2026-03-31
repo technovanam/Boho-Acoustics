@@ -11,11 +11,8 @@ import Consultation from "./pages/Consultation";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
-<<<<<<< HEAD
 import Admin from "./pages/Admin";
-=======
 import FloatingDbMeter from "./components/FloatingDbMeter";
->>>>>>> 29997b51130442c52026f5f1887ccfa3798b83ec
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 import { useEffect } from "react";

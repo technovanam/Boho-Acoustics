@@ -103,22 +103,22 @@ const Consultation = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Full Name</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">Full Name</label>
                     <Input name="name" required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Contact Preference</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">Contact Preference</label>
                     <Input name="contact" required placeholder="EMAIL OR PHONE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">City / Area</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">City / Area</label>
                     <Input name="city" required placeholder="E.G. BANDRA, MUMBAI" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">State</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">State</label>
                     <Input name="state" required placeholder="E.G. MAHARASHTRA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
@@ -132,7 +132,7 @@ const Consultation = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Facility Type</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">Facility Type</label>
                     <Select name="facilityType" required>
                       <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white uppercase text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
                         <SelectValue placeholder="SELECT ENVIRONMENT" />
@@ -148,7 +148,7 @@ const Consultation = () => {
                     </Select>
                   </div>
                   <div>
-                    <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
+                    <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
                     <Input name="area" placeholder="TOTAL AREA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
@@ -161,7 +161,7 @@ const Consultation = () => {
                 </div>
 
                 <div>
-                  <label htmlFor="consultation-file-upload" className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">
+                  <label htmlFor="consultation-file-upload" className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">
                     Upload Floor Plans (Optional)
                   </label>
                   <input
@@ -185,7 +185,7 @@ const Consultation = () => {
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
+                  <label className="text-[11px] font-bold text-white/50 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
                   <Textarea name="notes" placeholder="DESCRIBE THE ACOUSTIC ISSUES (E.G., ECHO, REVERBERATION, SOUND BLEED)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 uppercase text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                 </div>
               </div>
@@ -197,7 +197,7 @@ const Consultation = () => {
 
                 <Button
                   type="submit"
-                  className="gradient-gold text-primary-foreground font-black text-sm tracking-widest px-12 h-16 rounded-none hover:translate-x-2 transition-transform uppercase w-full sm:w-auto"
+                  className="gradient-gold text-primary-foreground font-black text-xs tracking-widest px-8 md:px-12 h-14 md:h-16 rounded-none hover:translate-x-2 transition-transform uppercase w-full sm:w-auto"
                   disabled={submitting}
                 >
                   {submitting ? "SUBMITTING..." : "INITIATE DIAGNOSTIC"}

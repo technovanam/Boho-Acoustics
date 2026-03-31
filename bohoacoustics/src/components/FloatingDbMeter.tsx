@@ -251,9 +251,9 @@ const FloatingDbMeter = () => {
         type="button"
         onClick={handleOpen}
         aria-label="Open dB meter"
-        className="fixed bottom-20 right-4 z-[60] flex h-12 w-12 items-center justify-center rounded-full border border-white/15 bg-zinc-900 text-white shadow-[0_10px_24px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-105 hover:border-primary/50 hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:bottom-24 sm:right-6 sm:h-14 sm:w-14"
+        className="fixed bottom-20 right-4 z-[60] flex h-10 w-10 items-center justify-center rounded-full border border-white/15 bg-zinc-900 text-white shadow-[0_10px_24px_rgba(0,0,0,0.35)] transition-all duration-300 ease-out motion-safe:hover:-translate-y-1 motion-safe:hover:scale-105 hover:border-primary/50 hover:bg-zinc-800 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background sm:bottom-24 sm:right-6 sm:h-14 sm:w-14"
       >
-        <Gauge className="h-6 w-6 sm:h-7 sm:w-7" />
+        <Gauge className="h-5 w-5 sm:h-7 sm:w-7" />
       </button>
 
       {open && (

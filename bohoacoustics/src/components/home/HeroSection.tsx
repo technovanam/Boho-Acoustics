@@ -90,7 +90,7 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-bold leading-[1.05] mb-8
-                     text-[12vw] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem] tracking-tight"
+                     text-[10vw] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem] tracking-tight text-balance"
         >
           Perfect Sound,{" "}
           <span className="gradient-gold-text">Designed</span>
@@ -102,10 +102,10 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="text-muted-foreground text-lg lg:text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-light"
+          className="text-muted-foreground text-sm sm:text-lg lg:text-xl max-w-2xl mx-auto mb-12 leading-relaxed font-light text-balance px-4"
         >
           We design, supply &amp; execute acoustic solutions — so you don't have to
-          understand acoustics. We handle everything.
+          understand acoustics. We handle everything from diagnostics to final measurement.
         </motion.p>
 
         {/* CTA — Staggered Reveal */}
@@ -113,22 +113,22 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row gap-5 items-center justify-center mb-20"
+          className="flex flex-col sm:flex-row gap-5 items-center justify-center mb-20 w-full px-6"
         >
-          <Link to="/consultation">
+          <Link to="/consultation" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="gradient-gold text-primary-foreground font-bold px-12 py-7 text-lg rounded-none glow-gold hover:scale-105 transition-all duration-300"
+              className="w-full sm:w-auto gradient-gold text-primary-foreground font-bold px-12 py-7 text-lg rounded-none glow-gold hover:scale-105 transition-all duration-300"
             >
               Book Free Consultation
               <ArrowRight className="ml-2 w-5 h-5" />
             </Button>
           </Link>
-          <Link to="/solutions">
+          <Link to="/solutions" className="w-full sm:w-auto">
             <Button
               size="lg"
               variant="outline"
-              className="border-border/40 text-foreground hover:bg-white/5 hover:text-white font-medium px-12 py-7 text-lg rounded-none backdrop-blur-[10px] transition-all duration-300"
+              className="w-full sm:w-auto border-border/40 text-foreground hover:bg-white/5 hover:text-white font-medium px-12 py-7 text-lg rounded-none backdrop-blur-[10px] transition-all duration-300"
             >
               Explore Solutions
             </Button>
@@ -140,16 +140,16 @@ const HeroSection = () => {
           initial={{ opacity: 0, scale: 0.95 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ delay: 1.4, duration: 1, ease: "easeOut" }}
-          className="flex items-center gap-12 flex-wrap justify-center overflow-x-auto max-w-full no-scrollbar"
+          className="flex items-center gap-8 md:gap-12 flex-wrap justify-center overflow-x-auto max-w-full no-scrollbar pb-4"
         >
           {[
             { value: "200+", label: "Projects" },
             { value: "98%", label: "Satisfaction" },
             { value: "50+", label: "Cities" },
           ].map((stat, i) => (
-            <div key={stat.label} className="flex items-center gap-12 shrink-0">
+            <div key={stat.label} className="flex items-center gap-8 md:gap-12 shrink-0">
               <div className="text-center group">
-                <p className="font-display text-4xl md:text-5xl font-bold gradient-gold-text mb-1">
+                <p className="font-display text-3xl md:text-5xl font-bold gradient-gold-text mb-1">
                   {stat.value}
                 </p>
                 <p className="text-muted-foreground text-[10px] md:text-xs tracking-widest uppercase font-medium opacity-70 group-hover:opacity-100 transition-opacity">

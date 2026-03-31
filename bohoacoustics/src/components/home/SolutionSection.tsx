@@ -38,7 +38,7 @@ const SolutionSection = () => (
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
         <div className="max-w-2xl">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">Methodology</p>
-          <h2 className="font-display text-[10vw] sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter">
+          <h2 className="font-display text-5xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter">
             Our <span className="text-white/20">Process</span>
           </h2>
         </div>
@@ -49,7 +49,7 @@ const SolutionSection = () => (
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-white/10">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-white/10 border-t border-white/10 md:border-t-0">
         {steps.map((s, i) => (
           <Dialog key={s.title}>
             <DialogTrigger asChild>
