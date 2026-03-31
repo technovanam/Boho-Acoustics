@@ -6,24 +6,70 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Upload } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
+import { db } from "@/lib/firebase";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 
 const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [selectedFileName, setSelectedFileName] = useState("No file selected");
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const navigate = useNavigate();
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    setSelectedFileName(file ? file.name : "No file selected");
+    if (file && file.size > 1024 * 1024) {
+      toast.error("FILE EXCEEDS DB LIMIT (1MB). PLEASE UPLOAD A SMALLER VERSION.");
+      e.target.value = "";
+      return;
+    }
+    setSelectedFile(file || null);
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
-    setTimeout(() => {
-      setSubmitting(false);
+    
+    const formData = new FormData(e.currentTarget);
+    const data: any = {
+      name: formData.get("name"),
+      contact: formData.get("contact"),
+      city: formData.get("city"),
+      state: formData.get("state"),
+      facilityType: formData.get("facilityType"),
+      area: formData.get("area"),
+      notes: formData.get("notes"),
+      timestamp: serverTimestamp(),
+      fileBase64: "",
+      fileName: selectedFile?.name || "",
+    };
+
+    try {
+      if (selectedFile) {
+        data.fileBase64 = await fileToBase64(selectedFile);
+      }
+
+      await addDoc(collection(db, "consultations"), data);
+      
       toast.success("TECHNICAL REQUEST RECEIVED. WE WILL RESPOND SHORTLY.");
-    }, 1500);
+      e.currentTarget.reset();
+      setSelectedFile(null);
+      navigate("/admin");
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      toast.error("ERROR SUBMITTING REQUEST. PLEASE TRY AGAIN.");
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -58,22 +104,22 @@ const Consultation = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Full Name</label>
-                    <Input required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="name" required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Contact Preference</label>
-                    <Input required placeholder="EMAIL OR PHONE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="contact" required placeholder="EMAIL OR PHONE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">City / Area</label>
-                    <Input required placeholder="E.G. BANDRA, MUMBAI" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="city" required placeholder="E.G. BANDRA, MUMBAI" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">State</label>
-                    <Input required placeholder="E.G. MAHARASHTRA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="state" required placeholder="E.G. MAHARASHTRA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
               </div>
@@ -87,7 +133,7 @@ const Consultation = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Facility Type</label>
-                    <Select required>
+                    <Select name="facilityType" required>
                       <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white uppercase text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
                         <SelectValue placeholder="SELECT ENVIRONMENT" />
                       </SelectTrigger>
@@ -103,7 +149,7 @@ const Consultation = () => {
                   </div>
                   <div>
                     <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
-                    <Input placeholder="TOTAL AREA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="area" placeholder="TOTAL AREA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
               </div>
@@ -133,14 +179,14 @@ const Consultation = () => {
                       <Upload className="w-4 h-4" /> BROWSE
                     </label>
                     <span className="px-6 text-xs text-white/40 uppercase tracking-widest truncate">
-                      {selectedFileName}
+                      {selectedFile ? selectedFile.name : "No file selected"}
                     </span>
                   </div>
                 </div>
 
                 <div>
                   <label className="text-[10px] font-bold text-white/40 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
-                  <Textarea placeholder="DESCRIBE THE ACOUSTIC ISSUES (E.G., ECHO, REVERBERATION, SOUND BLEED)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 uppercase text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  <Textarea name="notes" placeholder="DESCRIBE THE ACOUSTIC ISSUES (E.G., ECHO, REVERBERATION, SOUND BLEED)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 uppercase text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                 </div>
               </div>
 

@@ -30,7 +30,7 @@ const ProblemSection = () => (
     <div className="container mx-auto px-6 lg:px-12 relative z-10">
       <div className="max-w-4xl mb-24 text-left">
           <span className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">THE INVISIBLE BARRIER</span>
-        <h2 className="font-display text-4xl md:text-6xl lg:text-[5rem] font-bold mb-8 leading-[1.1] tracking-tighter">
+        <h2 className="font-display text-[10vw] sm:text-5xl md:text-6xl lg:text-[5rem] font-bold mb-8 leading-[1.05] tracking-tighter">
           Spaces built for <br /> 
           <span className="text-white/20">eyes, </span> 
           not for <span className="text-primary italic">ears.</span>

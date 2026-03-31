@@ -11,6 +11,7 @@ import Consultation from "./pages/Consultation";
 import Blog from "./pages/Blog";
 import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
+import Admin from "./pages/Admin";
 import FloatingWhatsApp from "./components/FloatingWhatsApp";
 
 import { useEffect } from "react";
@@ -57,6 +58,7 @@ const App = () => {
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/blog" element={<Blog />} />
           <Route path="/blog/:id" element={<BlogPost />} />
+          <Route path="/admin" element={<Admin />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
         <FloatingWhatsApp />

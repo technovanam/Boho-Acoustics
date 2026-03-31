@@ -38,7 +38,7 @@ const SolutionSection = () => (
       <div className="flex flex-col md:flex-row md:items-end justify-between mb-24 gap-8">
         <div className="max-w-2xl">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">Methodology</p>
-          <h2 className="font-display text-4xl lg:text-7xl font-bold leading-tight tracking-tighter">
+          <h2 className="font-display text-[10vw] sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter">
             Our <span className="text-white/20">Process</span>
           </h2>
         </div>

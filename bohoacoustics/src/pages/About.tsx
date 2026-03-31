@@ -11,7 +11,7 @@ const About = () => (
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mb-24">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">OUR STORY</p>
-          <h1 className="font-display text-4xl lg:text-[5.5rem] font-bold leading-[1.1] tracking-tighter mb-8">
+          <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             The Science Of <br />
             <span className="text-white/20 italic font-light">Sound & Space</span>
           </h1>
@@ -24,7 +24,7 @@ const About = () => (
           <div className="space-y-12">
             <div className="space-y-8">
               <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">OUR PHILOSOPHY</h2>
-              <blockquote className="text-3xl lg:text-4xl font-display font-medium tracking-tight text-white leading-tight">
+              <blockquote className="text-[7vw] sm:text-4xl font-display font-medium tracking-tight text-white leading-[1.1]">
                 "We calculate, we measure, <span className="text-primary italic">then we treat.</span> Guesswork has no place in acoustic engineering."
               </blockquote>
               <div className="space-y-6 text-muted-foreground font-light leading-relaxed max-w-2xl">

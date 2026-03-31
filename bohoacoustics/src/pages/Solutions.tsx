@@ -50,7 +50,7 @@ const Solutions = () => (
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mb-24">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">SOLUTIONS BY SPACE</p>
-          <h1 className="font-display text-4xl lg:text-[5.5rem] font-bold leading-[1.1] tracking-tighter mb-8">
+          <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             Tailored <br />
             <span className="text-white/20 italic font-light">Acoustic Performance</span>
           </h1>
@@ -124,8 +124,8 @@ const Solutions = () => (
 
         <div className="mt-40 border-t border-white/10 pt-24 text-left flex flex-col md:flex-row items-end justify-between gap-12">
           <div className="max-w-2xl">
-            <h3 className="font-display text-4xl md:text-6xl font-black tracking-tighter uppercase mb-6 leading-tight">
-              Predictable <span className="text-primary">Performance</span> <br className="hidden md:block" /> 
+            <h3 className="font-display text-[8vw] sm:text-5xl md:text-6xl font-black tracking-tighter uppercase mb-6 leading-[1.05]">
+              Predictable <span className="text-primary">Performance</span> <br /> 
               Guaranteed.
             </h3>
             <p className="text-muted-foreground text-sm font-light leading-relaxed max-w-sm">

@@ -17,7 +17,7 @@ const CategoriesSection = () => (
     <div className="container mx-auto px-6 lg:px-12">
       <div className="max-w-4xl mb-20 text-left">
         <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">SOLUTIONS BY SPACE</p>
-        <h2 className="font-display text-4xl lg:text-7xl font-bold leading-tight tracking-tighter mb-6">
+        <h2 className="font-display text-[10vw] sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter mb-6">
           Tailored <span className="text-white/20 italic font-light">Performance</span>
         </h2>
         <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed max-w-xl">

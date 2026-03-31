@@ -90,11 +90,11 @@ const HeroSection = () => {
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="font-display font-bold leading-[1.05] mb-8
-                     text-5xl sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem] tracking-tight"
+                     text-[12vw] sm:text-6xl md:text-7xl lg:text-8xl xl:text-[6.5rem] tracking-tight"
         >
           Perfect Sound,{" "}
           <span className="gradient-gold-text">Designed</span>
-          <br className="hidden sm:block" /> for Your Space
+          <br /> for Your Space
         </motion.h1>
 
         {/* Subtitle — Animated Fade-in */}
@@ -149,7 +149,7 @@ const HeroSection = () => {
           ].map((stat, i) => (
             <div key={stat.label} className="flex items-center gap-12 shrink-0">
               <div className="text-center group">
-                <p className="font-display text-3xl lg:text-4xl font-bold gradient-gold-text mb-1">
+                <p className="font-display text-4xl md:text-5xl font-bold gradient-gold-text mb-1">
                   {stat.value}
                 </p>
                 <p className="text-muted-foreground text-[10px] md:text-xs tracking-widest uppercase font-medium opacity-70 group-hover:opacity-100 transition-opacity">

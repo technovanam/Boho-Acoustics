@@ -18,7 +18,7 @@ const CTASection = () => (
           <div className="text-left space-y-8">
             <div>
               <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4">NEXT STEPS</p>
-              <h2 className="font-display text-4xl md:text-6xl lg:text-7xl font-bold leading-[1.1] tracking-tighter uppercase">
+              <h2 className="font-display text-[10vw] sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[1.05] tracking-tighter uppercase whitespace-nowrap">
                 Predictable <br />
                 <span className="text-white/20">Acoustic</span> <br />
                 <span className="text-primary">Performance.</span>

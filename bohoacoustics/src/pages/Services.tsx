@@ -46,7 +46,7 @@ const Services = () => (
       <div className="container mx-auto px-6 lg:px-12">
         <div className="max-w-4xl mb-24">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">OUR SERVICES</p>
-          <h1 className="font-display text-4xl lg:text-[5.5rem] font-bold leading-[1.1] tracking-tighter mb-8">
+          <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             Engineering <br />
             <span className="text-white/20 italic font-light">The Perfect Sound</span>
           </h1>
@@ -105,7 +105,7 @@ const Services = () => (
         <div className="mt-32 border border-white/10 p-12 lg:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between group">
           <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px]" />
           <div className="mb-8 md:mb-0">
-            <h3 className="font-display text-4xl font-black tracking-tighter uppercase mb-4 leading-tight">
+            <h3 className="font-display text-[8vw] sm:text-5xl font-black tracking-tighter uppercase mb-4 leading-[1.05]">
               Ready to begin <br />
               <span className="text-primary italic">Treatment?</span>
             </h3>
