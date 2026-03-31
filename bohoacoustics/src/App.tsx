@@ -9,6 +9,7 @@ import Solutions from "./pages/Solutions";
 import About from "./pages/About";
 import Consultation from "./pages/Consultation";
 import Blog from "./pages/Blog";
+import BlogPost from "./pages/BlogPost";
 import NotFound from "./pages/NotFound";
 
 import { useEffect } from "react";
@@ -46,7 +47,7 @@ const App = () => {
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <BrowserRouter>
+      <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/services" element={<Services />} />
@@ -54,6 +55,7 @@ const App = () => {
           <Route path="/about" element={<About />} />
           <Route path="/consultation" element={<Consultation />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:id" element={<BlogPost />} />
           <Route path="*" element={<NotFound />} />
         </Routes>
       </BrowserRouter>

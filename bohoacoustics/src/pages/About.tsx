@@ -57,6 +57,43 @@ const About = () => (
                 </p>
               </div>
             </div>
+
+            <div className="space-y-16 pt-16 border-t border-white/5">
+              <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">FOUNDER'S DUO</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+                <div className="space-y-8">
+                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/10 uppercase tracking-widest">
+                      Founder Profile
+                    </div>
+                    {/* Founder image will go here */}
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Founder Name</h3>
+                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Managing Director & Technical Lead</p>
+                    <p className="text-sm font-light text-white/50 leading-relaxed">
+                      Transitioning from a precise analytical background in finance, [Founder Name] applied the same rigour to the world of physics and acoustics. Driven by the philosophy that sound quality is a fundamental human right in the built environment.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="space-y-8">
+                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden">
+                    <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/10 uppercase tracking-widest">
+                      Founder Profile
+                    </div>
+                    {/* Founder image will go here */}
+                  </div>
+                  <div>
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Founder Name</h3>
+                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Co-Founder & Head of Operations</p>
+                    <p className="text-sm font-light text-white/50 leading-relaxed">
+                      With a deep focus on design integration and material innovation, [Founder Name] ensures that Boho's acoustic engineering is seamlessly woven into the architectural fabric of every project. Bridging the gap between physics and aesthetics.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
 
           <div className="space-y-12 lg:sticky lg:top-40">
