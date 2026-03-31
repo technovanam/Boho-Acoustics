@@ -11,6 +11,12 @@ import { toast } from "sonner";
 
 const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
+  const [selectedFileName, setSelectedFileName] = useState("No file selected");
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    setSelectedFileName(file ? file.name : "No file selected");
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -91,6 +97,30 @@ const Consultation = () => {
                     <SelectItem value="above-10l">Above ₹10 Lakhs</SelectItem>
                   </SelectContent>
                 </Select>
+              </div>
+
+              <div>
+                <label htmlFor="consultation-file-upload" className="text-sm font-medium text-foreground mb-2 block">
+                  Upload Project File (Optional)
+                </label>
+                <input
+                  id="consultation-file-upload"
+                  type="file"
+                  accept="application/pdf,.pdf,image/*,.doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
+                  onChange={handleFileChange}
+                  className="sr-only"
+                />
+                <div className="flex flex-col sm:flex-row sm:items-center gap-3 rounded-lg border border-border bg-secondary/60 px-4 py-3 transition-colors duration-200 hover:border-primary/50 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30">
+                  <label
+                    htmlFor="consultation-file-upload"
+                    className="inline-flex cursor-pointer items-center justify-center rounded-md border border-primary/40 bg-primary/10 px-4 py-2 text-sm font-medium text-primary transition-all duration-200 hover:bg-primary/20 hover:border-primary/70 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/40"
+                  >
+                    Select File
+                  </label>
+                  <span className="truncate text-sm text-muted-foreground" title={selectedFileName}>
+                    {selectedFileName}
+                  </span>
+                </div>
               </div>
 
               <div>
