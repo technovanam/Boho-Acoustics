@@ -121,8 +121,7 @@ const HeroSection = () => {
           transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="text-[#cfcfcf] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide text-balance"
         >
-          Bespoke acoustic solutions from diagnostics to execution. 
-          Uncompromising quality for those who demand excellence in sound.
+          We design, supply & execute acoustic solutions — so you don't have to understand acoustics. We handle everything from diagnostics to final measurement.
         </motion.p>
 
         {/* CTA — Refined Buttons */}
