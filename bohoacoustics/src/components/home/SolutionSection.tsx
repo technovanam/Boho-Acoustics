@@ -1,5 +1,6 @@
 import { ClipboardCheck, Pencil, Package, Hammer, ArrowRight, X } from "lucide-react";
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { motion } from "framer-motion";
 
 const steps = [
   { 
@@ -32,6 +33,28 @@ const steps = [
   },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.15,
+      delayChildren: 0.2
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 30 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: { 
+      duration: 1, 
+      ease: [0.16, 1, 0.3, 1] as any
+    }
+  }
+};
+
 const SolutionSection = () => (
   <section className="py-10 lg:py-20 bg-zinc-950 border-t border-white/5 relative overflow-hidden">
     <div className="container mx-auto px-6 lg:px-12">
@@ -39,40 +62,55 @@ const SolutionSection = () => (
         <div className="max-w-2xl">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">Methodology</p>
           <h2 className="font-display text-5xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter">
-            Our <span className="text-white/20">Process</span>
+            Our <span className="text-white/40">Process</span>
           </h2>
         </div>
-        <div className="max-w-xs">
+        <div className="max-w-xl w-1/3">
           <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed">
             A scientific, four-step framework refined over 200+ successful acoustic projects. No guesswork, only results.
           </p>
         </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-white/10 border-t border-white/10 md:border-t-0">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+        className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 border-l border-white/10 border-t border-white/10 md:border-t-0 rounded-sm"
+      >
         {steps.map((s, i) => (
           <Dialog key={s.title}>
             <DialogTrigger asChild>
-              <div 
-                className="group relative p-10 border-r border-b lg:border-b-0 border-white/10 transition-colors duration-500 hover:bg-white/[0.02] cursor-pointer"
+              <motion.div 
+                variants={itemVariants}
+                whileHover={{ 
+                  backgroundColor: "rgba(212, 175, 55, 0.05)",
+                  y: -4,
+                  transition: { duration: 0.4, ease: "easeOut" }
+                }}
+                className="group relative p-10 border-r border-b lg:border-b-0 border-white/10 cursor-pointer overflow-hidden bg-white/[0.025]"
               >
                 {/* Minimal Square Accent */}
-                <div className="absolute top-0 left-0 w-8 h-px bg-primary/0 group-hover:bg-primary transition-all duration-500" />
-                <div className="absolute top-0 left-0 w-px h-8 bg-primary/0 group-hover:bg-primary transition-all duration-500" />
+                <div className="absolute top-0 left-0 w-8 h-px bg-primary/30 group-hover:bg-primary transition-all duration-500" />
+                <div className="absolute top-0 left-0 w-px h-8 bg-primary/30 group-hover:bg-primary transition-all duration-500" />
+                
+                {/* Subtle Glow Backdrop on Hover */}
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity duration-700 blur-2xl" />
 
-                <div className="flex flex-col h-full uppercase">
+                <div className="flex flex-col h-full uppercase relative z-10">
                   <div className="flex items-center justify-between mb-16">
-                    <span className="font-display text-4xl font-black text-white/5 group-hover:text-primary/20 transition-colors duration-500">
+                    <span className="font-display text-4xl font-black text-primary/30 group-hover:text-primary/60 transition-colors duration-500">
                       {s.number}
                     </span>
-                    <s.icon className="w-5 h-5 text-white/20 group-hover:text-primary transition-colors duration-500" />
+                    <s.icon className="w-5 h-5 text-white/40 group-hover:text-primary transition-colors duration-500" />
                   </div>
 
-                  <h3 className="font-display text-xl font-bold mb-4 tracking-wider group-hover:text-primary transition-colors">
+                  <h3 className="font-display text-xl font-bold mb-4 tracking-wider text-white/90 group-hover:text-primary transition-colors duration-300">
                     {s.title}
                   </h3>
                   
-                  <p className="text-muted-foreground text-sm font-light leading-relaxed normal-case mb-12 group-hover:text-white/70 transition-colors">
+                  <p className="text-white/50 text-sm font-light leading-relaxed normal-case mb-12 group-hover:text-white/75 transition-colors duration-300">
                     {s.desc}
                   </p>
 
@@ -82,7 +120,7 @@ const SolutionSection = () => (
                     </div>
                   </div>
                 </div>
-              </div>
+              </motion.div>
             </DialogTrigger>
             <DialogContent className="bg-[#050505] border-white/10 rounded-none sm:rounded-none max-w-lg p-0 overflow-hidden">
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px]" />
@@ -105,7 +143,7 @@ const SolutionSection = () => (
             </DialogContent>
           </Dialog>
         ))}
-      </div>
+      </motion.div>
 
       {/* Industrial grid lines decoration */}
       <div className="absolute top-0 left-1/4 w-px h-full bg-white/[0.02] -z-10" />
