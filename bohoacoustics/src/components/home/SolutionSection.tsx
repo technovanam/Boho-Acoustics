@@ -7,28 +7,28 @@ const steps = [
     title: "CONSULTING", 
     number: "01",
     desc: "Scientific assessment of your space and acoustic goals.",
-    details: "Our consulting phase begins with a comprehensive on-site or virtual assessment using calibrated measurement microphones. We identify existing acoustic anomalies, map noise isolation classes (NIC), and establish baseline metrics. This empirical data forms the foundation for all subsequent design decisions, ensuring we solve the root cause of your acoustic challenges rather than just treating the symptoms."
+    details: "First, the main sound problems are identified and mapped. This sets a clear starting point."
   },
   { 
     icon: Pencil, 
     title: "DESIGNING", 
     number: "02",
     desc: "Simulation-backed acoustic design for predictable performance.",
-    details: "Using advanced 3D ray-tracing software and wave-based modeling, we simulate how sound will behave in your space before construction begins. We engineer specific panel placements, specify exact absorption coefficients, and design custom diffusors to scatter problematic frequencies. This allows us to guarantee the final Reverberation Time (RT60) and Speech Intelligibility Index (SII) with mathematical precision."
+    details: "Next comes a clear room plan for balanced sound. Every placement is chosen for predictable results."
   },
   { 
     icon: Package, 
     title: "SUPPLYING", 
     number: "03",
     desc: "Sourcing premium, lab-tested acoustic materials.",
-    details: "We don't use generic foam. We source and manufacture materials that have been rigorously tested in reverberation chambers to confirm their Noise Reduction Coefficient (NRC) and Sound Transmission Class (STC) ratings. From high-density mineral wool cores to micro-perforated wood and specialized mass-loaded vinyl, we provide the exact technical materials required to execute the engineered design."
+    details: "Only tested, high-quality materials are used for the setup. Better performance and longer life follow."
   },
   { 
     icon: Hammer, 
     title: "EXECUTING", 
     number: "04",
     desc: "On-site installation and final performance measurement.",
-    details: "Our specialized installation teams are trained to execute acoustic designs with millimeter precision, ensuring airtight seals and proper decoupling techniques. Once installation is complete, we run a final battery of diagnostic tests. We measure the room's impulse response and frequency curve to verify that the theoretical design matches the real-world performance, delivering the perfect sound environment."
+    details: "Finally, careful on-site installation is completed with final checks. The space is delivered with clear, controlled sound."
   },
 ];
 

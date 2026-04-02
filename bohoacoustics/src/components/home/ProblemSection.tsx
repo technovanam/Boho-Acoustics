@@ -1,4 +1,5 @@
 import { AlertCircle, Volume2, Ear, ShieldOff } from "lucide-react";
+import { Link } from "react-router-dom";
 
 const problems = [
   { 
@@ -68,10 +69,10 @@ const ProblemSection = () => (
                 {p.desc}
               </p>
 
-              <div className="mt-auto flex items-center gap-2">
+              <Link to="/consultation" className="mt-auto flex items-center gap-2">
                 <div className="h-[1px] w-4 bg-white/20 group-hover:w-8 group-hover:bg-primary transition-all underline-offset-4" />
                 <span className="text-[9px] tracking-widest font-black text-white/20 group-hover:text-primary">ACT NOW</span>
-              </div>
+              </Link>
             </div>
           </div>
         ))}

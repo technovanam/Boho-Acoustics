@@ -12,8 +12,8 @@ const Footer = () => (
               alt="Boho Acoustics Logo" 
               className="h-12 w-auto object-contain mb-6 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all"
             />
-            <p className="text-white/40 text-sm leading-relaxed max-w-[240px]">
-              Where Sound Meets Science & Design. Performance guaranteed, scientifically verified.
+            <p className="text-white/40 text-sm whitespace-nowrap">
+              Science. Sound. Style.
             </p>
           </div>
           <div className="flex gap-4">

@@ -35,6 +35,13 @@ const backgroundImages = [
 
 const HeroSection = () => {
   const [currentBg, setCurrentBg] = useState(0);
+  const marqueeStats = [
+    "Home Theatre Calibration",
+    "Office Noise Control",
+    "Studio Acoustic Treatment",
+    "Conference Room Clarity",
+    "Residential Soundproofing",
+  ];
 
   useEffect(() => {
     const timer = setInterval(() => {
@@ -76,7 +83,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content — Centered with refined spacing */}
-      <div className="relative z-10 w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-20">
+      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-20">
 
         {/* Label — Premium Spacing */}
         <motion.div
@@ -151,32 +158,23 @@ const HeroSection = () => {
           </Link>
         </motion.div>
 
-        {/* Stats — Minimalist and Airy */}
+        {/* Marquee Stats */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 1.8, duration: 1.5 }}
-          className="flex items-center gap-12 md:gap-20 flex-wrap justify-center"
+          className="absolute bottom-0 left-0 right-0 w-full overflow-hidden border-y border-white/10 py-4 pl-6 pr-24 md:pl-10 md:pr-36 bg-black/50 backdrop-blur-[1px]"
         >
-          {[
-            { value: "200+", label: "Success Stories" },
-            { value: "98%", label: "Client Love" },
-            { value: "50+", label: "Global Reach" },
-          ].map((stat, i) => (
-            <div key={stat.label} className="flex items-center gap-12 md:gap-20">
-              <div className="text-center group">
-                <p className="font-display text-3xl md:text-4xl font-light text-white mb-1">
-                  {stat.value}
+          <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
+            {[...marqueeStats, ...marqueeStats].map((item, i) => (
+              <div key={`${item}-${i}`} className="flex items-center gap-10">
+                <p className="font-display text-2xl md:text-3xl font-light text-white/90 tracking-wide">
+                  {item}
                 </p>
-                <p className="text-white/40 text-[9px] tracking-[0.3em] uppercase font-medium">
-                  {stat.label}
-                </p>
+                <span className="text-primary/70 text-sm">|</span>
               </div>
-              {i < 2 && (
-                <div className="hidden sm:block w-[1px] h-8 bg-white/10" />
-              )}
-            </div>
-          ))}
+            ))}
+          </div>
         </motion.div>
       </div>
 
