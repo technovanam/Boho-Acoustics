@@ -72,18 +72,18 @@ const HeroSection = () => {
             />
           </motion.div>
         </AnimatePresence>
-        
+
         {/* Overlays — Refined Vignette and Atmospheric Gradients */}
         <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_90%)] opacity-60" />
-        
+
         {/* Subtle Noise/Grain Overlay */}
         <div className="absolute inset-0 noise-overlay pointer-events-none mix-blend-soft-light opacity-20" />
       </div>
 
       {/* Content — Centered with refined spacing */}
-      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-20">
+      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-32">
 
         {/* Label — Premium Spacing */}
         <motion.div
@@ -110,14 +110,14 @@ const HeroSection = () => {
           <span className="text-white font-light italic">Perfect</span> Sound, {" "}
           <span className="gradient-gold-text relative">
             Designed
-            <motion.span 
+            <motion.span
               initial={{ width: 0 }}
               animate={{ width: "100%" }}
               transition={{ delay: 1.5, duration: 1, ease: "easeInOut" }}
               className="absolute -bottom-2 left-0 h-[1px] bg-gradient-to-r from-transparent to-transparent"
             />
           </span>
-          <br /> 
+          <br />
           <span className="text-white/90">for Your Space</span>
         </motion.h1>
 
@@ -158,25 +158,27 @@ const HeroSection = () => {
           </Link>
         </motion.div>
 
-        {/* Marquee Stats */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 1.8, duration: 1.5 }}
-          className="absolute bottom-0 left-0 right-0 w-full overflow-hidden border-y border-white/10 py-4 pl-6 pr-24 md:pl-10 md:pr-36 bg-black/50 backdrop-blur-[1px]"
-        >
-          <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
-            {[...marqueeStats, ...marqueeStats].map((item, i) => (
-              <div key={`${item}-${i}`} className="flex items-center gap-10">
-                <p className="font-display text-2xl md:text-3xl font-light text-white/90 tracking-wide">
-                  {item}
-                </p>
-                <span className="text-primary/70 text-sm">|</span>
-              </div>
-            ))}
-          </div>
-        </motion.div>
       </div>
+
+      {/* Marquee Stats — Now outside the container for full-width */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.8, duration: 1.5 }}
+        className="absolute bottom-0 left-0 right-0 w-full overflow-hidden pb-4"
+      >
+        <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
+          {[...marqueeStats, ...marqueeStats].map((item, i) => (
+            <div key={`${item}-${i}`} className="flex items-center gap-10">
+              <p className="font-display text-2xl md:text-3xl font-light text-white/90 tracking-wide">
+                {item}
+              </p>
+              <span className="text-primary/70 text-sm">|</span>
+            </div>
+          ))}
+        </div>
+      </motion.div>
+
 
       {/* Scroll Indicator */}
       {/* <motion.div
@@ -196,11 +198,11 @@ const HeroSection = () => {
       </motion.div> */}
 
       {/* Elegant bottom accent line */}
-      <motion.div 
+      <motion.div
         initial={{ scaleX: 0 }}
         animate={{ scaleX: 1 }}
         transition={{ delay: 2, duration: 2, ease: "easeInOut" }}
-        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" 
+        className="absolute bottom-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"
       />
     </section>
   );
