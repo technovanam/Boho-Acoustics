@@ -6,6 +6,29 @@ const metrics = [
   { label: "Background Noise", before: "55 dB", after: "32 dB", improvement: "42%" },
 ];
 
+const containerVariants = {
+  hidden: {},
+  visible: {
+    transition: {
+      staggerChildren: 0.18,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const rowVariants = {
+  hidden: { opacity: 0, x: -24 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.9, ease: [0.16, 1, 0.3, 1] as any },
+  },
+  hover: {
+    scale: 1.01,
+    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] as any }
+  }
+};
+
 const BeforeAfterSection = () => (
   <section className="py-10 lg:py-20 bg-[#050505] border-t border-white/5 relative">
     <div className="container mx-auto px-6 lg:px-12">
@@ -19,49 +42,114 @@ const BeforeAfterSection = () => (
         </p>
       </div>
 
-      <div className="max-w-5xl mx-auto border-t border-white/10">
+      <motion.div
+        className="max-w-5xl mx-auto border-t border-white/10"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-80px" }}
+      >
         {metrics.map((m) => (
-          <div 
-            key={m.label} 
-            className="group relative flex flex-col md:flex-row items-start md:items-center justify-between p-10 md:p-14 border-b border-white/10 hover:bg-white/[0.01] transition-colors gap-8"
+          <motion.div
+            key={m.label}
+            variants={rowVariants}
+            whileHover="hover"
+            className="group relative flex flex-col md:flex-row items-start md:items-center justify-between p-10 md:p-14 border-b border-white/10 gap-8 cursor-default overflow-hidden rounded-sm bg-transparent"
           >
-            {/* Visual Indicator Line (Sharp) */}
-            <div className="absolute top-0 left-0 w-12 h-px bg-primary/20 group-hover:bg-primary transition-colors" />
-            
-            <div className="flex-1">
-              <h3 className="font-display text-2xl font-black text-white group-hover:text-primary transition-colors mb-2">
+            {/* Liquid Wave Background Fill */}
+            <motion.div
+              className="absolute inset-0 z-0 pointer-events-none"
+              initial={{ y: "120%", opacity: 0 }}
+              variants={{
+                hover: { y: 0, opacity: 1 }
+              }}
+              transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] as any }}
+            >
+              {/* Wave Layer 1 (Back) */}
+              <motion.div 
+                className="absolute top-0 left-0 w-[200%] h-full text-white/[0.02]"
+                variants={{
+                  hover: { 
+                    x: ["-50%", "0%"],
+                    transition: { duration: 3, repeat: Infinity, ease: "linear" }
+                  }
+                }}
+              >
+                <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="absolute -top-[40px] left-0 w-full h-[40px] fill-current">
+                  <path d="M0,50 C200,0 300,100 500,50 C700,0 800,100 1000,50 L1000,100 L0,100 Z" />
+                </svg>
+                <div className="w-full h-full bg-current" />
+              </motion.div>
+
+              {/* Wave Layer 2 (Front) */}
+              <motion.div 
+                className="absolute top-0 left-0 w-[200%] h-full text-white/[0.04]"
+                variants={{
+                  hover: { 
+                    x: ["0%", "-50%"],
+                    transition: { duration: 2.2, repeat: Infinity, ease: "linear" }
+                  }
+                }}
+              >
+                <svg viewBox="0 0 1000 100" preserveAspectRatio="none" className="absolute -top-[30px] left-0 w-full h-[30px] fill-current opacity-60">
+                  <path d="M0,50 C250,100 350,0 500,50 C650,100 750,0 1000,50 L1000,100 L0,100 Z" />
+                </svg>
+                <div className="w-full h-full bg-current" />
+              </motion.div>
+            </motion.div>
+
+            {/* Gold shimmer top accent — always subtle, glows on hover */}
+            <div className="absolute top-0 left-0 h-px w-12 bg-primary/20 group-hover:w-full group-hover:bg-gradient-to-r group-hover:from-primary/40 group-hover:via-primary/10 group-hover:to-transparent z-10 transition-all duration-700 ease-out" />
+
+            {/* Left: Label */}
+            <div className="flex-1 relative z-10">
+              <h3 className="font-display text-2xl font-black text-white/90 group-hover:text-white transition-colors duration-300 mb-2">
                 {m.label}
               </h3>
-              <p className="text-white/20 text-[10px] tracking-widest font-bold">VERIFIED METRIC</p>
+              <p className="text-white/20 text-[10px] tracking-widest font-bold group-hover:text-primary/40 transition-colors duration-500 uppercase">VERIFIED METRIC</p>
             </div>
 
-            <div className="flex items-center gap-12 lg:gap-20">
+            {/* Right: Numbers */}
+            <div className="flex items-center gap-12 lg:gap-20 relative z-10">
               <div className="text-center md:text-left">
                 <p className="text-[10px] text-white/30 tracking-widest font-bold mb-3 uppercase">Before Treatment</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-white/40">{m.before}</span>
+                  <span className="text-3xl font-bold text-white/35 group-hover:text-white/50 transition-colors duration-400">
+                    {m.before}
+                  </span>
                 </div>
               </div>
 
-              <div className="hidden md:block w-px h-12 bg-white/10" />
+              <div className="hidden md:block w-px h-12 bg-white/10 group-hover:bg-primary/30 transition-colors duration-500" />
 
               <div className="text-center md:text-left">
                 <p className="text-[10px] text-primary tracking-widest font-bold mb-3 uppercase">After Treatment</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-4xl font-bold text-primary">{m.after}</span>
+                  <motion.span
+                    className="text-4xl font-bold text-primary"
+                    whileHover={{ scale: 1.05 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    {m.after}
+                  </motion.span>
                 </div>
               </div>
 
+              {/* Improvement badge — expands and brightens on hover */}
               <div className="hidden lg:flex flex-col items-end">
-                <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2 uppercase">Improvement</p>
-                <div className="text-2xl font-black text-white/60 group-hover:text-white transition-colors">
+                <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2 uppercase group-hover:text-primary/50 transition-colors duration-400">Improvement</p>
+                <motion.div
+                  className="text-2xl font-black text-white/50 group-hover:text-white transition-colors duration-300"
+                  whileHover={{ scale: 1.1 }}
+                  transition={{ duration: 0.2 }}
+                >
                   +{m.improvement}
-                </div>
+                </motion.div>
               </div>
             </div>
-          </div>
+          </motion.div>
         ))}
-      </div>
+      </motion.div>
     </div>
   </section>
 );
