@@ -5,6 +5,7 @@ import { ArrowLeft, Clock, Share2, ArrowRight } from "lucide-react";
 import { BLOG_POSTS } from "@/content/blogPosts";
 
 const BlogPost = () => {
+  const socialImage = "https://bohoacoustic.com/og-default.png";
   const { id } = useParams();
   const post = useMemo(() => BLOG_POSTS.find((item) => item.slug === id), [id]);
 
@@ -67,11 +68,13 @@ const BlogPost = () => {
         <meta property="og:title" content={post.seoTitle} />
         <meta property="og:description" content={post.seoDescription} />
         <meta property="og:url" content={`https://bohoacoustic.com/blog/${post.slug}`} />
-        <meta property="og:image" content="https://bohoacoustic.com/logo.png" />
+        <meta property="og:image" content={socialImage} />
+        <meta property="og:image:width" content="1200" />
+        <meta property="og:image:height" content="630" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content={post.seoTitle} />
         <meta name="twitter:description" content={post.seoDescription} />
-        <meta name="twitter:image" content="https://bohoacoustic.com/logo.png" />
+        <meta name="twitter:image" content={socialImage} />
         <script type="application/ld+json">{JSON.stringify(articleSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
       </Helmet>

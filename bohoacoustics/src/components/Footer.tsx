@@ -93,8 +93,8 @@ const Footer = () => {
                 <Phone className="w-4 h-4 text-primary mt-1" aria-hidden="true" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Call Support</p>
-                  <a href="tel:+918433900692" className="block text-sm font-medium hover:text-primary transition-colors">8433900692</a>
-                  <a href="tel:+919731150599" className="block text-sm font-medium hover:text-primary transition-colors">9731150599</a>
+                  <a href="tel:+918433900692" className="block text-sm font-body font-medium hover:text-primary transition-colors">8433900692</a>
+                  <a href="tel:+919731150599" className="block text-sm font-body font-medium hover:text-primary transition-colors">9731150599</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">

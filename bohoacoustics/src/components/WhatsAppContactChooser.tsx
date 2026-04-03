@@ -86,7 +86,7 @@ const WhatsAppContactChooser = ({
                 onClick={() => setOpen(false)}
                 className={`flex items-center justify-between gap-4 border border-white/10 bg-white/[0.02] px-4 py-4 text-white transition-colors hover:border-primary/40 hover:bg-white/[0.04] ${fullWidth ? "w-full" : ""}`}
               >
-                <span className="flex items-center gap-3 text-sm font-medium">
+                <span className="flex items-center gap-3 text-sm font-body font-medium">
                   <Phone className="h-4 w-4 text-primary" />
                   {contact.label}
                 </span>

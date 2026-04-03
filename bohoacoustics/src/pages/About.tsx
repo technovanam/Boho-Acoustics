@@ -60,15 +60,18 @@ const About = () => (
               <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20">
                 <div className="space-y-8">
                   <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
-                    <img
-                      src="/Founder-1.jpeg"
-                      alt="Adipta Kedia"
-                      width={640}
-                      height={800}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover"
-                    />
+                    <picture>
+                      <source srcSet="/Founder-1.webp" type="image/webp" />
+                      <img
+                        src="/Founder-1.jpeg"
+                        alt="Adipta Kedia"
+                        width={640}
+                        height={800}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover"
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>
@@ -83,15 +86,18 @@ const About = () => (
 
                 <div className="space-y-8">
                   <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
-                    <img
-                      src="/Founder-2.jpeg"
-                      alt="Dissha K Kedia"
-                      width={640}
-                      height={800}
-                      loading="lazy"
-                      decoding="async"
-                      className="h-full w-full object-cover object-center"
-                    />
+                    <picture>
+                      <source srcSet="/Founder-2.webp" type="image/webp" />
+                      <img
+                        src="/Founder-2.jpeg"
+                        alt="Dissha K Kedia"
+                        width={640}
+                        height={800}
+                        loading="lazy"
+                        decoding="async"
+                        className="h-full w-full object-cover object-center"
+                      />
+                    </picture>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
                     <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>

@@ -22,16 +22,7 @@ const ScrollToTop = () => {
       return;
     }
 
-    const forceScrollTop = () => {
-      if ((window as any).lenis) {
-        (window as any).lenis.scrollTo(0, { immediate: true });
-      } else {
-        window.scrollTo({ top: 0, left: 0, behavior: "auto" });
-      }
-    };
-
-    // Run once immediately on route change.
-    forceScrollTop();
+    window.scrollTo({ top: 0, left: 0, behavior: "auto" });
   }, [pathname, search, hash]);
 
   return null;

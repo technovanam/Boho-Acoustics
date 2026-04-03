@@ -2,6 +2,7 @@ const { onCall, HttpsError } = require("firebase-functions/v2/https");
 const { defineSecret, defineString } = require("firebase-functions/params");
 const { initializeApp } = require("firebase-admin/app");
 const { getFirestore, FieldValue } = require("firebase-admin/firestore");
+const { createHash } = require("node:crypto");
 const nodemailer = require("nodemailer");
 
 initializeApp();
@@ -11,14 +12,20 @@ const RESEND_SMTP_PASS = defineSecret("RESEND_SMTP_PASS");
 const MAIL_TO = defineString("MAIL_TO", { default: "hello@bohoacoustic.com" });
 const MAIL_FROM = defineString("MAIL_FROM", { default: "Boho Acoustics <noreply@bohoacoustic.com>" });
 const BRAND_LOGO_URL = "https://boho-acoustics.web.app/logo.png";
-
-function parseDataUrl(dataUrl) {
-  const match = /^data:([^;]+);base64,(.+)$/.exec(dataUrl || "");
-  if (!match) return null;
-  const contentType = match[1];
-  const base64 = match[2];
-  return { contentType, base64 };
-}
+const MAX_NAME_LENGTH = 120;
+const MAX_EMAIL_LENGTH = 254;
+const MAX_CONTACT_LENGTH = 30;
+const MAX_PINCODE_LENGTH = 10;
+const MAX_CITY_LENGTH = 120;
+const MAX_STATE_LENGTH = 120;
+const MAX_FACILITY_TYPE_LENGTH = 80;
+const MAX_AREA_LENGTH = 40;
+const MAX_NOTES_LENGTH = 2000;
+const MAX_FILE_NAME_LENGTH = 180;
+const MAX_FILE_BASE64_LENGTH = 14 * 1024 * 1024;
+const ALLOWED_MIME_TYPES = ["application/pdf"];
+const RATE_LIMIT_WINDOW_MS = 15 * 60 * 1000;
+const RATE_LIMIT_MAX_REQUESTS = 5;
 
 function getFileExtension(contentType) {
   const map = {
@@ -33,6 +40,95 @@ function getFileExtension(contentType) {
   return map[contentType] || "bin";
 }
 
+function escapeHtml(value) {
+  return String(value || "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&#39;");
+}
+
+function sanitizeHeaderValue(value) {
+  return String(value || "").replace(/[\r\n]+/g, " ").trim();
+}
+
+function parseDataUrl(dataUrl) {
+  if (!dataUrl) return null;
+  const match = /^data:([^;]+);base64,(.+)$/.exec(dataUrl);
+  if (!match) return null;
+  return {
+    contentType: match[1],
+    base64: match[2],
+  };
+}
+
+function assertMaxLength(value, max, fieldName) {
+  if (value.length > max) {
+    throw new HttpsError("invalid-argument", `${fieldName} is too long.`);
+  }
+}
+
+function buildAttachmentFromDataUrl(dataUrl, fileName) {
+  const parsed = parseDataUrl(dataUrl);
+  if (!parsed) {
+    throw new HttpsError("invalid-argument", "Invalid file format.");
+  }
+
+  if (!ALLOWED_MIME_TYPES.includes(parsed.contentType)) {
+    throw new HttpsError("invalid-argument", "Only PDF files are accepted.");
+  }
+
+  const buffer = Buffer.from(parsed.base64, "base64");
+
+  return [{
+    filename: sanitizeHeaderValue(fileName) || `attachment.${getFileExtension(parsed.contentType)}`,
+    content: buffer,
+    contentType: parsed.contentType,
+  }];
+}
+
+function getClientIp(request) {
+  const rawForwarded = request.rawRequest?.headers?.["x-forwarded-for"];
+  if (typeof rawForwarded === "string" && rawForwarded.trim()) {
+    return rawForwarded.split(",")[0].trim();
+  }
+  return request.rawRequest?.ip || "unknown";
+}
+
+function hashIp(ip) {
+  return createHash("sha256").update(ip).digest("hex");
+}
+
+async function enforceRateLimit(db, ipHash) {
+  const now = Date.now();
+  const docRef = db.collection("consultationRateLimits").doc(ipHash);
+
+  await db.runTransaction(async (txn) => {
+    const snapshot = await txn.get(docRef);
+
+    if (!snapshot.exists) {
+      txn.set(docRef, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS, updatedAt: FieldValue.serverTimestamp() });
+      return;
+    }
+
+    const data = snapshot.data() || {};
+    const count = Number(data.count || 0);
+    const resetAt = Number(data.resetAt || 0);
+
+    if (now > resetAt) {
+      txn.set(docRef, { count: 1, resetAt: now + RATE_LIMIT_WINDOW_MS, updatedAt: FieldValue.serverTimestamp() }, { merge: true });
+      return;
+    }
+
+    if (count >= RATE_LIMIT_MAX_REQUESTS) {
+      throw new HttpsError("resource-exhausted", "Too many consultation attempts. Please try again later.");
+    }
+
+    txn.update(docRef, { count: count + 1, updatedAt: FieldValue.serverTimestamp() });
+  });
+}
+
 exports.submitConsultation = onCall(
   {
     region: "us-central1",
@@ -45,6 +141,7 @@ exports.submitConsultation = onCall(
     const name = String(payload.name || "").trim();
     const email = String(payload.email || "").trim().toLowerCase();
     const contact = String(payload.contact || "").trim();
+    const pincode = String(payload.pincode || "").trim();
     const city = String(payload.city || "").trim();
     const state = String(payload.state || "").trim();
     const facilityType = String(payload.facilityType || "").trim();
@@ -52,9 +149,30 @@ exports.submitConsultation = onCall(
     const notes = String(payload.notes || "").trim();
     const fileName = String(payload.fileName || "").trim();
     const fileBase64 = String(payload.fileBase64 || "").trim();
+    const consultationId = String(payload.consultationId || "").trim();
 
-    if (!name || !email || !city || !state || !facilityType) {
+    assertMaxLength(name, MAX_NAME_LENGTH, "Name");
+    assertMaxLength(email, MAX_EMAIL_LENGTH, "Email");
+    assertMaxLength(contact, MAX_CONTACT_LENGTH, "Contact number");
+    assertMaxLength(pincode, MAX_PINCODE_LENGTH, "Pincode");
+    assertMaxLength(city, MAX_CITY_LENGTH, "City");
+    assertMaxLength(state, MAX_STATE_LENGTH, "State");
+    assertMaxLength(facilityType, MAX_FACILITY_TYPE_LENGTH, "Facility type");
+    assertMaxLength(area, MAX_AREA_LENGTH, "Area");
+    assertMaxLength(notes, MAX_NOTES_LENGTH, "Notes");
+    assertMaxLength(fileName, MAX_FILE_NAME_LENGTH, "File name");
+    assertMaxLength(fileBase64, MAX_FILE_BASE64_LENGTH, "File data");
+
+    if (!/^[A-Za-z0-9]{20}$/.test(consultationId)) {
+      throw new HttpsError("invalid-argument", "Invalid consultation ID.");
+    }
+
+    if (!name || !email || !pincode || !city || !state || !facilityType) {
       throw new HttpsError("invalid-argument", "Missing required fields.");
+    }
+
+    if (!/^\d{6}$/.test(pincode)) {
+      throw new HttpsError("invalid-argument", "Please provide a valid 6-digit pincode.");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -62,23 +180,23 @@ exports.submitConsultation = onCall(
       throw new HttpsError("invalid-argument", "Please provide a valid email.");
     }
 
-    const attachmentMeta = fileBase64 ? parseDataUrl(fileBase64) : null;
-    if (fileBase64 && !attachmentMeta) {
-      throw new HttpsError("invalid-argument", "Invalid attachment format.");
-    }
+    const attachment = fileBase64 ? buildAttachmentFromDataUrl(fileBase64, fileName) : [];
 
     const db = getFirestore();
-    const docRef = await db.collection("consultations").add({
+    await enforceRateLimit(db, hashIp(getClientIp(request)));
+
+    const docRef = db.collection("consultations").doc(consultationId);
+    await docRef.set({
       name,
       email,
       contact,
+      pincode,
       city,
       state,
       facilityType,
       area,
       notes,
       fileName,
-      fileBase64,
       timestamp: FieldValue.serverTimestamp(),
       createdAt: FieldValue.serverTimestamp(),
       status: "new"
@@ -94,14 +212,15 @@ exports.submitConsultation = onCall(
       }
     });
 
-    const attachment = attachmentMeta
-      ? [{
-          filename: fileName || `attachment.${getFileExtension(attachmentMeta.contentType)}`,
-          content: attachmentMeta.base64,
-          encoding: "base64",
-          contentType: attachmentMeta.contentType
-        }]
-      : [];
+    const escapedName = escapeHtml(name);
+    const escapedEmail = escapeHtml(email);
+    const escapedContact = escapeHtml(contact || "N/A");
+    const escapedPincode = escapeHtml(pincode);
+    const escapedCity = escapeHtml(city);
+    const escapedState = escapeHtml(state);
+    const escapedFacilityType = escapeHtml(facilityType);
+    const escapedArea = escapeHtml(area || "N/A");
+    const escapedNotes = escapeHtml(notes);
 
     const internalHtml = `
       <div style="margin:0;padding:0;background:#efe7db;font-family:Arial,Helvetica,sans-serif;color:#111111;">
@@ -119,18 +238,19 @@ exports.submitConsultation = onCall(
                 <div style="padding:10px 14px;border-radius:999px;background:#f7f2ea;border:1px solid #eadfcd;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7a5e34;">New lead</div>
               </div>
               <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate;border-spacing:0 10px;font-size:14px;line-height:1.7;color:#111111;">
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;width:170px;color:#6f5636;">Name</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${name}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Email</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${email}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Contact</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${contact || "N/A"}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">City</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${city}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">State</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${state}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Facility type</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${facilityType}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Area</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${area || "N/A"}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;width:170px;color:#6f5636;">Name</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedName}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Email</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedEmail}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Contact</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedContact}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Pincode</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedPincode}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">City</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedCity}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">State</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedState}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Facility type</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedFacilityType}</td></tr>
+                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Area</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedArea}</td></tr>
               </table>
               ${notes ? `
               <div style="margin-top:20px;padding:20px;border-radius:16px;background:#f7f2ea;border:1px solid #eadfcd;">
                 <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#8a6a3a;font-weight:700;">Project notes</p>
-                <p style="margin:0;font-size:14px;line-height:1.8;color:#222222;white-space:pre-wrap;">${notes}</p>
+                <p style="margin:0;font-size:14px;line-height:1.8;color:#222222;white-space:pre-wrap;">${escapedNotes}</p>
               </div>
               ` : ""}
             </div>
@@ -147,7 +267,7 @@ exports.submitConsultation = onCall(
               <img src="${BRAND_LOGO_URL}" alt="Boho Acoustics" style="display:block;width:132px;max-width:100%;height:auto;margin:0 0 18px;" />
               <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#d8b06d;font-weight:700;">Boho Acoustics</p>
               <h1 style="margin:0;font-size:32px;line-height:1.12;color:#ffffff;">We’ve received your request</h1>
-              <p style="margin:12px 0 0;font-size:14px;line-height:1.8;color:#d5d0c8;max-width:540px;">Hi ${name}, your consultation request is in our system and our team will review it shortly.</p>
+              <p style="margin:12px 0 0;font-size:14px;line-height:1.8;color:#d5d0c8;max-width:540px;">Hi ${escapedName}, your consultation request is in our system and our team will review it shortly.</p>
             </div>
             <div style="padding:28px;background:#ffffff;">
               <div style="padding:20px;border-radius:16px;background:#f7f2ea;border:1px solid #eadfcd;margin-bottom:20px;">
@@ -170,22 +290,25 @@ exports.submitConsultation = onCall(
       </div>
     `;
 
-    await Promise.all([
-      transporter.sendMail({
-        from: MAIL_FROM.value(),
-        to: MAIL_TO.value(),
-        subject: `New consultation request from ${name}`,
-        html: internalHtml,
-        attachments: attachment
-      }),
-      transporter.sendMail({
+    await transporter.sendMail({
+      from: MAIL_FROM.value(),
+      to: MAIL_TO.value(),
+      replyTo: email,
+      subject: `New consultation request from ${sanitizeHeaderValue(name)}`,
+      html: internalHtml,
+      attachments: attachment
+    });
+
+    try {
+      await transporter.sendMail({
         from: MAIL_FROM.value(),
         to: email,
         subject: "Boho Acoustics has received your consultation request",
         html: confirmationHtml,
-        attachments: attachment
-      })
-    ]);
+      });
+    } catch (confirmationError) {
+      console.error("Customer confirmation email failed:", confirmationError);
+    }
 
     return {
       success: true,

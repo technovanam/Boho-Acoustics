@@ -2,58 +2,142 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, Upload } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, LoaderCircle, Upload } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
-import { functions } from "@/lib/firebase";
+import { db, functions } from "@/lib/firebase";
 import { httpsCallable } from "firebase/functions";
+import { collection, doc } from "firebase/firestore";
 
 const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [facilityType, setFacilityType] = useState("");
+  const [pincode, setPincode] = useState("");
+  const [pincodeLoading, setPincodeLoading] = useState(false);
+  const [pincodeStatus, setPincodeStatus] = useState<string | null>(null);
+  const [cityEditable, setCityEditable] = useState(false);
+  const cityInputRef = useRef<HTMLInputElement | null>(null);
+  const stateInputRef = useRef<HTMLInputElement | null>(null);
+
+  useEffect(() => {
+    const sanitizedPincode = pincode.replace(/\D/g, "").slice(0, 6);
+
+    if (sanitizedPincode.length !== 6) {
+      setPincodeStatus(null);
+      setCityEditable(false);
+      if (cityInputRef.current) {
+        cityInputRef.current.value = "";
+      }
+      if (stateInputRef.current) {
+        stateInputRef.current.value = "";
+      }
+      return;
+    }
+
+    const timer = window.setTimeout(async () => {
+      setPincodeLoading(true);
+      setPincodeStatus(null);
+      setCityEditable(false);
+
+      try {
+        const response = await fetch(`https://api.postalpincode.in/pincode/${sanitizedPincode}`);
+        const result = await response.json();
+
+        const entry = Array.isArray(result) ? result[0] : null;
+        const postOffice = Array.isArray(entry?.PostOffice) ? entry.PostOffice[0] : null;
+
+        if (entry?.Status !== "Success" || !postOffice) {
+          setPincodeStatus("Unable to auto-fill location for this pincode.");
+          if (cityInputRef.current) {
+            cityInputRef.current.value = "";
+          }
+          if (stateInputRef.current) {
+            stateInputRef.current.value = "";
+          }
+          return;
+        }
+
+        const resolvedCity = String(postOffice.District || postOffice.Division || "").trim();
+        const resolvedState = String(postOffice.State || "").trim();
+
+        if (resolvedCity && cityInputRef.current) {
+          cityInputRef.current.value = resolvedCity;
+        }
+        if (resolvedState && stateInputRef.current) {
+          stateInputRef.current.value = resolvedState;
+        }
+
+        setCityEditable(true);
+        setPincodeStatus("City and state auto-filled from pincode.");
+      } catch (error) {
+        console.error("Pincode lookup failed:", error);
+        setCityEditable(false);
+        if (cityInputRef.current) {
+          cityInputRef.current.value = "";
+        }
+        if (stateInputRef.current) {
+          stateInputRef.current.value = "";
+        }
+        setPincodeStatus("Unable to verify pincode right now. Please retry with a valid pincode.");
+      } finally {
+        setPincodeLoading(false);
+      }
+    }, 400);
+
+    return () => {
+      window.clearTimeout(timer);
+    };
+  }, [pincode]);
+
+  const fileToDataUrl = (file: File) =>
+    new Promise<string>((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve(String(reader.result || ""));
+      reader.onerror = () => reject(new Error("Failed to read file."));
+      reader.readAsDataURL(file);
+    });
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.size > 700 * 1024) {
-      toast.error("FILE TOO LARGE FOR FIRESTORE. PLEASE KEEP IT UNDER 700KB.");
+    if (file && file.type !== "application/pdf") {
+      toast.error("ONLY PDF FILES ARE ACCEPTED.");
+      e.target.value = "";
+      return;
+    }
+    if (file && file.size > 10 * 1024 * 1024) {
+      toast.error("FILE TOO LARGE. PLEASE KEEP IT UNDER 10MB.");
       e.target.value = "";
       return;
     }
     setSelectedFile(file || null);
   };
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
-
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
     const form = e.currentTarget;
+    const consultationId = doc(collection(db, "consultations")).id;
     
     const formData = new FormData(form);
     const data = {
+      consultationId,
       name: formData.get("name"),
       email: formData.get("email"),
       contact: formData.get("contact"),
-      city: formData.get("city"),
-      state: formData.get("state"),
+      pincode: String(formData.get("pincode") || "").trim(),
+      city: String(formData.get("city") || "").trim(),
+      state: String(formData.get("state") || "").trim(),
       facilityType,
       area: formData.get("area"),
       notes: formData.get("notes"),
-      fileBase64: "",
       fileName: selectedFile?.name || "",
+      fileBase64: "",
     };
 
     try {
       if (selectedFile) {
-        data.fileBase64 = await fileToBase64(selectedFile);
+        data.fileBase64 = await fileToDataUrl(selectedFile);
       }
 
       const submitConsultation = httpsCallable(functions, "submitConsultation");
@@ -63,6 +147,9 @@ const Consultation = () => {
       form.reset();
       setSelectedFile(null);
       setFacilityType("");
+      setPincode("");
+      setPincodeStatus(null);
+      setCityEditable(false);
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("ERROR SUBMITTING REQUEST. PLEASE TRY AGAIN.");
@@ -92,6 +179,15 @@ const Consultation = () => {
           <form onSubmit={handleSubmit} className="border border-white/10 p-8 lg:p-12 relative overflow-hidden bg-black group">
             <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[80px]" />
             <div className="relative z-10 space-y-8">
+              {submitting && (
+                <div
+                  className="h-1 w-full overflow-hidden bg-white/5"
+                  aria-label="Form submission in progress"
+                  aria-live="polite"
+                >
+                  <div className="h-full w-1/3 bg-primary animate-pulse" />
+                </div>
+              )}
 
               <div className="space-y-6">
                 <div className="flex items-center gap-4 pb-4 border-b border-white/5">
@@ -102,29 +198,65 @@ const Consultation = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Full Name</label>
-                    <Input name="name" required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="name" required placeholder="John Doe" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email Address</label>
-                    <Input type="email" name="email" required placeholder="YOU@DOMAIN.COM" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input type="email" name="email" required placeholder="you@domain.com" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 mt-6">
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Contact Number</label>
-                    <Input name="contact" required placeholder="PHONE NUMBER" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="contact" required placeholder="Phone number" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 mt-6">
+                  <div>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Pincode</label>
+                    <Input
+                      name="pincode"
+                      required
+                      inputMode="numeric"
+                      maxLength={6}
+                      pattern="[0-9]{6}"
+                      placeholder="e.g. 400050"
+                      value={pincode}
+                      onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
+                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all"
+                    />
+                    {(pincodeLoading || pincodeStatus) && (
+                      <p className="mt-2 text-[10px] tracking-widest uppercase text-white/50">
+                        {pincodeLoading ? "Checking pincode..." : pincodeStatus}
+                      </p>
+                    )}
                   </div>
                 </div>
                 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">City / Area</label>
-                    <Input name="city" required placeholder="E.G. BANDRA, MUMBAI" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input
+                      name="city"
+                      ref={cityInputRef}
+                      required
+                      readOnly={!cityEditable}
+                      placeholder="e.g. Bandra, Mumbai"
+                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all read-only:cursor-not-allowed read-only:opacity-70"
+                    />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">State</label>
-                    <Input name="state" required placeholder="E.G. MAHARASHTRA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input
+                      name="state"
+                      ref={stateInputRef}
+                      required
+                      readOnly
+                      placeholder="e.g. Maharashtra"
+                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all read-only:cursor-not-allowed read-only:opacity-70"
+                    />
                   </div>
                 </div>
               </div>
@@ -139,8 +271,8 @@ const Consultation = () => {
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type</label>
                     <Select value={facilityType} onValueChange={setFacilityType} required>
-                      <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white uppercase text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
-                        <SelectValue placeholder="SELECT ENVIRONMENT" />
+                      <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
+                        <SelectValue placeholder="Select environment" />
                       </SelectTrigger>
                       <SelectContent className="bg-black border-white/10 rounded-none">
                         <SelectItem value="home-theatre" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Home Theatre</SelectItem>
@@ -155,7 +287,7 @@ const Consultation = () => {
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
-                    <Input name="area" placeholder="TOTAL AREA" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <Input name="area" placeholder="Total area" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
               </div>
@@ -192,7 +324,7 @@ const Consultation = () => {
 
                 <div>
                   <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
-                  <Textarea name="notes" placeholder="DESCRIBE THE ACOUSTIC ISSUES (E.G., ECHO, REVERBERATION, SOUND BLEED)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 uppercase text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  <Textarea name="notes" placeholder="Describe the acoustic issues (e.g. echo, reverberation, sound bleed)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                 </div>
               </div>
 
@@ -206,8 +338,17 @@ const Consultation = () => {
                   className="gradient-gold text-primary-foreground font-black text-xs tracking-widest px-8 md:px-12 h-14 md:h-16 rounded-none hover:translate-x-2 transition-transform uppercase w-full sm:w-auto"
                   disabled={submitting}
                 >
-                  {submitting ? "SUBMITTING..." : "INITIATE DIAGNOSTIC"}
-                  {!submitting && <ArrowRight className="ml-4 w-5 h-5" />}
+                  {submitting ? (
+                    <span className="inline-flex items-center gap-3">
+                      <LoaderCircle className="w-5 h-5 animate-spin" />
+                      SUBMITTING...
+                    </span>
+                  ) : (
+                    <>
+                      INITIATE DIAGNOSTIC
+                      <ArrowRight className="ml-4 w-5 h-5" />
+                    </>
+                  )}
                 </Button>
               </div>
 

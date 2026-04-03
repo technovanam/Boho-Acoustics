@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { auth, db } from "@/lib/firebase";
 import { onAuthStateChanged, signInWithEmailAndPassword, signOut, User } from "firebase/auth";
 import { collection, doc, onSnapshot, orderBy, query, serverTimestamp, updateDoc } from "firebase/firestore";
+import type { Timestamp } from "firebase/firestore";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
@@ -34,19 +35,26 @@ interface Consultation {
   facilityType: string;
   area: string;
   notes: string;
-  fileBase64: string;
+  fileUrl: string;
   fileName: string;
-  timestamp: any;
-  createdAt?: any;
-  processedAt?: any;
+  timestamp: Timestamp | null;
+  createdAt?: Timestamp | null;
+  processedAt?: Timestamp | null;
   status?: "new" | "processed";
 }
 
-const ACCESS_LINK = "https://boho-acoustics.web.app/admin?access=boho-acoustics-access";
-
-const formatDate = (value: any) => {
+const formatDate = (value: Timestamp | Date | string | null | undefined) => {
   if (!value) return "—";
-  const date = value?.toDate ? value.toDate() : new Date(value);
+  let date: Date;
+  if (typeof value === "object" && value !== null && "toDate" in value) {
+    date = value.toDate();
+  } else if (value instanceof Date) {
+    date = value;
+  } else if (typeof value === "string") {
+    date = new Date(value);
+  } else {
+    return "—";
+  }
   return Number.isNaN(date.getTime()) ? "—" : date.toLocaleString();
 };
 
@@ -233,14 +241,6 @@ const Admin = () => {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-            <Button
-              variant="outline"
-              className="border-white/10 rounded-none hover:bg-white/5 hover:text-white h-10 tracking-widest text-[10px] uppercase font-bold"
-              onClick={() => window.open(ACCESS_LINK, "_blank", "noopener,noreferrer")}
-            >
-              <ExternalLink className="w-3 h-3 mr-2" />
-              OPEN ACCESS LINK
-            </Button>
             <Button onClick={handleLogout} variant="outline" className="border-white/10 rounded-none hover:bg-white/5 hover:text-white h-10 tracking-widest text-[10px] uppercase font-bold">
               <LogOut className="w-3 h-3 mr-2" /> DISCONNECT
             </Button>
@@ -411,13 +411,13 @@ const Admin = () => {
                     </div>
 
                     <aside className="xl:w-80 xl:border-l xl:border-white/10 xl:pl-8 flex flex-col gap-4">
-                      {req.fileBase64 ? (
+                      {req.fileUrl ? (
                         <div className="space-y-3 border border-white/5 bg-white/[0.01] p-4">
                           <p className="text-[8px] text-white/35 uppercase tracking-widest truncate flex items-center gap-2">
                             <FileText className="w-3 h-3 text-primary" />
                             {req.fileName || "ATTACHED FILE"}
                           </p>
-                          <a href={req.fileBase64} download={req.fileName || "attachment"} target="_blank" rel="noopener noreferrer" className="w-full">
+                          <a href={req.fileUrl} download={req.fileName || "attachment"} target="_blank" rel="noopener noreferrer" className="w-full">
                             <Button className="w-full h-12 rounded-none bg-white/5 border border-white/10 text-white font-bold text-[10px] tracking-widest hover:bg-white/10 transition-colors uppercase">
                               <Download className="w-3 h-3 mr-2 text-primary" /> VIEW / DOWNLOAD FILE
                             </Button>

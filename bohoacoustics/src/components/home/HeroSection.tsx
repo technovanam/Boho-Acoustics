@@ -10,6 +10,8 @@ import auditoriumImg from "@/assets/auditorium-acoustics.jpg";
 import officeImg from "@/assets/office-acoustics.jpg";
 import residentialImg from "@/assets/residential-acoustics.jpg";
 
+const OPEN_DB_METER_EVENT = "boho:open-db-meter";
+
 const backgroundImages = [
   {
     src: heroTheatre,
@@ -49,6 +51,10 @@ const HeroSection = () => {
     }, 6000); // Change image every 6 seconds
     return () => clearInterval(timer);
   }, []);
+
+  const openDbMeter = () => {
+    window.dispatchEvent(new Event(OPEN_DB_METER_EVENT));
+  };
 
   return (
     <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-black">
@@ -171,15 +177,15 @@ const HeroSection = () => {
               <ArrowRight className="ml-2 w-4 h-4" />
             </Button>
           </Link>
-          <Link to="/solutions" className="w-full sm:w-auto">
-            <Button
-              size="lg"
-              variant="outline"
-              className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-6 sm:px-10 py-5 sm:py-7 text-[10px] sm:text-xs tracking-[0.08em] sm:tracking-[0.2em] normal-case sm:uppercase leading-relaxed text-center whitespace-normal rounded-none backdrop-blur-md transition-all duration-500"
-            >
-              Get a live acoustic test of your space
-            </Button>
-          </Link>
+          <Button
+            type="button"
+            onClick={openDbMeter}
+            size="lg"
+            variant="outline"
+            className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-6 sm:px-10 py-5 sm:py-7 text-[10px] sm:text-xs tracking-[0.08em] sm:tracking-[0.2em] normal-case sm:uppercase leading-relaxed text-center whitespace-normal rounded-none backdrop-blur-md transition-all duration-500"
+          >
+            Get a live acoustic test of your space
+          </Button>
         </motion.div>
 
       </div>

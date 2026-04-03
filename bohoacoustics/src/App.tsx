@@ -1,5 +1,6 @@
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes, useLocation } from "react-router-dom";
+import { Helmet } from "react-helmet-async";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
@@ -9,7 +10,7 @@ import ScrollToTop from "./components/ScrollToTop";
 import Navbar from "./components/Navbar";
 import Footer from "./components/Footer";
 
-import { Suspense, lazy, useEffect } from "react";
+import { Suspense, lazy, useEffect, useState } from "react";
 import Lenis from "lenis";
 import { motion, AnimatePresence } from "framer-motion";
 import { SEO_ROUTE_CONFIGS } from "@/content/seoRoutes";
@@ -27,7 +28,7 @@ const SeoLocationPage = lazy(() => import("./pages/SeoLocationPage"));
 
 const queryClient = new QueryClient();
 const SITE_URL = "https://bohoacoustic.com";
-const DEFAULT_IMAGE = `${SITE_URL}/logo.png`;
+const DEFAULT_IMAGE = `${SITE_URL}/og-default.png`;
 
 type SeoConfig = {
   title: string;
@@ -36,27 +37,7 @@ type SeoConfig = {
   robots?: string;
 };
 
-const upsertMetaTag = (selector: string, attr: "name" | "property", key: string, content: string) => {
-  let tag = document.head.querySelector(selector) as HTMLMetaElement | null;
-  if (!tag) {
-    tag = document.createElement("meta");
-    tag.setAttribute(attr, key);
-    document.head.appendChild(tag);
-  }
-  tag.setAttribute("content", content);
-};
-
-const upsertCanonical = (href: string) => {
-  let link = document.head.querySelector('link[rel="canonical"]') as HTMLLinkElement | null;
-  if (!link) {
-    link = document.createElement("link");
-    link.setAttribute("rel", "canonical");
-    document.head.appendChild(link);
-  }
-  link.setAttribute("href", href);
-};
-
-const getSeoForPath = (pathname: string): SeoConfig => {
+const getSeoForPath = (pathname: string): SeoConfig | null => {
   if (pathname === "/services") {
     return {
       title: "Acoustic Services In India (2026 Expert Guide) | Boho Acoustics",
@@ -97,14 +78,6 @@ const getSeoForPath = (pathname: string): SeoConfig => {
     };
   }
 
-  if (pathname.startsWith("/blog/")) {
-    return {
-      title: "Acoustic Expert Blog Post | Boho Acoustics",
-      description: "Read practical acoustic guidance, technical frameworks, and actionable insights from Boho Acoustics.",
-      canonicalPath: pathname,
-    };
-  }
-
   if (pathname === "/admin") {
     return {
       title: "Admin Portal | Boho Acoustics",
@@ -121,6 +94,40 @@ const getSeoForPath = (pathname: string): SeoConfig => {
   };
 };
 
+const RouteSeo = ({ pathname }: { pathname: string }) => {
+  const seo = getSeoForPath(pathname);
+
+  // Dynamic pages own their metadata (BlogPost and SeoLocationPage) via page-level Helmet.
+  if (!seo || pathname.startsWith("/blog/") || SEO_ROUTE_CONFIGS.some((route) => route.path === pathname)) {
+    return null;
+  }
+
+  const canonical = `${SITE_URL}${seo.canonicalPath}`;
+
+  return (
+    <Helmet>
+      <title>{seo.title}</title>
+      <meta name="description" content={seo.description} />
+      <meta name="robots" content={seo.robots || "index, follow, max-image-preview:large"} />
+      <link rel="canonical" href={canonical} />
+
+      <meta property="og:type" content="website" />
+      <meta property="og:site_name" content="Boho Acoustics" />
+      <meta property="og:title" content={seo.title} />
+      <meta property="og:description" content={seo.description} />
+      <meta property="og:url" content={canonical} />
+      <meta property="og:image" content={DEFAULT_IMAGE} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={seo.title} />
+      <meta name="twitter:description" content={seo.description} />
+      <meta name="twitter:image" content={DEFAULT_IMAGE} />
+    </Helmet>
+  );
+};
+
 const PageLoader = () => (
   <div className="min-h-[50vh] flex items-center justify-center text-primary text-xs tracking-widest uppercase font-bold">
     Loading...
@@ -128,36 +135,24 @@ const PageLoader = () => (
 );
 
 const AppContent = () => {
-  const { pathname, search } = useLocation();
-  const searchParams = new URLSearchParams(search);
+  const { pathname } = useLocation();
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
   const isAdmin = pathname === "/admin";
-  const hasAdminAccess = searchParams.get("access") === "boho-acoustics-access";
 
   useEffect(() => {
-    const seo = getSeoForPath(pathname);
-    const canonical = `${SITE_URL}${seo.canonicalPath}`;
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
 
-    document.title = seo.title;
-    upsertCanonical(canonical);
-    upsertMetaTag('meta[name="description"]', "name", "description", seo.description);
-    upsertMetaTag('meta[name="robots"]', "name", "robots", seo.robots || "index, follow, max-image-preview:large");
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
 
-    upsertMetaTag('meta[property="og:type"]', "property", "og:type", "website");
-    upsertMetaTag('meta[property="og:site_name"]', "property", "og:site_name", "Boho Acoustics");
-    upsertMetaTag('meta[property="og:title"]', "property", "og:title", seo.title);
-    upsertMetaTag('meta[property="og:description"]', "property", "og:description", seo.description);
-    upsertMetaTag('meta[property="og:url"]', "property", "og:url", canonical);
-    upsertMetaTag('meta[property="og:image"]', "property", "og:image", DEFAULT_IMAGE);
-
-    upsertMetaTag('meta[name="twitter:card"]', "name", "twitter:card", "summary_large_image");
-    upsertMetaTag('meta[name="twitter:title"]', "name", "twitter:title", seo.title);
-    upsertMetaTag('meta[name="twitter:description"]', "name", "twitter:description", seo.description);
-    upsertMetaTag('meta[name="twitter:image"]', "name", "twitter:image", DEFAULT_IMAGE);
-  }, [pathname]);
+    return () => mediaQuery.removeEventListener("change", updatePreference);
+  }, []);
 
   return (
     <TooltipProvider>
+      <RouteSeo pathname={pathname} />
       <Toaster />
       <Sonner />
       <ScrollToTop />
@@ -167,10 +162,10 @@ const AppContent = () => {
       <AnimatePresence mode="wait">
         <motion.div
           key={pathname}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          transition={{ duration: 0.2, ease: "easeOut" }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 10 }}
+          animate={prefersReducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+          exit={prefersReducedMotion ? { opacity: 1 } : { opacity: 0, y: -10 }}
+          transition={prefersReducedMotion ? { duration: 0 } : { duration: 0.2, ease: "easeOut" }}
           className="min-h-screen bg-background"
         >
           <Suspense fallback={<PageLoader />}>
@@ -200,7 +195,7 @@ const AppContent = () => {
                 />
               ))}
 
-              <Route path="/admin" element={hasAdminAccess ? <Admin /> : <NotFound />} />
+              <Route path="/admin" element={<Admin />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </Suspense>
@@ -227,8 +222,6 @@ const App = () => {
       infinite: false,
     });
 
-    (window as any).lenis = lenis;
-
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
@@ -238,7 +231,6 @@ const App = () => {
 
     return () => {
       lenis.destroy();
-      (window as any).lenis = undefined;
     };
   }, []);
 
