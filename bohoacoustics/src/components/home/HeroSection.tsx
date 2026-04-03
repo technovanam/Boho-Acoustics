@@ -57,15 +57,16 @@ const HeroSection = () => {
         <AnimatePresence mode="wait">
           <motion.div
             key={currentBg}
-            initial={{ opacity: 0, scale: 1.15, filter: "blur(10px)" }}
-            animate={{ opacity: 1, scale: 1.05, filter: "blur(0px)" }}
+            initial={{ opacity: 0, scale: 1.08 }}
+            animate={{ opacity: 1, scale: 1.02 }}
             exit={{ opacity: 0, scale: 1, transition: { duration: 2 } }}
-            transition={{ duration: 2.5, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 1.8, ease: [0.22, 1, 0.36, 1] }}
             className="absolute inset-0"
           >
             <img
               src={backgroundImages[currentBg].src}
               alt={backgroundImages[currentBg].alt}
+              fetchPriority={currentBg === 0 ? "high" : "auto"}
               className="w-full h-full object-cover"
               width={1920}
               height={1080}

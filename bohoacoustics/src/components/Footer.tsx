@@ -17,6 +17,10 @@ const Footer = () => {
               <img 
                 src="/logo.png" 
                 alt="Boho Acoustics Logo" 
+                width={160}
+                height={48}
+                loading="lazy"
+                decoding="async"
                 className="h-12 w-auto object-contain mb-6 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all"
               />
               <p className="text-white/60 text-sm">
@@ -30,9 +34,10 @@ const Footer = () => {
                   href={href} 
                   target="_blank" 
                   rel="noopener noreferrer" 
-                  className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-primary/50 transition-colors group/icon"
+                  aria-label={`Open ${href.includes("instagram") ? "Instagram" : href.includes("linkedin") ? "LinkedIn" : "YouTube"} in a new tab`}
+                  className="w-11 h-11 border border-white/10 flex items-center justify-center hover:border-primary/50 transition-colors group/icon"
                 >
-                  <Icon className="w-4 h-4 text-white/60 group-hover/icon:text-primary transition-colors" />
+                  <Icon className="w-4 h-4 text-white/60 group-hover/icon:text-primary transition-colors" aria-hidden="true" />
                 </a>
               ))}
             </div>
@@ -48,7 +53,7 @@ const Footer = () => {
                 className="text-sm text-white/70 hover:text-white transition-all hover:translate-x-1 inline-flex items-center group gap-2"
               >
                 {s}
-                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" aria-hidden="true" />
               </Link>
             ))}
           </div>
@@ -78,14 +83,14 @@ const Footer = () => {
             <h4 className="text-[10px] tracking-[0.3em] sm:tracking-[0.4em] font-black uppercase text-primary">DIRECT CONTACT</h4>
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
-                <Mail className="w-4 h-4 text-primary mt-1" />
+                <Mail className="w-4 h-4 text-primary mt-1" aria-hidden="true" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Email Us</p>
                   <a href="mailto:hello@bohoacoustic.com" className="text-sm font-medium hover:text-primary transition-colors">hello@bohoacoustic.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <Phone className="w-4 h-4 text-primary mt-1" />
+                <Phone className="w-4 h-4 text-primary mt-1" aria-hidden="true" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Call Support</p>
                   <a href="tel:+918433900692" className="block text-sm font-medium hover:text-primary transition-colors">8433900692</a>
@@ -93,7 +98,7 @@ const Footer = () => {
                 </div>
               </div>
               <div className="flex items-start gap-4">
-                <MapPin className="w-4 h-4 text-primary mt-1" />
+                <MapPin className="w-4 h-4 text-primary mt-1" aria-hidden="true" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Region</p>
                   <span className="text-sm font-medium">Pan India Services</span>

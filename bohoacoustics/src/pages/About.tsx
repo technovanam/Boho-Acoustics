@@ -13,7 +13,7 @@ const About = () => (
             <span className="text-primary italic font-light">Sound & Space</span>
           </h1>
           <p className="text-muted-foreground text-lg lg:text-xl font-light leading-relaxed max-w-2xl">
-            Boho Acoustics was founded on a simple principle: **Acoustics is not an add-on. It's a fundamental necessity for human performance.**
+            Boho Acoustics was founded on a simple principle: <strong>Acoustics is not an add-on. It's a fundamental necessity for human performance.</strong>
           </p>
         </div>
 
@@ -36,8 +36,8 @@ const About = () => (
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-12 border-t border-white/5 pt-12">
               <div className="space-y-4 group">
-                <div className="w-8 h-8 border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
-                  <Target className="w-4 h-4 text-white/30 group-hover:text-primary transition-colors" />
+                <div className="w-8 h-8 border border-primary lg:border-white/10 flex items-center justify-center lg:group-hover:border-primary transition-colors">
+                  <Target className="w-4 h-4 text-primary lg:text-white/30 lg:group-hover:text-primary transition-colors" />
                 </div>
                 <h3 className="font-display text-xl font-black uppercase text-white">Our Philosophy</h3>
                 <p className="text-sm font-light text-white/60 leading-relaxed">
@@ -45,8 +45,8 @@ const About = () => (
                 </p>
               </div>
               <div className="space-y-4 group">
-                <div className="w-8 h-8 border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
-                  <ShieldCheck className="w-4 h-4 text-white/30 group-hover:text-primary transition-colors" />
+                <div className="w-8 h-8 border border-primary lg:border-white/10 flex items-center justify-center lg:group-hover:border-primary transition-colors">
+                  <ShieldCheck className="w-4 h-4 text-primary lg:text-white/30 lg:group-hover:text-primary transition-colors" />
                 </div>
                 <h3 className="font-display text-xl font-black uppercase text-white">Our Vision</h3>
                 <p className="text-sm font-light text-white/60 leading-relaxed">
@@ -63,6 +63,10 @@ const About = () => (
                     <img
                       src="/Founder-1.jpeg"
                       alt="Adipta Kedia"
+                      width={640}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
@@ -82,6 +86,10 @@ const About = () => (
                     <img
                       src="/Founder-2.jpeg"
                       alt="Dissha K Kedia"
+                      width={640}
+                      height={800}
+                      loading="lazy"
+                      decoding="async"
                       className="h-full w-full object-cover object-center"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />

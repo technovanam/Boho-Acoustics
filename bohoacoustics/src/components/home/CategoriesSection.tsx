@@ -36,8 +36,11 @@ const CategoriesSection = () => (
             <img
               src={cat.img}
               alt={`${cat.title} acoustic solutions`}
+              width={1200}
+              height={750}
+              loading={cat.title === "Home Theatre" ? "eager" : "lazy"}
+              decoding="async"
               className="w-full h-full object-cover transition-all duration-700 grayscale-[0.3] group-hover:grayscale-0 group-hover:scale-105"
-              loading="lazy"
             />
             
             {/* Dark Overlay */}

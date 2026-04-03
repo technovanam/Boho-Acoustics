@@ -1,5 +1,7 @@
 {
-  "projects": {},
+  "projects": {
+    "boho": "boho-acoustics"
+  },
   "targets": {},
   "etags": {}
 }

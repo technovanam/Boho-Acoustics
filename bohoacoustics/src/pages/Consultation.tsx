@@ -4,20 +4,19 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, Upload } from "lucide-react";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { db } from "@/lib/firebase";
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { functions } from "@/lib/firebase";
+import { httpsCallable } from "firebase/functions";
 
 const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const navigate = useNavigate();
+  const [facilityType, setFacilityType] = useState("");
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file && file.size > 1024 * 1024) {
-      toast.error("FILE EXCEEDS DB LIMIT (1MB). PLEASE UPLOAD A SMALLER VERSION.");
+    if (file && file.size > 700 * 1024) {
+      toast.error("FILE TOO LARGE FOR FIRESTORE. PLEASE KEEP IT UNDER 700KB.");
       e.target.value = "";
       return;
     }
@@ -36,17 +35,18 @@ const Consultation = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setSubmitting(true);
+    const form = e.currentTarget;
     
-    const formData = new FormData(e.currentTarget);
-    const data: any = {
+    const formData = new FormData(form);
+    const data = {
       name: formData.get("name"),
+      email: formData.get("email"),
       contact: formData.get("contact"),
       city: formData.get("city"),
       state: formData.get("state"),
-      facilityType: formData.get("facilityType"),
+      facilityType,
       area: formData.get("area"),
       notes: formData.get("notes"),
-      timestamp: serverTimestamp(),
       fileBase64: "",
       fileName: selectedFile?.name || "",
     };
@@ -56,12 +56,13 @@ const Consultation = () => {
         data.fileBase64 = await fileToBase64(selectedFile);
       }
 
-      await addDoc(collection(db, "consultations"), data);
+      const submitConsultation = httpsCallable(functions, "submitConsultation");
+      await submitConsultation(data);
       
       toast.success("TECHNICAL REQUEST RECEIVED. WE WILL RESPOND SHORTLY.");
-      e.currentTarget.reset();
+      form.reset();
       setSelectedFile(null);
-      navigate("/admin");
+      setFacilityType("");
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("ERROR SUBMITTING REQUEST. PLEASE TRY AGAIN.");
@@ -104,8 +105,15 @@ const Consultation = () => {
                     <Input name="name" required placeholder="JOHN DOE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Contact Preference</label>
-                    <Input name="contact" required placeholder="EMAIL OR PHONE" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email Address</label>
+                    <Input type="email" name="email" required placeholder="YOU@DOMAIN.COM" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 mt-6">
+                  <div>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Contact Number</label>
+                    <Input name="contact" required placeholder="PHONE NUMBER" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 uppercase text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
                 
@@ -130,7 +138,7 @@ const Consultation = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type</label>
-                    <Select name="facilityType" required>
+                    <Select value={facilityType} onValueChange={setFacilityType} required>
                       <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white uppercase text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
                         <SelectValue placeholder="SELECT ENVIRONMENT" />
                       </SelectTrigger>
@@ -143,6 +151,7 @@ const Consultation = () => {
                         <SelectItem value="other" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Other</SelectItem>
                       </SelectContent>
                     </Select>
+                    <input type="hidden" name="facilityType" value={facilityType} />
                   </div>
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
@@ -164,7 +173,7 @@ const Consultation = () => {
                   <input
                     id="consultation-file-upload"
                     type="file"
-                    accept=".pdf,image/*,.doc,.docx"
+                    accept=".pdf"
                     onChange={handleFileChange}
                     className="sr-only"
                   />

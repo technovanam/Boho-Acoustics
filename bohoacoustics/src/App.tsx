@@ -26,9 +26,11 @@ import Footer from "./components/Footer";
 const queryClient = new QueryClient();
 
 const AppContent = () => {
-  const { pathname } = useLocation();
+  const { pathname, search } = useLocation();
+  const searchParams = new URLSearchParams(search);
 
   const isAdmin = pathname === "/admin";
+  const hasAdminAccess = searchParams.get("access") === "boho-acoustics-access";
 
   return (
     <TooltipProvider>
@@ -55,7 +57,10 @@ const AppContent = () => {
             <Route path="/consultation" element={<Consultation />} />
             <Route path="/blog" element={<Blog />} />
             <Route path="/blog/:id" element={<BlogPost />} />
-            <Route path="/admin" element={<Admin />} />
+            <Route
+              path="/admin"
+              element={hasAdminAccess ? <Admin /> : <NotFound />}
+            />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </motion.div>

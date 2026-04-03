@@ -269,7 +269,7 @@ const FloatingDbMeter = () => {
                 type="button"
                 onClick={handleClose}
                 aria-label="Close dB meter"
-                className="p-2 text-white/50 transition-colors hover:text-white"
+                className="flex h-11 w-11 items-center justify-center rounded-full p-0 text-white/50 transition-colors hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -332,7 +332,7 @@ const FloatingDbMeter = () => {
               <button
                 type="button"
                 onClick={handleClose}
-                className="border-t border-r border-white/10 py-6 text-xs font-bold tracking-widest text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all"
+                className="border-t border-r border-white/10 py-6 min-h-12 text-xs font-bold tracking-widest text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-inset"
               >
                 Close
               </button>
@@ -340,7 +340,7 @@ const FloatingDbMeter = () => {
                 type="button"
                 onClick={startMonitoring}
                 disabled={requestingMic || isRunning}
-                className="border-t border-white/10 py-6 text-xs font-bold tracking-widest text-primary-foreground bg-primary uppercase hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-3"
+                className="border-t border-white/10 py-6 min-h-12 text-xs font-bold tracking-widest text-primary-foreground bg-primary uppercase hover:opacity-90 disabled:opacity-50 transition-all flex items-center justify-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-inset"
               >
                 {isRunning ? <div className="w-2 h-2 rounded-full bg-white animate-pulse" /> : <Mic className="h-4 w-4" />}
                 {requestingMic ? "Requesting..." : isRunning ? "Monitoring" : "Initiate Meter"}
@@ -367,7 +367,8 @@ const FloatingDbMeter = () => {
                 <button
                   type="button"
                   onClick={dismissNoisePopup}
-                  className="p-2 text-white/50 hover:text-white transition-colors"
+                  aria-label="Close noise alert"
+                  className="flex h-11 w-11 items-center justify-center rounded-full p-0 text-white/50 hover:text-white transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-offset-2 focus-visible:ring-offset-background"
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -388,14 +389,14 @@ const FloatingDbMeter = () => {
               <button
                 type="button"
                 onClick={dismissNoisePopup}
-                className="border-t border-r border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all"
+                className="border-t border-r border-white/10 py-6 min-h-12 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-inset"
               >
                 Dismiss Assessment
               </button>
               <Link
                 to="/consultation"
                 onClick={dismissNoisePopup}
-                className="border-t border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-primary-foreground bg-primary uppercase hover:opacity-90 transition-all text-center flex items-center justify-center"
+                className="border-t border-white/10 py-6 min-h-12 text-[10px] font-bold tracking-[0.2em] text-primary-foreground bg-primary uppercase hover:opacity-90 transition-all text-center flex items-center justify-center focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/60 focus-visible:ring-inset"
               >
                 Book Diagnostic View
               </Link>

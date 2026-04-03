@@ -62,7 +62,7 @@ const Solutions = () => (
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 lg:gap-24 items-start">
                 {/* Image Section - Sharp */}
                 <div className={`relative aspect-[16/10] overflow-hidden border border-white/10 ${i % 2 !== 0 ? "lg:order-2" : ""}`}>
-                  <img src={s.img} alt={s.title} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" loading="lazy" />
+                  <img src={s.img} alt={s.title} width={1600} height={1000} className="w-full h-full object-cover grayscale-[0.3] group-hover:grayscale-0 transition-transform duration-700 group-hover:scale-105" loading="lazy" decoding="async" />
                   <div className="absolute top-0 left-0 bg-primary/90 text-primary-foreground text-[10px] tracking-widest font-black px-4 py-2 uppercase">
                     {s.tag}
                   </div>

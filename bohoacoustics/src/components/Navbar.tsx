@@ -36,6 +36,10 @@ const Navbar = () => {
           <img 
             src="/logo.png" 
             alt="Boho Acoustics Logo" 
+            width={160}
+            height={48}
+            loading="eager"
+            decoding="async"
             className="h-10 w-auto lg:h-12 object-contain group-hover:opacity-80 transition-opacity"
           />
         </Link>
@@ -71,6 +75,8 @@ const Navbar = () => {
         {/* Mobile Toggle */}
         <button
           onClick={() => setMobileOpen(!mobileOpen)}
+          aria-label={mobileOpen ? "Close navigation menu" : "Open navigation menu"}
+          aria-expanded={mobileOpen}
           className="lg:hidden text-white/90 p-2 transition-colors duration-300 hover:text-white"
         >
           {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
