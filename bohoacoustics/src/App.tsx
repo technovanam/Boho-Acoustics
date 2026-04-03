@@ -24,8 +24,6 @@ const BlogPost = lazy(() => import("./pages/BlogPost"));
 const NotFound = lazy(() => import("./pages/NotFound"));
 const Admin = lazy(() => import("./pages/Admin"));
 const SeoLocationPage = lazy(() => import("./pages/SeoLocationPage"));
-const Resources = lazy(() => import("./pages/Resources"));
-const CaseStudy = lazy(() => import("./pages/CaseStudy"));
 
 const queryClient = new QueryClient();
 const SITE_URL = "https://bohoacoustic.com";
@@ -107,22 +105,6 @@ const getSeoForPath = (pathname: string): SeoConfig => {
     };
   }
 
-  if (pathname === "/resources") {
-    return {
-      title: "Acoustic Resources, Guest Posts & Insights | Boho Acoustics",
-      description: "Use Boho Acoustics resources for backlinks, editorial collaboration, and growth-focused acoustic content strategy.",
-      canonicalPath: "/resources",
-    };
-  }
-
-  if (pathname === "/case-studies") {
-    return {
-      title: "Acoustic Case Studies In India (2026 Expert Projects) | Boho Acoustics",
-      description: "Review real project outcomes from Mumbai, Pune, Bangalore, Chennai, and Hyderabad acoustic implementations.",
-      canonicalPath: "/case-studies",
-    };
-  }
-
   if (pathname === "/admin") {
     return {
       title: "Admin Portal | Boho Acoustics",
@@ -200,8 +182,6 @@ const AppContent = () => {
               <Route path="/consultation" element={<Consultation />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/case-studies" element={<CaseStudy />} />
 
               {SEO_ROUTE_CONFIGS.map((route) => (
                 <Route

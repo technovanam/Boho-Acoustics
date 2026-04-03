@@ -138,17 +138,17 @@ const BlogPost = () => {
             <section className="border border-white/10 p-8 lg:p-10 bg-black">
               <h3 className="font-display text-3xl font-black tracking-tight uppercase mb-3 text-white">Continue Your Research</h3>
               <p className="text-white/65 mb-6 leading-relaxed">
-                Move from education to implementation with technical service guidance, project case studies, and consultation support.
+                Move from education to implementation with technical service guidance, solution pathways, and consultation support.
               </p>
               <div className="flex flex-wrap gap-3">
                 <Link to="/services" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
                   Services <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link to="/resources" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
-                  Resources <ArrowRight className="w-3 h-3" />
+                <Link to="/solutions" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
+                  Solutions <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link to="/case-studies" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
-                  Case Studies <ArrowRight className="w-3 h-3" />
+                <Link to="/about" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
+                  About <ArrowRight className="w-3 h-3" />
                 </Link>
                 <Link to="/consultation" className="inline-flex items-center gap-2 gradient-gold text-primary-foreground px-4 py-3 text-xs uppercase tracking-widest font-black hover:opacity-90 transition-opacity">
                   Consultation <ArrowRight className="w-3 h-3" />

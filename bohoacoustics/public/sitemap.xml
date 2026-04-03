@@ -30,16 +30,6 @@
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://bohoacoustic.com/resources</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://bohoacoustic.com/case-studies</loc>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
     <loc>https://bohoacoustic.com/acoustic-consultant-india</loc>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
@@ -545,4 +535,3 @@
     <priority>0.8</priority>
   </url>
 </urlset>
-

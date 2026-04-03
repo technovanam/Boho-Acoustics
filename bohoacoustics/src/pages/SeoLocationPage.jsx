@@ -296,12 +296,12 @@ const SeoLocationPage = ({ city, state, service, keyword, nearbyAreas = [], regi
                   Blog
                   <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link to="/resources" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
-                  Resources
+                <Link to="/solutions" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
+                  Solutions
                   <ArrowRight className="w-3 h-3" />
                 </Link>
-                <Link to="/case-studies" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
-                  Case Studies
+                <Link to="/about" className="inline-flex items-center gap-2 border border-white/15 px-4 py-3 text-xs uppercase tracking-widest font-bold text-white/85 hover:text-white hover:border-primary/50 transition-colors">
+                  About
                   <ArrowRight className="w-3 h-3" />
                 </Link>
               </div>

@@ -63,28 +63,6 @@ const Blog = () => (
           ))}
         </div>
 
-        <div className="mt-24 border border-white/10 p-12 lg:p-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-between gap-8">
-          <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 blur-[80px]" />
-          <div>
-            <h3 className="font-display text-4xl font-black tracking-tighter uppercase mb-4 leading-tight">
-              Explore Resources <br />
-              <span className="text-primary italic">And Case Studies</span>
-            </h3>
-            <p className="text-white/60 text-sm max-w-sm">Use our resource stack and project breakdowns to choose the right acoustic direction faster.</p>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
-            <Link to="/resources" className="w-full sm:w-auto">
-              <button className="w-full h-14 px-8 border border-white/10 text-white text-xs uppercase tracking-widest font-black hover:border-primary/40 hover:text-primary transition-colors">
-                RESOURCES
-              </button>
-            </Link>
-            <Link to="/case-studies" className="w-full sm:w-auto">
-              <button className="w-full h-14 px-8 gradient-gold text-primary-foreground text-xs uppercase tracking-widest font-black hover:opacity-90 transition-opacity">
-                CASE STUDIES
-              </button>
-            </Link>
-          </div>
-        </div>
       </div>
     </section>
   </div>
