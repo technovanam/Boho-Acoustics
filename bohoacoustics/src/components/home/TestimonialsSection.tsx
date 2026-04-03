@@ -24,7 +24,7 @@ const TestimonialsSection = () => (
       <div className="max-w-4xl mb-24 text-left">
         <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">TESTIMONIALS</p>
         <h2 className="font-display text-[10vw] sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter mb-6">
-          Client <span className="text-white/20 italic font-light">Experiences</span>
+          Client <span className="text-primary italic font-light">Experiences</span>
         </h2>
         <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed max-w-xl">
           We pride ourselves on measurable satisfaction. Here is what leading architects and private homeowners have to say about our acoustic engineering.
@@ -57,7 +57,7 @@ const TestimonialsSection = () => (
                   <p className="font-display font-black text-lg tracking-tight group-hover:text-primary transition-colors">
                     {t.name}
                   </p>
-                  <p className="text-white/30 text-[9px] tracking-[0.2em] font-bold uppercase transition-colors group-hover:text-white/50">
+                  <p className="text-white/45 text-[9px] tracking-[0.2em] font-bold uppercase transition-colors group-hover:text-white/70">
                     {t.role}
                   </p>
                 </div>

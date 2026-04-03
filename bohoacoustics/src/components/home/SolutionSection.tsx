@@ -62,7 +62,7 @@ const SolutionSection = () => (
         <div className="max-w-2xl">
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">Methodology</p>
           <h2 className="font-display text-5xl sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter">
-            Our <span className="text-white/40">Process</span>
+            Our <span className="text-primary">Process</span>
           </h2>
         </div>
         <div className="max-w-xl w-1/3">
@@ -103,14 +103,14 @@ const SolutionSection = () => (
                     <span className="font-display text-4xl font-black text-primary/30 group-hover:text-primary/60 transition-colors duration-500">
                       {s.number}
                     </span>
-                    <s.icon className="w-5 h-5 text-white/40 group-hover:text-primary transition-colors duration-500" />
+                    <s.icon className="w-5 h-5 text-white/60 group-hover:text-primary transition-colors duration-500" />
                   </div>
 
                   <h3 className="font-display text-xl font-bold mb-4 tracking-wider text-white/90 group-hover:text-primary transition-colors duration-300">
                     {s.title}
                   </h3>
                   
-                  <p className="text-white/50 text-sm font-light leading-relaxed normal-case mb-12 group-hover:text-white/75 transition-colors duration-300">
+                  <p className="text-white/65 text-sm font-light leading-relaxed normal-case mb-12 group-hover:text-white/85 transition-colors duration-300">
                     {s.desc}
                   </p>
 
@@ -126,7 +126,7 @@ const SolutionSection = () => (
               <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[60px]" />
               <div className="p-8 lg:p-12 relative z-10">
                 <div className="flex items-center gap-4 mb-6">
-                  <span className="text-[10px] font-black text-white/20 tracking-widest">{s.number}</span>
+                  <span className="text-[10px] font-black text-white/40 tracking-widest">{s.number}</span>
                   <div className="h-[1px] w-8 bg-primary"></div>
                 </div>
                 <DialogHeader>

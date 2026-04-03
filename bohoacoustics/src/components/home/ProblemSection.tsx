@@ -32,9 +32,8 @@ const ProblemSection = () => (
       <div className="max-w-4xl mb-24 text-left">
           <span className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">THE INVISIBLE BARRIER</span>
         <h2 className="font-display text-5xl sm:text-5xl md:text-6xl lg:text-[5rem] font-bold mb-8 leading-[1.05] tracking-tighter text-balance">
-          Spaces built for <br /> 
-          <span className="text-white/20">eyes, </span> 
-          not for <span className="text-primary italic">ears.</span>
+          Spaces built for both <br /> 
+          <span className="text-primary">eyes</span> <span className="text-primary italic">and</span> <span className="text-primary italic">ears.</span>
         </h2>
         
         <p className="text-muted-foreground text-lg md:text-xl max-w-2xl leading-relaxed font-light">
@@ -54,9 +53,9 @@ const ProblemSection = () => (
             <div className="flex flex-col h-full uppercase">
               <div className="flex items-center justify-between mb-12">
                 <div className="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-primary/40 transition-colors">
-                  <p.icon className="w-5 h-5 text-white/30 group-hover:text-primary transition-colors" />
+                  <p.icon className="w-5 h-5 text-white/50 group-hover:text-primary transition-colors" />
                 </div>
-                <span className="text-[10px] tracking-[0.2em] font-bold text-white/20 group-hover:text-primary/60 transition-colors">
+                <span className="text-[10px] tracking-[0.2em] font-bold text-white/55 group-hover:text-primary/70 transition-colors">
                   {p.tag}
                 </span>
               </div>
@@ -71,7 +70,7 @@ const ProblemSection = () => (
 
               <Link to="/consultation" className="mt-auto flex items-center gap-2">
                 <div className="h-[1px] w-4 bg-white/20 group-hover:w-8 group-hover:bg-primary transition-all underline-offset-4" />
-                <span className="text-[9px] tracking-widest font-black text-white/20 group-hover:text-primary">ACT NOW</span>
+                <span className="text-[9px] tracking-widest font-black text-white/55 group-hover:text-primary">ACT NOW</span>
               </Link>
             </div>
           </div>

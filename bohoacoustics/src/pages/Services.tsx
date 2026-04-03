@@ -45,7 +45,7 @@ const Services = () => (
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">OUR SERVICES</p>
           <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             Engineering <br />
-            <span className="text-white/20 italic font-light">The Perfect Sound</span>
+            <span className="text-primary italic font-light">The Perfect Sound</span>
           </h1>
           <p className="text-muted-foreground text-lg lg:text-xl font-light leading-relaxed max-w-2xl">
             From initial consultation to final performance measurements — we provide the end-to-end scientific framework for flawless acoustics.
@@ -66,7 +66,7 @@ const Services = () => (
                     {s.number}
                   </span>
                   <div className="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
-                    <s.icon className="w-5 h-5 text-white/30 group-hover:text-primary transition-colors" />
+                    <s.icon className="w-5 h-5 text-white/50 group-hover:text-primary transition-colors" />
                   </div>
                 </div>
 
@@ -106,7 +106,7 @@ const Services = () => (
               Ready to begin <br />
               <span className="text-primary italic">Treatment?</span>
             </h3>
-            <p className="text-white/40 text-sm max-w-sm">
+            <p className="text-white/60 text-sm max-w-sm">
               Connect with our lead engineer for a no-obligation technical diagnostic of your space.
             </p>
           </div>

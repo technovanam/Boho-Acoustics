@@ -45,7 +45,7 @@ const Blog = () => (
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">INSIGHTS & DATA</p>
           <h1 className="font-display text-4xl lg:text-[5.5rem] font-bold leading-[1.1] tracking-tighter mb-8">
             The Science <br />
-            <span className="text-white/20 italic font-light">Of Acoustics</span>
+            <span className="text-primary italic font-light">Of Acoustics</span>
           </h1>
           <p className="text-muted-foreground text-lg lg:text-xl font-light leading-relaxed max-w-2xl">
             Deep dives into architectural physics, material science, and the engineering of perfect sound environments.
@@ -63,7 +63,7 @@ const Blog = () => (
                 <div className="space-y-8">
                   <div className="flex items-center justify-between">
                     <span className="text-[10px] font-black text-primary tracking-[0.2em]">{post.category}</span>
-                    <span className="text-[10px] font-black text-white/20 tracking-widest">{post.id}</span>
+                    <span className="text-[10px] font-black text-white/40 tracking-widest">{post.id}</span>
                   </div>
                   
                   <h2 className="font-display text-2xl lg:text-3xl font-black uppercase tracking-tight group-hover:text-primary transition-colors leading-tight">
@@ -78,12 +78,12 @@ const Blog = () => (
                 <div className="pt-12 flex items-center justify-between border-t border-white/5 mt-12">
                   <div className="flex items-center gap-6">
                     <div className="flex items-center gap-2">
-                      <Clock className="w-3 h-3 text-white/20" />
-                      <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">{post.readTime}</span>
+                      <Clock className="w-3 h-3 text-white/40" />
+                      <span className="text-[9px] font-bold text-white/50 tracking-widest uppercase">{post.readTime}</span>
                     </div>
                     <div className="flex items-center gap-2">
-                      <BookOpen className="w-3 h-3 text-white/20" />
-                      <span className="text-[9px] font-bold text-white/30 tracking-widest uppercase">{post.date}</span>
+                      <BookOpen className="w-3 h-3 text-white/40" />
+                      <span className="text-[9px] font-bold text-white/50 tracking-widest uppercase">{post.date}</span>
                     </div>
                   </div>
                   <ArrowRight className="w-5 h-5 text-white/10 group-hover:text-primary group-hover:translate-x-2 transition-all" />
@@ -103,7 +103,7 @@ const Blog = () => (
               Request Technical <br />
               <span className="text-primary italic">Papers</span>
             </h3>
-            <p className="text-white/40 text-sm max-w-sm">
+            <p className="text-white/60 text-sm max-w-sm">
               Detailed case studies and technical performance documentation for architects and engineering firms.
             </p>
           </div>
