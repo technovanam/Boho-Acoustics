@@ -10,7 +10,7 @@ const About = () => (
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">OUR STORY</p>
           <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             The Science Of <br />
-            <span className="text-white/20 italic font-light">Sound & Space</span>
+            <span className="text-primary italic font-light">Sound & Space</span>
           </h1>
           <p className="text-muted-foreground text-lg lg:text-xl font-light leading-relaxed max-w-2xl">
             Boho Acoustics was founded on a simple principle: **Acoustics is not an add-on. It's a fundamental necessity for human performance.**
@@ -39,53 +39,59 @@ const About = () => (
                 <div className="w-8 h-8 border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
                   <Target className="w-4 h-4 text-white/30 group-hover:text-primary transition-colors" />
                 </div>
-                <h3 className="font-display text-xl font-black uppercase text-white">Our Vision</h3>
-                <p className="text-sm font-light text-white/40 leading-relaxed">
-                  To become India's most trusted acoustic solution brand — known for scientific excellence and design-forward thinking.
+                <h3 className="font-display text-xl font-black uppercase text-white">Our Philosophy</h3>
+                <p className="text-sm font-light text-white/60 leading-relaxed">
+                  Noise affects how we think, feel, and perform. Every Boho design balances silence and style, creating spaces where people focus, relax, and thrive.
                 </p>
               </div>
               <div className="space-y-4 group">
                 <div className="w-8 h-8 border border-white/10 flex items-center justify-center group-hover:border-primary transition-colors">
                   <ShieldCheck className="w-4 h-4 text-white/30 group-hover:text-primary transition-colors" />
                 </div>
-                <h3 className="font-display text-xl font-black uppercase text-white">Our Promise</h3>
-                <p className="text-sm font-light text-white/40 leading-relaxed">
-                  Predictable acoustic performance. Every project. Every time. Measured, verified, and guaranteed.
+                <h3 className="font-display text-xl font-black uppercase text-white">Our Vision</h3>
+                <p className="text-sm font-light text-white/60 leading-relaxed">
+                  To redefine interior comfort by making acoustics an essential part of modern design — helping people live, work, and create in spaces that feel as good as they sound.
                 </p>
               </div>
             </div>
 
             <div className="space-y-16 pt-16 border-t border-white/5">
-              <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">FOUNDER'S DUO</h2>
+              <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">FOUNDERS</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
                 <div className="space-y-8">
-                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/10 uppercase tracking-widest">
-                      Founder Profile
-                    </div>
-                    {/* Founder image will go here */}
+                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+                    <img
+                      src="/Founder-1.jpeg"
+                      alt="Adipta Kedia"
+                      className="h-full w-full object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Founder Name</h3>
-                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Managing Director & Technical Lead</p>
-                    <p className="text-sm font-light text-white/50 leading-relaxed">
-                      Transitioning from a precise analytical background in finance, [Founder Name] applied the same rigour to the world of physics and acoustics. Driven by the philosophy that sound quality is a fundamental human right in the built environment.
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Adipta Kedia</h3>
+                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Founder</p>
+                    <p className="text-sm font-light text-white/65 leading-relaxed">
+                      The creative spark behind Boho Acoustics, Adipta brings a bold eye for presentation and a constant drive to learn, refine, and reimagine what a space can feel like. He pushes boundaries with fresh ideas and purposeful execution, turning every project into a memorable experience.
                     </p>
                   </div>
                 </div>
 
                 <div className="space-y-8">
-                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden">
-                    <div className="absolute inset-0 flex items-center justify-center text-[10px] text-white/10 uppercase tracking-widest">
-                      Founder Profile
-                    </div>
-                    {/* Founder image will go here */}
+                  <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
+                    <img
+                      src="/Founder-2.jpeg"
+                      alt="Dissha K Kedia"
+                      className="h-full w-full object-cover object-center"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/65 via-transparent to-primary/15 opacity-70 transition-opacity duration-500 group-hover:opacity-100" />
+                    <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Founder Name</h3>
-                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Co-Founder & Head of Operations</p>
-                    <p className="text-sm font-light text-white/50 leading-relaxed">
-                      With a deep focus on design integration and material innovation, [Founder Name] ensures that Boho's acoustic engineering is seamlessly woven into the architectural fabric of every project. Bridging the gap between physics and aesthetics.
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Dissha K Kedia</h3>
+                    <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Founder</p>
+                    <p className="text-sm font-light text-white/65 leading-relaxed">
+                      The heartbeat of Boho Acoustics, Dissha is focused on transforming transactions into experiences and products into stories. Guided by innovation and a relentless commitment to customer delight, she brings warmth, clarity, and intention to every interaction.
                     </p>
                   </div>
                 </div>
@@ -99,15 +105,15 @@ const About = () => (
               <div className="space-y-6">
                 <div>
                   <span className="text-3xl font-display font-black text-white block">100%</span>
-                  <span className="text-[9px] text-white/30 uppercase tracking-widest">Performance Guarantee</span>
+                  <span className="text-[9px] text-white/50 uppercase tracking-widest">Performance Guarantee</span>
                 </div>
                 <div>
                   <span className="text-3xl font-display font-black text-white block">40%</span>
-                  <span className="text-[9px] text-white/30 uppercase tracking-widest">Avg. Productivity Increase</span>
+                  <span className="text-[9px] text-white/50 uppercase tracking-widest">Avg. Productivity Increase</span>
                 </div>
                 <div>
                   <span className="text-3xl font-display font-black text-white block">PAN-INDIA</span>
-                  <span className="text-[9px] text-white/30 uppercase tracking-widest">Service Delivery Network</span>
+                  <span className="text-[9px] text-white/50 uppercase tracking-widest">Service Delivery Network</span>
                 </div>
               </div>
             </div>
