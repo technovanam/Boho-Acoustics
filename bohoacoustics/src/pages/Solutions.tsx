@@ -49,7 +49,7 @@ const Solutions = () => (
           <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">SOLUTIONS BY SPACE</p>
           <h1 className="font-display text-[10vw] sm:text-5xl lg:text-[5.5rem] font-bold leading-[1.05] tracking-tighter mb-8">
             Tailored <br />
-            <span className="text-white/20 italic font-light">Acoustic Performance</span>
+            <span className="text-primary italic font-light">Acoustic Performance</span>
           </h1>
           <p className="text-muted-foreground text-lg lg:text-xl font-light leading-relaxed max-w-2xl">
             Every environment presents unique acoustic variables. We don't use templates — we engineer bespoke systems for measurable results.
@@ -85,8 +85,8 @@ const Solutions = () => (
                       </div>
                       <ul className="space-y-3">
                         {s.problems.map((p) => (
-                          <li key={p} className="text-sm font-light text-white/40 flex items-start gap-3">
-                            <span className="text-destructive/40 mt-1">•</span> {p}
+                          <li key={p} className="text-sm font-light text-white/60 flex items-start gap-3">
+                            <span className="text-destructive/60 mt-1">•</span> {p}
                           </li>
                         ))}
                       </ul>
@@ -108,7 +108,7 @@ const Solutions = () => (
                   </div>
 
                   <div className="border border-white/5 p-8 bg-white/[0.01] hover:bg-white/[0.03] transition-colors">
-                    <p className="text-[10px] text-white/30 tracking-[0.2em] font-bold uppercase mb-2">Measured Outcome</p>
+                    <p className="text-[10px] text-white/50 tracking-[0.2em] font-bold uppercase mb-2">Measured Outcome</p>
                     <p className="text-lg font-display font-medium text-white group-hover:text-primary transition-colors">
                       {s.improvement}
                     </p>
@@ -125,7 +125,7 @@ const Solutions = () => (
               Predictable <span className="text-primary">Performance</span> <br /> 
               Guaranteed.
             </h3>
-            <p className="text-muted-foreground text-sm font-light leading-relaxed max-w-sm">
+            <p className="text-white/60 text-sm font-light leading-relaxed max-w-sm">
               Stop guessing and start measuring. Our engineers are ready to solve your space's unique acoustic variables.
             </p>
           </div>

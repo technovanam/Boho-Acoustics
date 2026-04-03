@@ -109,7 +109,7 @@ const BlogPost = () => {
               <div className="flex items-center gap-3">
                 <span className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold">{post.category}</span>
                 <span className="w-1 h-1 bg-white/20 rounded-full" />
-                <span className="text-white/30 text-[10px] tracking-widest uppercase font-bold">{post.date}</span>
+                <span className="text-white/50 text-[10px] tracking-widest uppercase font-bold">{post.date}</span>
               </div>
             </div>
 
@@ -124,19 +124,19 @@ const BlogPost = () => {
                     {post.author[0]}
                   </div>
                   <div>
-                    <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold uppercase mb-1">Author</p>
+                    <p className="text-[9px] text-white/50 tracking-[0.2em] font-bold uppercase mb-1">Author</p>
                     <p className="text-sm font-medium text-white">{post.author}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-4">
-                  <Clock className="w-4 h-4 text-white/20" />
+                  <Clock className="w-4 h-4 text-white/40" />
                   <div>
-                    <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold uppercase mb-1">Read Time</p>
+                    <p className="text-[9px] text-white/50 tracking-[0.2em] font-bold uppercase mb-1">Read Time</p>
                     <p className="text-sm font-medium text-white">{post.readTime}</p>
                   </div>
                 </div>
               </div>
-              <button className="flex items-center gap-3 text-white/30 hover:text-primary transition-colors py-2 group">
+              <button className="flex items-center gap-3 text-white/50 hover:text-primary transition-colors py-2 group">
                 <Share2 className="w-4 h-4" />
                 <span className="text-[10px] font-bold tracking-[0.2em] uppercase group-hover:tracking-[0.3em] transition-all">Share Insight</span>
               </button>
@@ -162,7 +162,7 @@ const BlogPost = () => {
                     Applied Science <br />
                     <span className="text-primary italic">In Your Space</span>
                   </h4>
-                  <p className="text-white/40 text-sm leading-relaxed max-w-sm">
+                  <p className="text-white/60 text-sm leading-relaxed max-w-sm">
                     Don't just read about acoustics—experience perfect sound. Our team is ready to analyze your space.
                   </p>
                 </div>
