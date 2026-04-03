@@ -29,7 +29,7 @@ const ProblemSection = () => (
     <div className="absolute top-0 left-0 w-px h-full bg-white/[0.03] -z-10" />
 
     <div className="container mx-auto px-6 lg:px-12 relative z-10">
-      <div className="max-w-4xl mb-24 text-left">
+      <div className="max-w-4xl mb-16 md:mb-24 text-left">
           <span className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">THE INVISIBLE BARRIER</span>
         <h2 className="font-display text-5xl sm:text-5xl md:text-6xl lg:text-[5rem] font-bold mb-8 leading-[1.05] tracking-tighter text-balance">
           Spaces built for both <br /> 
@@ -41,17 +41,17 @@ const ProblemSection = () => (
         </p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-3 border-t border-white/10">
+      <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 border-t border-white/10">
         {problems.map((p) => (
           <div
             key={p.title}
-            className="group relative p-12 border-r border-b lg:border-b-0 border-white/10 transition-colors duration-500 hover:bg-white/[0.01]"
+            className="group relative p-8 lg:p-12 border-r border-b lg:border-b-0 border-white/10 transition-colors duration-500 hover:bg-white/[0.01]"
           >
             {/* Top Indicator Line */}
             <div className="absolute top-0 left-0 w-12 h-px bg-primary/20 group-hover:bg-primary transition-colors" />
 
             <div className="flex flex-col h-full uppercase">
-              <div className="flex items-center justify-between mb-12">
+              <div className="flex items-center justify-between mb-8 lg:mb-12">
                 <div className="w-10 h-10 border border-white/10 flex items-center justify-center group-hover:border-primary/40 transition-colors">
                   <p.icon className="w-5 h-5 text-white/50 group-hover:text-primary transition-colors" />
                 </div>
@@ -60,7 +60,7 @@ const ProblemSection = () => (
                 </span>
               </div>
 
-              <h3 className="font-display text-xl font-bold mb-6 tracking-wide group-hover:text-primary transition-colors">
+              <h3 className="font-display text-lg md:text-xl font-bold mb-6 tracking-wide group-hover:text-primary transition-colors">
                 {p.title}
               </h3>
               

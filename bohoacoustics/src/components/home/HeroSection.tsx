@@ -51,7 +51,7 @@ const HeroSection = () => {
   }, []);
 
   return (
-    <section className="relative h-screen flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative min-h-[100svh] flex items-center justify-center overflow-hidden bg-black">
       {/* Background Slideshow — Animated Cross-Fade & Ken Burns */}
       <div className="absolute inset-0 z-0">
         <AnimatePresence mode="wait">
@@ -83,7 +83,7 @@ const HeroSection = () => {
       </div>
 
       {/* Content — Centered with refined spacing */}
-      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-40 lg:pt-44">
+      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 pb-20 sm:pb-24 md:pb-20 flex flex-col items-center text-center pt-16 sm:pt-24 md:pt-40 lg:pt-44">
 
         {/* Label — Premium Spacing */}
         <motion.div
@@ -92,11 +92,34 @@ const HeroSection = () => {
           transition={{ delay: 0.5, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="mb-6 flex items-center gap-4"
         >
-          <div className="h-[1px] w-8 bg-gradient-to-r from-transparent to-[#d4af37]" />
-          <p className="gradient-gold-text font-medium text-[10px] md:text-xs tracking-[0.5em] uppercase">
-            {backgroundImages[currentBg].label}
-          </p>
-          <div className="h-[1px] w-8 bg-gradient-to-l from-transparent to-[#d4af37]" />
+          <motion.div
+            key={`label-left-${currentBg}`}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="h-[1px] w-8 origin-right bg-gradient-to-r from-transparent to-[#d4af37]"
+          />
+          <div className="relative h-4 md:h-5 overflow-hidden">
+            <AnimatePresence mode="wait" initial={false}>
+              <motion.p
+                key={backgroundImages[currentBg].label}
+                initial={{ opacity: 0, y: 12, filter: "blur(4px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{ opacity: 0, y: -12, filter: "blur(4px)" }}
+                transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1] }}
+                className="gradient-gold-text font-medium text-[10px] md:text-xs tracking-[0.5em] uppercase whitespace-nowrap"
+              >
+                {backgroundImages[currentBg].label}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+          <motion.div
+            key={`label-right-${currentBg}`}
+            initial={{ scaleX: 0, opacity: 0 }}
+            animate={{ scaleX: 1, opacity: 1 }}
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+            className="h-[1px] w-8 origin-left bg-gradient-to-l from-transparent to-[#d4af37]"
+          />
         </motion.div>
 
         {/* Main headline — Elegant Serif Mix */}
@@ -104,8 +127,8 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 40 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.7, duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
-          className="font-display font-medium leading-[1.1] mb-10
-                     text-5xl sm:text-6xl md:text-7xl lg:text-8xl tracking-tight text-balance max-w-5xl"
+          className="font-display font-medium leading-[1.08] mb-8 sm:mb-10
+                     text-4xl sm:text-5xl md:text-7xl lg:text-8xl tracking-tight text-balance max-w-5xl"
         >
           <span className="text-white font-light italic">Perfect</span> Sound, {" "}
           <span className="gradient-gold-text relative">
@@ -126,7 +149,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[#e5e5e5] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide text-balance"
+          className="text-[#e5e5e5] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-8 sm:mb-12 leading-relaxed font-light tracking-wide text-balance"
         >
           We design, supply & execute acoustic solutions — so you don't have to understand acoustics. We handle everything from diagnostics to final measurement.
         </motion.p>
@@ -136,12 +159,12 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.2, duration: 1, ease: [0.16, 1, 0.3, 1] }}
-          className="flex flex-col sm:flex-row gap-6 items-center justify-center mb-14 w-full"
+          className="flex flex-col sm:flex-row gap-4 sm:gap-6 items-center justify-center mb-10 sm:mb-14 w-full"
         >
           <Link to="/consultation" className="w-full sm:w-auto">
             <Button
               size="lg"
-              className="w-full sm:w-auto premium-gold-gradient shine-effect text-black font-semibold px-10 py-7 text-xs tracking-[0.2em] uppercase rounded-none hover:opacity-90 transition-all duration-500 shadow-2xl"
+              className="w-full sm:w-auto premium-gold-gradient shine-effect text-black font-semibold px-6 sm:px-10 py-5 sm:py-7 text-[10px] sm:text-xs tracking-[0.12em] sm:tracking-[0.2em] uppercase rounded-none hover:opacity-90 transition-all duration-500 shadow-2xl"
             >
               Book Consultation
               <ArrowRight className="ml-2 w-4 h-4" />
@@ -151,7 +174,7 @@ const HeroSection = () => {
             <Button
               size="lg"
               variant="outline"
-              className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-10 py-7 text-xs tracking-[0.2em] uppercase rounded-none backdrop-blur-md transition-all duration-500"
+              className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-6 sm:px-10 py-5 sm:py-7 text-[10px] sm:text-xs tracking-[0.08em] sm:tracking-[0.2em] normal-case sm:uppercase leading-relaxed text-center whitespace-normal rounded-none backdrop-blur-md transition-all duration-500"
             >
               Get a live acoustic test of your space
             </Button>
@@ -165,15 +188,15 @@ const HeroSection = () => {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 1.8, duration: 1.5 }}
-        className="absolute bottom-0 left-0 right-0 w-full overflow-hidden pb-4"
+        className="absolute z-20 bottom-2 sm:bottom-6 md:bottom-0 left-0 right-0 w-full overflow-hidden pb-4"
       >
-        <div className="marquee-track flex w-max items-center gap-10 whitespace-nowrap">
+        <div className="marquee-track flex w-max items-center gap-6 md:gap-10 whitespace-nowrap px-4 will-change-transform">
           {[...marqueeStats, ...marqueeStats].map((item, i) => (
-            <div key={`${item}-${i}`} className="flex items-center gap-10">
-              <p className="font-display text-2xl md:text-3xl font-light text-white/90 tracking-wide">
+            <div key={`${item}-${i}`} className="flex flex-none items-center gap-6 md:gap-10 shrink-0">
+              <p className="font-display text-base sm:text-lg md:text-3xl font-light text-white/90 tracking-wide whitespace-nowrap shrink-0">
                 {item}
               </p>
-              <span className="text-primary/70 text-sm">|</span>
+              <span className="text-primary/70 text-xs sm:text-sm shrink-0">|</span>
             </div>
           ))}
         </div>

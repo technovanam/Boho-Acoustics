@@ -11,7 +11,7 @@ const Footer = () => {
   return (
     <footer className="bg-black border-t border-white/10 pt-24 pb-12 lg:pt-32 lg:pb-16">
       <div className="container mx-auto px-6 lg:px-12">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-20 lg:gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14 md:gap-16 lg:gap-12">
           <div className="space-y-10">
             <div>
               <img 
@@ -19,7 +19,7 @@ const Footer = () => {
                 alt="Boho Acoustics Logo" 
                 className="h-12 w-auto object-contain mb-6 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all"
               />
-              <p className="text-white/60 text-sm whitespace-nowrap">
+              <p className="text-white/60 text-sm">
                 Science. Sound. Style.
               </p>
             </div>
@@ -75,20 +75,21 @@ const Footer = () => {
         </div>
 
           <div className="space-y-12">
-            <h4 className="text-[10px] tracking-[0.4em] font-black uppercase text-primary">DIRECT CONTACT</h4>
+            <h4 className="text-[10px] tracking-[0.3em] sm:tracking-[0.4em] font-black uppercase text-primary">DIRECT CONTACT</h4>
             <div className="flex flex-col gap-6">
               <div className="flex items-start gap-4">
                 <Mail className="w-4 h-4 text-primary mt-1" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Email Us</p>
-                  <a href="mailto:info@bohoacoustics.com" className="text-sm font-medium hover:text-primary transition-colors">info@bohoacoustics.com</a>
+                  <a href="mailto:hello@bohoacoustic.com" className="text-sm font-medium hover:text-primary transition-colors">hello@bohoacoustic.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Phone className="w-4 h-4 text-primary mt-1" />
                 <div>
                   <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Call Support</p>
-                  <a href="tel:+91" className="text-sm font-medium hover:text-primary transition-colors">+91 999 999 9999</a>
+                  <a href="tel:+918433900692" className="block text-sm font-medium hover:text-primary transition-colors">8433900692</a>
+                  <a href="tel:+919731150599" className="block text-sm font-medium hover:text-primary transition-colors">9731150599</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
@@ -102,13 +103,16 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] text-white/40 tracking-widest uppercase font-medium">
+        <div className="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
+          <p className="text-[10px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
             © 2026 Boho Acoustics. Scientific Acoustic Engineering.
           </p>
-          <div className="flex gap-8">
-            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Privacy Policy</a>
-            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Terms of Service</a>
+          <div className="flex flex-wrap items-center justify-center md:justify-end gap-5 sm:gap-8">
+            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-wider sm:tracking-widest transition-colors">Privacy Policy</a>
+            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-wider sm:tracking-widest transition-colors">Terms of Service</a>
+            <p className="text-[10px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
+              Developed by <a href="https://www.technovanam.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">Techno Vanam</a>
+            </p>
           </div>
         </div>
       </div>

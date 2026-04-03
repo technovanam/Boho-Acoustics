@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { ArrowRight, MessageSquare } from "lucide-react";
+import { ArrowRight } from "lucide-react";
+import WhatsAppContactChooser from "@/components/WhatsAppContactChooser";
 
 const CTASection = () => (
   <section className="py-10 lg:py-20 bg-zinc-950 border-t border-white/10 relative overflow-hidden">
@@ -34,23 +35,20 @@ const CTASection = () => (
             <Link to="/consultation" className="w-full">
               <Button 
                 size="lg" 
-                className="w-full h-20 gradient-gold text-primary-foreground font-black tracking-widest text-sm uppercase rounded-none hover:opacity-90 transition-all hover:translate-x-2"
+                className="w-full h-14 sm:h-16 px-6 sm:px-8 gradient-gold text-primary-foreground font-black tracking-[0.18em] text-[10px] sm:text-xs uppercase rounded-none hover:opacity-90 transition-all hover:translate-x-2"
               >
                 REQUEST DESIGN PLAN
-                <ArrowRight className="ml-4 w-5 h-5" />
+                <ArrowRight className="ml-3 w-4 h-4" />
               </Button>
             </Link>
             
-            <a href="https://wa.me/" target="_blank" rel="noopener noreferrer" className="w-full">
-              <Button 
-                size="lg" 
-                variant="outline" 
-                className="w-full h-20 border-white/10 text-white font-bold tracking-widest text-xs uppercase rounded-none hover:bg-white/5 hover:text-white transition-all hover:translate-x-2"
-              >
-                WHATSAPP EXPERT
-                <MessageSquare className="ml-4 w-4 h-4 opacity-40 group-hover:opacity-100" />
-              </Button>
-            </a>
+            <WhatsAppContactChooser
+              triggerLabel="WHATSAPP EXPERT"
+              triggerClassName="w-full h-full sm:h-16 px-6 sm:px-8 border-white/10 text-white font-bold tracking-[0.16em] text-[10px] sm:text-xs uppercase rounded-none hover:bg-white/5 hover:text-white transition-all hover:translate-x-2 [&>svg]:h-5 [&>svg]:w-5 lg:[&>svg]:h-6 lg:[&>svg]:w-6"
+              iconClassName="h-10 w-10 scale-[1.12] lg:scale-[1.18]"
+              icon
+              fullWidth
+            />
           </div>
         </div>
       </div>

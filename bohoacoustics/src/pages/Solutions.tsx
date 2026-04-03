@@ -119,7 +119,7 @@ const Solutions = () => (
           ))}
         </div>
 
-        <div className="mt-40 border-t border-white/10 pt-24 text-left flex flex-col md:flex-row items-end justify-between gap-12">
+        <div className="mt-40 border-t border-white/10 pt-24 text-left flex flex-col lg:flex-row items-start lg:items-end justify-between gap-12">
           <div className="max-w-2xl">
             <h3 className="font-display text-[8vw] sm:text-5xl md:text-6xl font-black tracking-tighter uppercase mb-6 leading-[1.05]">
               Predictable <span className="text-primary">Performance</span> <br /> 
@@ -129,9 +129,9 @@ const Solutions = () => (
               Stop guessing and start measuring. Our engineers are ready to solve your space's unique acoustic variables.
             </p>
           </div>
-          <Link to="/consultation">
-            <Button size="lg" className="h-20 px-16 gradient-gold text-primary-foreground font-black text-sm tracking-widest uppercase rounded-none hover:translate-x-2 transition-all">
-              START YOUR PROJECT <ArrowRight className="ml-4 w-5 h-5" />
+          <Link to="/consultation" className="w-full sm:w-auto">
+            <Button size="lg" className="w-full sm:w-auto h-14 sm:h-20 px-8 sm:px-12 lg:px-16 gradient-gold text-primary-foreground font-black text-[10px] sm:text-sm tracking-[0.14em] sm:tracking-widest uppercase rounded-none hover:translate-x-0 lg:hover:translate-x-2 transition-all">
+              START YOUR PROJECT <ArrowRight className="ml-3 sm:ml-4 w-4 h-4 sm:w-5 sm:h-5" />
             </Button>
           </Link>
         </div>

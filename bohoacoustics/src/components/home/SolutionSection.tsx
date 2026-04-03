@@ -66,7 +66,7 @@ const SolutionSection = () => (
           </h2>
         </div>
         <div className="max-w-xl w-1/3">
-          <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed">
+          <p className="text-muted-foreground text-xs sm:text-sm lg:text-base font-light leading-relaxed">
             A scientific, four-step framework refined over 200+ successful acoustic projects. No guesswork, only results.
           </p>
         </div>

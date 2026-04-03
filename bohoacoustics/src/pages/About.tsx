@@ -17,7 +17,7 @@ const About = () => (
           </p>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-20 items-start border-t border-white/10 pt-20">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1fr)_340px] xl:grid-cols-[1fr_400px] gap-12 xl:gap-20 items-start border-t border-white/10 pt-20">
           <div className="space-y-12">
             <div className="space-y-8">
               <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">OUR PHILOSOPHY</h2>
@@ -57,7 +57,7 @@ const About = () => (
 
             <div className="space-y-16 pt-16 border-t border-white/5">
               <h2 className="text-[10px] tracking-widest font-black text-primary uppercase">FOUNDERS</h2>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-20">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-10 lg:gap-20">
                 <div className="space-y-8">
                   <div className="aspect-[4/5] bg-white/[0.03] border border-white/5 relative group overflow-hidden transition-all duration-500 group-hover:-translate-y-1 group-hover:border-primary/40 group-hover:shadow-[0_18px_50px_rgba(0,0,0,0.35)]">
                     <img
@@ -100,7 +100,7 @@ const About = () => (
           </div>
 
           <div className="space-y-12 lg:sticky lg:top-40">
-            <div className="border border-white/10 p-10 space-y-8 bg-white/[0.01]">
+            <div className="border border-white/10 p-7 sm:p-10 space-y-8 bg-white/[0.01]">
               <h4 className="text-[10px] tracking-widest font-black text-primary uppercase">TECHNICAL STATS</h4>
               <div className="space-y-6">
                 <div>
