@@ -9,6 +9,8 @@ const Footer = () => {
   ];
 
   return (
+              { label: "Resource Library", to: "/resources" },
+              { label: "Case Studies", to: "/case-studies" },
     <footer className="bg-black border-t border-white/10 pt-24 pb-12 lg:pt-32 lg:pb-16">
       <div className="container mx-auto px-6 lg:px-12">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-14 md:gap-16 lg:gap-12">
