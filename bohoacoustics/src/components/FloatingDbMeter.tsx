@@ -269,7 +269,7 @@ const FloatingDbMeter = () => {
                 type="button"
                 onClick={handleClose}
                 aria-label="Close dB meter"
-                className="p-2 text-white/30 transition-colors hover:text-white"
+                className="p-2 text-white/50 transition-colors hover:text-white"
               >
                 <X className="h-6 w-6" />
               </button>
@@ -279,7 +279,7 @@ const FloatingDbMeter = () => {
             <div className="p-8 space-y-12">
               <div className="relative">
                 <div className="flex items-baseline justify-between mb-6">
-                  <p className="text-[11px] font-bold uppercase tracking-widest text-white/40">Current Pressure</p>
+                  <p className="text-[11px] font-bold uppercase tracking-widest text-white/60">Current Pressure</p>
                   <p className="font-display text-6xl font-bold tracking-tighter text-white">
                     {stats.current.toFixed(1)} <span className="text-xl text-primary font-body tracking-normal ml-2">dB</span>
                   </p>
@@ -299,15 +299,15 @@ const FloatingDbMeter = () => {
                   </div>
                 </div>
                 <div className="flex justify-between mt-2">
-                   <span className="text-[9px] font-bold text-white/20 tracking-tighter">0 DB</span>
-                   <span className="text-[9px] font-bold text-white/20 tracking-tighter">85 DB</span>
+                   <span className="text-[9px] font-bold text-white/40 tracking-tighter">0 DB</span>
+                   <span className="text-[9px] font-bold text-white/40 tracking-tighter">85 DB</span>
                 </div>
               </div>
 
               {/* Stats Grid — Architectural Layout */}
               <div className="grid grid-cols-3 border border-white/10">
                 <div className="p-4 border-r border-white/10 text-center">
-                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase mb-2">Min</p>
+                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase mb-2">Min</p>
                   <p className="font-display text-xl font-bold text-white">{stats.min.toFixed(1)}</p>
                 </div>
                 <div className="p-4 border-r border-white/10 text-center bg-white/[0.02]">
@@ -315,7 +315,7 @@ const FloatingDbMeter = () => {
                   <p className="font-display text-xl font-bold text-primary">{stats.avg.toFixed(1)}</p>
                 </div>
                 <div className="p-4 text-center">
-                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/30 uppercase mb-2">Max</p>
+                  <p className="text-[9px] font-bold tracking-[0.2em] text-white/50 uppercase mb-2">Max</p>
                   <p className="font-display text-xl font-bold text-white">{stats.max.toFixed(1)}</p>
                 </div>
               </div>
@@ -332,7 +332,7 @@ const FloatingDbMeter = () => {
               <button
                 type="button"
                 onClick={handleClose}
-                className="border-t border-r border-white/10 py-6 text-xs font-bold tracking-widest text-white/40 uppercase hover:bg-white/5 hover:text-white transition-all"
+                className="border-t border-r border-white/10 py-6 text-xs font-bold tracking-widest text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all"
               >
                 Close
               </button>
@@ -367,7 +367,7 @@ const FloatingDbMeter = () => {
                 <button
                   type="button"
                   onClick={dismissNoisePopup}
-                  className="p-2 text-white/30 hover:text-white transition-colors"
+                  className="p-2 text-white/50 hover:text-white transition-colors"
                 >
                   <X className="h-6 w-6" />
                 </button>
@@ -378,7 +378,7 @@ const FloatingDbMeter = () => {
                   Real-time diagnostics indicate sound pressure levels frequently exceeding <span className="text-primary font-bold">85dB</span>. Continued exposure or use of this facility without treatment may result in significant acoustic fatigue and performance loss.
                 </p>
                 <div className="p-6 border border-white/5 bg-white/[0.02]">
-                  <p className="text-[10px] font-bold tracking-widest text-white/30 uppercase mb-2">Peak Analysis</p>
+                  <p className="text-[10px] font-bold tracking-widest text-white/50 uppercase mb-2">Peak Analysis</p>
                   <p className="text-xl font-display font-bold">CURRENT: {stats.current.toFixed(1)} DB / MAX: {stats.max.toFixed(1)} DB</p>
                 </div>
               </div>
@@ -388,7 +388,7 @@ const FloatingDbMeter = () => {
               <button
                 type="button"
                 onClick={dismissNoisePopup}
-                className="border-t border-r border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-white/40 uppercase hover:bg-white/5 hover:text-white transition-all"
+                className="border-t border-r border-white/10 py-6 text-[10px] font-bold tracking-[0.2em] text-white/60 uppercase hover:bg-white/5 hover:text-white transition-all"
               >
                 Dismiss Assessment
               </button>

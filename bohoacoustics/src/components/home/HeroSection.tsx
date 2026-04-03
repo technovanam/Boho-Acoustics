@@ -74,16 +74,16 @@ const HeroSection = () => {
         </AnimatePresence>
 
         {/* Overlays — Refined Vignette and Atmospheric Gradients */}
-        <div className="absolute inset-0 bg-black/60 backdrop-blur-[1px]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-black/90" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_90%)] opacity-60" />
+        <div className="absolute inset-0 bg-black/35 backdrop-blur-[1px]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-transparent to-black/60" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,transparent_0%,black_80%)] opacity-30" />
 
         {/* Subtle Noise/Grain Overlay */}
         <div className="absolute inset-0 noise-overlay pointer-events-none mix-blend-soft-light opacity-20" />
       </div>
 
       {/* Content — Centered with refined spacing */}
-      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-32">
+      <div className="relative z-10 h-full w-full max-w-7xl px-6 lg:px-12 flex flex-col items-center text-center pt-40 lg:pt-44">
 
         {/* Label — Premium Spacing */}
         <motion.div
@@ -126,7 +126,7 @@ const HeroSection = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="text-[#cfcfcf] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide text-balance"
+          className="text-[#e5e5e5] text-sm sm:text-base lg:text-lg max-w-3xl mx-auto mb-12 leading-relaxed font-light tracking-wide text-balance"
         >
           We design, supply & execute acoustic solutions — so you don't have to understand acoustics. We handle everything from diagnostics to final measurement.
         </motion.p>
@@ -153,7 +153,7 @@ const HeroSection = () => {
               variant="outline"
               className="w-full sm:w-auto border-white/20 text-white/80 hover:bg-white/5 hover:text-white font-medium px-10 py-7 text-xs tracking-[0.2em] uppercase rounded-none backdrop-blur-md transition-all duration-500"
             >
-              Discover More
+              Get a live acoustic test of your space
             </Button>
           </Link>
         </motion.div>

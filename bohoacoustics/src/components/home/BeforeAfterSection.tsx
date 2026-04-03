@@ -35,7 +35,7 @@ const BeforeAfterSection = () => (
       <div className="max-w-4xl mb-24 text-left">
         <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold mb-4 opacity-80">MEASURABLE IMPACT</p>
         <h2 className="font-display text-[10vw] sm:text-5xl lg:text-7xl font-bold leading-[1.05] tracking-tighter mb-6">
-          Quantified <span className="text-white/20 italic font-light">Performance</span>
+          Quantified <span className="text-primary italic font-light">Performance</span>
         </h2>
         <p className="text-muted-foreground text-sm lg:text-base font-light leading-relaxed max-w-xl">
           We don't guess — we measure. Every project is backed by scientific data with verified performance results.
@@ -106,15 +106,15 @@ const BeforeAfterSection = () => (
               <h3 className="font-display text-2xl font-black text-white/90 group-hover:text-white transition-colors duration-300 mb-2">
                 {m.label}
               </h3>
-              <p className="text-white/20 text-[10px] tracking-widest font-bold group-hover:text-primary/40 transition-colors duration-500 uppercase">VERIFIED METRIC</p>
+              <p className="text-white/35 text-[10px] tracking-widest font-bold group-hover:text-primary/50 transition-colors duration-500 uppercase">VERIFIED METRIC</p>
             </div>
 
             {/* Right: Numbers */}
             <div className="flex items-center gap-12 lg:gap-20 relative z-10">
               <div className="text-center md:text-left">
-                <p className="text-[10px] text-white/30 tracking-widest font-bold mb-3 uppercase">Before Treatment</p>
+                <p className="text-[10px] text-white/50 tracking-widest font-bold mb-3 uppercase">Before Treatment</p>
                 <div className="flex items-baseline gap-2">
-                  <span className="text-3xl font-bold text-white/35 group-hover:text-white/50 transition-colors duration-400">
+                  <span className="text-3xl font-bold text-white/60 group-hover:text-white/80 transition-colors duration-400">
                     {m.before}
                   </span>
                 </div>
@@ -137,9 +137,9 @@ const BeforeAfterSection = () => (
 
               {/* Improvement badge — expands and brightens on hover */}
               <div className="hidden lg:flex flex-col items-end">
-                <p className="text-[9px] text-white/30 tracking-[0.2em] font-bold mb-2 uppercase group-hover:text-primary/50 transition-colors duration-400">Improvement</p>
+                <p className="text-[9px] text-white/45 tracking-[0.2em] font-bold mb-2 uppercase group-hover:text-primary/60 transition-colors duration-400">Improvement</p>
                 <motion.div
-                  className="text-2xl font-black text-white/50 group-hover:text-white transition-colors duration-300"
+                  className="text-2xl font-black text-white/70 group-hover:text-white transition-colors duration-300"
                   whileHover={{ scale: 1.1 }}
                   transition={{ duration: 0.2 }}
                 >

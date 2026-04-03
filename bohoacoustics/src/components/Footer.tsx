@@ -19,7 +19,7 @@ const Footer = () => {
                 alt="Boho Acoustics Logo" 
                 className="h-12 w-auto object-contain mb-6 grayscale brightness-200 group-hover:grayscale-0 group-hover:brightness-100 transition-all"
               />
-              <p className="text-white/40 text-sm whitespace-nowrap">
+              <p className="text-white/60 text-sm whitespace-nowrap">
                 Science. Sound. Style.
               </p>
             </div>
@@ -32,7 +32,7 @@ const Footer = () => {
                   rel="noopener noreferrer" 
                   className="w-10 h-10 border border-white/10 flex items-center justify-center hover:border-primary/50 transition-colors group/icon"
                 >
-                  <Icon className="w-4 h-4 text-white/40 group-hover/icon:text-primary transition-colors" />
+                  <Icon className="w-4 h-4 text-white/60 group-hover/icon:text-primary transition-colors" />
                 </a>
               ))}
             </div>
@@ -45,7 +45,7 @@ const Footer = () => {
               <Link 
                 key={s} 
                 to="/solutions" 
-                className="text-sm text-white/50 hover:text-white transition-all hover:translate-x-1 inline-flex items-center group gap-2"
+                className="text-sm text-white/70 hover:text-white transition-all hover:translate-x-1 inline-flex items-center group gap-2"
               >
                 {s}
                 <ArrowUpRight className="w-3 h-3 opacity-0 group-hover:opacity-100 transition-opacity" />
@@ -66,7 +66,7 @@ const Footer = () => {
               <Link 
                 key={l.to} 
                 to={l.to} 
-                className="text-sm text-white/50 hover:text-white transition-all hover:translate-x-1"
+                className="text-sm text-white/70 hover:text-white transition-all hover:translate-x-1"
               >
                 {l.label}
               </Link>
@@ -80,21 +80,21 @@ const Footer = () => {
               <div className="flex items-start gap-4">
                 <Mail className="w-4 h-4 text-primary mt-1" />
                 <div>
-                  <p className="text-[10px] text-white/30 tracking-widest uppercase font-bold mb-1">Email Us</p>
+                  <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Email Us</p>
                   <a href="mailto:info@bohoacoustics.com" className="text-sm font-medium hover:text-primary transition-colors">info@bohoacoustics.com</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <Phone className="w-4 h-4 text-primary mt-1" />
                 <div>
-                  <p className="text-[10px] text-white/30 tracking-widest uppercase font-bold mb-1">Call Support</p>
+                  <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Call Support</p>
                   <a href="tel:+91" className="text-sm font-medium hover:text-primary transition-colors">+91 999 999 9999</a>
                 </div>
               </div>
               <div className="flex items-start gap-4">
                 <MapPin className="w-4 h-4 text-primary mt-1" />
                 <div>
-                  <p className="text-[10px] text-white/30 tracking-widest uppercase font-bold mb-1">Region</p>
+                  <p className="text-[10px] text-white/50 tracking-widest uppercase font-bold mb-1">Region</p>
                   <span className="text-sm font-medium">Pan India Services</span>
                 </div>
               </div>
@@ -103,12 +103,12 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6">
-          <p className="text-[10px] text-white/20 tracking-widest uppercase font-medium">
+          <p className="text-[10px] text-white/40 tracking-widest uppercase font-medium">
             © 2026 Boho Acoustics. Scientific Acoustic Engineering.
           </p>
           <div className="flex gap-8">
-            <a href="#" className="text-[10px] text-white/20 hover:text-white uppercase tracking-widest transition-colors">Privacy Policy</a>
-            <a href="#" className="text-[10px] text-white/20 hover:text-white uppercase tracking-widest transition-colors">Terms of Service</a>
+            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Privacy Policy</a>
+            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-widest transition-colors">Terms of Service</a>
           </div>
         </div>
       </div>
