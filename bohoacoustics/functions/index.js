@@ -15,11 +15,7 @@ const BRAND_LOGO_URL = "https://boho-acoustics.web.app/logo.png";
 const MAX_NAME_LENGTH = 120;
 const MAX_EMAIL_LENGTH = 254;
 const MAX_CONTACT_LENGTH = 30;
-const MAX_PINCODE_LENGTH = 10;
-const MAX_CITY_LENGTH = 120;
-const MAX_STATE_LENGTH = 120;
 const MAX_FACILITY_TYPE_LENGTH = 80;
-const MAX_AREA_LENGTH = 40;
 const MAX_NOTES_LENGTH = 2000;
 const MAX_FILE_NAME_LENGTH = 180;
 const MAX_FILE_BASE64_LENGTH = 14 * 1024 * 1024;
@@ -141,11 +137,7 @@ exports.submitConsultation = onCall(
     const name = String(payload.name || "").trim();
     const email = String(payload.email || "").trim().toLowerCase();
     const contact = String(payload.contact || "").trim();
-    const pincode = String(payload.pincode || "").trim();
-    const city = String(payload.city || "").trim();
-    const state = String(payload.state || "").trim();
     const facilityType = String(payload.facilityType || "").trim();
-    const area = String(payload.area || "").trim();
     const notes = String(payload.notes || "").trim();
     const fileName = String(payload.fileName || "").trim();
     const fileBase64 = String(payload.fileBase64 || "").trim();
@@ -154,11 +146,7 @@ exports.submitConsultation = onCall(
     assertMaxLength(name, MAX_NAME_LENGTH, "Name");
     assertMaxLength(email, MAX_EMAIL_LENGTH, "Email");
     assertMaxLength(contact, MAX_CONTACT_LENGTH, "Contact number");
-    assertMaxLength(pincode, MAX_PINCODE_LENGTH, "Pincode");
-    assertMaxLength(city, MAX_CITY_LENGTH, "City");
-    assertMaxLength(state, MAX_STATE_LENGTH, "State");
     assertMaxLength(facilityType, MAX_FACILITY_TYPE_LENGTH, "Facility type");
-    assertMaxLength(area, MAX_AREA_LENGTH, "Area");
     assertMaxLength(notes, MAX_NOTES_LENGTH, "Notes");
     assertMaxLength(fileName, MAX_FILE_NAME_LENGTH, "File name");
     assertMaxLength(fileBase64, MAX_FILE_BASE64_LENGTH, "File data");
@@ -167,16 +155,12 @@ exports.submitConsultation = onCall(
       throw new HttpsError("invalid-argument", "Invalid consultation ID.");
     }
 
-    if (!name || !email || !pincode || !city || !state || !facilityType) {
+    if (!name || !contact || !facilityType) {
       throw new HttpsError("invalid-argument", "Missing required fields.");
     }
 
-    if (!/^\d{6}$/.test(pincode)) {
-      throw new HttpsError("invalid-argument", "Please provide a valid 6-digit pincode.");
-    }
-
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    if (!emailRegex.test(email)) {
+    if (email && !emailRegex.test(email)) {
       throw new HttpsError("invalid-argument", "Please provide a valid email.");
     }
 
@@ -190,11 +174,7 @@ exports.submitConsultation = onCall(
       name,
       email,
       contact,
-      pincode,
-      city,
-      state,
       facilityType,
-      area,
       notes,
       fileName,
       timestamp: FieldValue.serverTimestamp(),
@@ -213,46 +193,54 @@ exports.submitConsultation = onCall(
     });
 
     const escapedName = escapeHtml(name);
-    const escapedEmail = escapeHtml(email);
-    const escapedContact = escapeHtml(contact || "N/A");
-    const escapedPincode = escapeHtml(pincode);
-    const escapedCity = escapeHtml(city);
-    const escapedState = escapeHtml(state);
+    const escapedEmail = escapeHtml(email || "Not provided");
+    const escapedContact = escapeHtml(contact);
     const escapedFacilityType = escapeHtml(facilityType);
-    const escapedArea = escapeHtml(area || "N/A");
     const escapedNotes = escapeHtml(notes);
 
     const internalHtml = `
-      <div style="margin:0;padding:0;background:#efe7db;font-family:Arial,Helvetica,sans-serif;color:#111111;">
-        <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
-          <div style="border-radius:22px;overflow:hidden;background:#0b0b0b;box-shadow:0 24px 60px rgba(0,0,0,0.18);border:1px solid rgba(200,164,106,0.18);">
-            <div style="padding:30px 30px 24px;background:linear-gradient(135deg,#111111 0%,#1a140f 100%);border-bottom:1px solid rgba(255,255,255,0.08);">
-              <img src="${BRAND_LOGO_URL}" alt="Boho Acoustics" style="display:block;width:132px;max-width:100%;height:auto;margin:0 0 18px;" />
-              <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#d8b06d;font-weight:700;">Boho Acoustics</p>
-              <h2 style="margin:0;font-size:30px;line-height:1.12;color:#ffffff;">New consultation request</h2>
-              <p style="margin:12px 0 0;font-size:14px;line-height:1.7;color:#d5d0c8;max-width:520px;">A project inquiry has been submitted from the website and is ready for review.</p>
+      <div style="margin:0;padding:0;background:#f3eee5;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+        <div style="max-width:680px;margin:0 auto;padding:30px 16px;">
+          <div style="background:#ffffff;border:1px solid #e8ddcb;border-radius:18px;overflow:hidden;box-shadow:0 18px 45px rgba(12,10,8,0.08);">
+            <div style="padding:26px 26px 22px;background:linear-gradient(135deg,#0f0f0f 0%,#1c1611 100%);">
+              <img src="${BRAND_LOGO_URL}" alt="Boho Acoustics" style="display:block;width:124px;max-width:100%;height:auto;margin:0 0 14px;" />
+              <p style="margin:0 0 8px;font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:#d9b06a;font-weight:700;">Boho Acoustics</p>
+              <h2 style="margin:0;font-size:26px;line-height:1.2;color:#ffffff;">New Consultation Lead</h2>
+              <p style="margin:10px 0 0;font-size:14px;line-height:1.65;color:#ddd5c8;">A new consultation enquiry has been submitted through the website.</p>
             </div>
-            <div style="padding:28px;background:#ffffff;">
-              <div style="display:flex;flex-wrap:wrap;gap:12px;margin-bottom:22px;">
-                <div style="padding:10px 14px;border-radius:999px;background:#f7f2ea;border:1px solid #eadfcd;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7a5e34;">Consultation intake</div>
-                <div style="padding:10px 14px;border-radius:999px;background:#f7f2ea;border:1px solid #eadfcd;font-size:11px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#7a5e34;">New lead</div>
-              </div>
-              <table role="presentation" cellpadding="0" cellspacing="0" width="100%" style="border-collapse:separate;border-spacing:0 10px;font-size:14px;line-height:1.7;color:#111111;">
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;width:170px;color:#6f5636;">Name</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedName}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Email</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedEmail}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Contact</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedContact}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Pincode</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedPincode}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">City</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedCity}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">State</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedState}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Facility type</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedFacilityType}</td></tr>
-                <tr><td style="padding:14px 16px;background:#faf7f1;border:1px solid #ede2d0;border-right:0;border-radius:14px 0 0 14px;font-weight:700;color:#6f5636;">Area</td><td style="padding:14px 16px;background:#ffffff;border:1px solid #ede2d0;border-radius:0 14px 14px 0;">${escapedArea}</td></tr>
+
+            <div style="padding:24px 24px 10px;background:#ffffff;">
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;">
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;width:34%;">Name</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Email</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedEmail}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Phone Number</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedContact}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Facility Type</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedFacilityType}</td>
+                </tr>
               </table>
+
               ${notes ? `
-              <div style="margin-top:20px;padding:20px;border-radius:16px;background:#f7f2ea;border:1px solid #eadfcd;">
-                <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.22em;text-transform:uppercase;color:#8a6a3a;font-weight:700;">Project notes</p>
-                <p style="margin:0;font-size:14px;line-height:1.8;color:#222222;white-space:pre-wrap;">${escapedNotes}</p>
+              <div style="margin-top:16px;padding:16px;border:1px solid #eadecb;border-radius:12px;background:#fbf8f3;">
+                <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a5d38;font-weight:700;">Diagnostic Notes</p>
+                <p style="margin:0;font-size:14px;line-height:1.7;color:#2b2b2b;white-space:pre-wrap;">${escapedNotes}</p>
               </div>
               ` : ""}
+
+              <p style="margin:16px 0 0;font-size:12px;line-height:1.6;color:#7b7b7b;">If a floor plan or CAD file was attached, it is included as an attachment in this email.</p>
+            </div>
+
+            <div style="padding:14px 24px 20px;border-top:1px solid #eee4d5;background:#ffffff;">
+              <p style="margin:0;font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:#9a8a74;">Lead Source: Website Consultation Form</p>
             </div>
           </div>
         </div>
@@ -260,54 +248,68 @@ exports.submitConsultation = onCall(
     `;
 
     const confirmationHtml = `
-      <div style="margin:0;padding:0;background:#efe7db;font-family:Arial,Helvetica,sans-serif;color:#111111;">
-        <div style="max-width:680px;margin:0 auto;padding:32px 18px;">
-          <div style="border-radius:22px;overflow:hidden;background:#0b0b0b;box-shadow:0 24px 60px rgba(0,0,0,0.18);border:1px solid rgba(200,164,106,0.18);">
-            <div style="padding:34px 30px;background:linear-gradient(135deg,#111111 0%,#1a140f 100%);border-bottom:1px solid rgba(255,255,255,0.08);">
-              <img src="${BRAND_LOGO_URL}" alt="Boho Acoustics" style="display:block;width:132px;max-width:100%;height:auto;margin:0 0 18px;" />
-              <p style="margin:0 0 10px;font-size:11px;letter-spacing:0.3em;text-transform:uppercase;color:#d8b06d;font-weight:700;">Boho Acoustics</p>
-              <h1 style="margin:0;font-size:32px;line-height:1.12;color:#ffffff;">We’ve received your request</h1>
-              <p style="margin:12px 0 0;font-size:14px;line-height:1.8;color:#d5d0c8;max-width:540px;">Hi ${escapedName}, your consultation request is in our system and our team will review it shortly.</p>
+      <div style="margin:0;padding:0;background:#f3eee5;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+        <div style="max-width:680px;margin:0 auto;padding:30px 16px;">
+          <div style="background:#ffffff;border:1px solid #e8ddcb;border-radius:18px;overflow:hidden;box-shadow:0 18px 45px rgba(12,10,8,0.08);">
+            <div style="padding:28px 26px 22px;background:linear-gradient(135deg,#0f0f0f 0%,#1c1611 100%);">
+              <img src="${BRAND_LOGO_URL}" alt="Boho Acoustics" style="display:block;width:124px;max-width:100%;height:auto;margin:0 0 14px;" />
+              <p style="margin:0 0 8px;font-size:10px;letter-spacing:0.26em;text-transform:uppercase;color:#d9b06a;font-weight:700;">Boho Acoustics</p>
+              <h1 style="margin:0;font-size:28px;line-height:1.2;color:#ffffff;">Your Request Has Been Received</h1>
+              <p style="margin:10px 0 0;font-size:14px;line-height:1.7;color:#ddd5c8;">Hi ${escapedName}, thank you for reaching out. Our team has received your consultation request.</p>
             </div>
-            <div style="padding:28px;background:#ffffff;">
-              <div style="padding:20px;border-radius:16px;background:#f7f2ea;border:1px solid #eadfcd;margin-bottom:20px;">
-                <p style="margin:0;font-size:14px;line-height:1.8;color:#3a3027;">We appreciate you reaching out. If you attached a floor plan, it has been included in our review copy and will be checked by the team.</p>
+
+            <div style="padding:24px;background:#ffffff;">
+              <div style="padding:16px;border:1px solid #eadecb;border-radius:12px;background:#fbf8f3;">
+                <p style="margin:0;font-size:14px;line-height:1.75;color:#2a2a2a;">We are reviewing your details and will contact you with the next step shortly. If you shared a floor plan or CAD file, it has been included for technical review.</p>
               </div>
-              <div style="display:flex;flex-direction:column;gap:12px;">
-                <div style="padding:14px 16px;border-radius:14px;background:#ffffff;border:1px solid #ede2d0;">
-                  <p style="margin:0;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#7a5e34;font-weight:700;">What happens next</p>
-                  <p style="margin:8px 0 0;font-size:14px;line-height:1.8;color:#222222;">Our team will review your details and contact you with the next step.</p>
-                </div>
-                <div style="padding:14px 16px;border-radius:14px;background:#ffffff;border:1px solid #ede2d0;">
-                  <p style="margin:0;font-size:12px;letter-spacing:0.18em;text-transform:uppercase;color:#7a5e34;font-weight:700;">Need to add something?</p>
-                  <p style="margin:8px 0 0;font-size:14px;line-height:1.8;color:#222222;">Just reply to this email and we’ll take it from there.</p>
-                </div>
+
+              <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:collapse;margin-top:16px;">
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;width:34%;">Submitted Name</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedName}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Facility Type</td>
+                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedFacilityType}</td>
+                </tr>
+              </table>
+
+              <div style="margin-top:16px;padding:14px 16px;border:1px solid #eadecb;border-radius:12px;background:#ffffff;">
+                <p style="margin:0;font-size:13px;line-height:1.7;color:#333333;">Need to add or update details? Simply reply to this email and our team will include it in your request.</p>
               </div>
-              <p style="margin:22px 0 0;font-size:14px;line-height:1.8;color:#222222;">Regards,<br />Boho Acoustics Team</p>
+
+              <p style="margin:18px 0 0;font-size:14px;line-height:1.8;color:#2a2a2a;">Regards,<br />Boho Acoustics Team</p>
             </div>
           </div>
         </div>
       </div>
     `;
 
-    await transporter.sendMail({
+    const internalMailOptions = {
       from: MAIL_FROM.value(),
       to: MAIL_TO.value(),
-      replyTo: email,
       subject: `New consultation request from ${sanitizeHeaderValue(name)}`,
       html: internalHtml,
       attachments: attachment
-    });
+    };
 
-    try {
-      await transporter.sendMail({
-        from: MAIL_FROM.value(),
-        to: email,
-        subject: "Boho Acoustics has received your consultation request",
-        html: confirmationHtml,
-      });
-    } catch (confirmationError) {
-      console.error("Customer confirmation email failed:", confirmationError);
+    if (email) {
+      internalMailOptions.replyTo = email;
+    }
+
+    await transporter.sendMail(internalMailOptions);
+
+    if (email) {
+      try {
+        await transporter.sendMail({
+          from: MAIL_FROM.value(),
+          to: email,
+          subject: "Boho Acoustics has received your consultation request",
+          html: confirmationHtml,
+        });
+      } catch (confirmationError) {
+        console.error("Customer confirmation email failed:", confirmationError);
+      }
     }
 
     return {

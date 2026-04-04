@@ -3,7 +3,7 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { ArrowRight, LoaderCircle, Upload } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useState } from "react";
 import { toast } from "sonner";
 import { db, functions } from "@/lib/firebase";
 import { httpsCallable } from "firebase/functions";
@@ -13,82 +13,6 @@ const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [facilityType, setFacilityType] = useState("");
-  const [pincode, setPincode] = useState("");
-  const [pincodeLoading, setPincodeLoading] = useState(false);
-  const [pincodeStatus, setPincodeStatus] = useState<string | null>(null);
-  const [cityEditable, setCityEditable] = useState(false);
-  const cityInputRef = useRef<HTMLInputElement | null>(null);
-  const stateInputRef = useRef<HTMLInputElement | null>(null);
-
-  useEffect(() => {
-    const sanitizedPincode = pincode.replace(/\D/g, "").slice(0, 6);
-
-    if (sanitizedPincode.length !== 6) {
-      setPincodeStatus(null);
-      setCityEditable(false);
-      if (cityInputRef.current) {
-        cityInputRef.current.value = "";
-      }
-      if (stateInputRef.current) {
-        stateInputRef.current.value = "";
-      }
-      return;
-    }
-
-    const timer = window.setTimeout(async () => {
-      setPincodeLoading(true);
-      setPincodeStatus(null);
-      setCityEditable(false);
-
-      try {
-        const response = await fetch(`https://api.postalpincode.in/pincode/${sanitizedPincode}`);
-        const result = await response.json();
-
-        const entry = Array.isArray(result) ? result[0] : null;
-        const postOffice = Array.isArray(entry?.PostOffice) ? entry.PostOffice[0] : null;
-
-        if (entry?.Status !== "Success" || !postOffice) {
-          setPincodeStatus("Unable to auto-fill location for this pincode.");
-          if (cityInputRef.current) {
-            cityInputRef.current.value = "";
-          }
-          if (stateInputRef.current) {
-            stateInputRef.current.value = "";
-          }
-          return;
-        }
-
-        const resolvedCity = String(postOffice.District || postOffice.Division || "").trim();
-        const resolvedState = String(postOffice.State || "").trim();
-
-        if (resolvedCity && cityInputRef.current) {
-          cityInputRef.current.value = resolvedCity;
-        }
-        if (resolvedState && stateInputRef.current) {
-          stateInputRef.current.value = resolvedState;
-        }
-
-        setCityEditable(true);
-        setPincodeStatus("City and state auto-filled from pincode.");
-      } catch (error) {
-        console.error("Pincode lookup failed:", error);
-        setCityEditable(false);
-        if (cityInputRef.current) {
-          cityInputRef.current.value = "";
-        }
-        if (stateInputRef.current) {
-          stateInputRef.current.value = "";
-        }
-        setPincodeStatus("Unable to verify pincode right now. Please retry with a valid pincode.");
-      } finally {
-        setPincodeLoading(false);
-      }
-    }, 400);
-
-    return () => {
-      window.clearTimeout(timer);
-    };
-  }, [pincode]);
 
   const fileToDataUrl = (file: File) =>
     new Promise<string>((resolve, reject) => {
@@ -115,22 +39,29 @@ const Consultation = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    setSubmitting(true);
     const form = e.currentTarget;
     const consultationId = doc(collection(db, "consultations")).id;
     
     const formData = new FormData(form);
+    const name = String(formData.get("name") || "").trim();
+    const email = String(formData.get("email") || "").trim();
+    const contact = String(formData.get("contact") || "").trim();
+    const notes = String(formData.get("notes") || "").trim();
+
+    if (!name || !contact || !facilityType) {
+      toast.error("NAME, PHONE NO AND FACILITY TYPE ARE REQUIRED.");
+      return;
+    }
+
+    setSubmitting(true);
+
     const data = {
       consultationId,
-      name: formData.get("name"),
-      email: formData.get("email"),
-      contact: formData.get("contact"),
-      pincode: String(formData.get("pincode") || "").trim(),
-      city: String(formData.get("city") || "").trim(),
-      state: String(formData.get("state") || "").trim(),
+      name,
+      email,
+      contact,
       facilityType,
-      area: formData.get("area"),
-      notes: formData.get("notes"),
+      notes,
       fileName: selectedFile?.name || "",
       fileBase64: "",
     };
@@ -147,9 +78,6 @@ const Consultation = () => {
       form.reset();
       setSelectedFile(null);
       setFacilityType("");
-      setPincode("");
-      setPincodeStatus(null);
-      setCityEditable(false);
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("ERROR SUBMITTING REQUEST. PLEASE TRY AGAIN.");
@@ -197,66 +125,19 @@ const Consultation = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Full Name</label>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Name</label>
                     <Input name="name" required placeholder="John Doe" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email Address</label>
-                    <Input type="email" name="email" required placeholder="you@domain.com" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email (Optional)</label>
+                    <Input type="email" name="email" placeholder="you@domain.com" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 mt-6">
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Contact Number</label>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Phone No</label>
                     <Input name="contact" required placeholder="Phone number" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-1 gap-6 mt-6">
-                  <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Pincode</label>
-                    <Input
-                      name="pincode"
-                      required
-                      inputMode="numeric"
-                      maxLength={6}
-                      pattern="[0-9]{6}"
-                      placeholder="e.g. 400050"
-                      value={pincode}
-                      onChange={(e) => setPincode(e.target.value.replace(/\D/g, "").slice(0, 6))}
-                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all"
-                    />
-                    {(pincodeLoading || pincodeStatus) && (
-                      <p className="mt-2 text-[10px] tracking-widest uppercase text-white/50">
-                        {pincodeLoading ? "Checking pincode..." : pincodeStatus}
-                      </p>
-                    )}
-                  </div>
-                </div>
-                
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-6">
-                  <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">City / Area</label>
-                    <Input
-                      name="city"
-                      ref={cityInputRef}
-                      required
-                      readOnly={!cityEditable}
-                      placeholder="e.g. Bandra, Mumbai"
-                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all read-only:cursor-not-allowed read-only:opacity-70"
-                    />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">State</label>
-                    <Input
-                      name="state"
-                      ref={stateInputRef}
-                      required
-                      readOnly
-                      placeholder="e.g. Maharashtra"
-                      className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all read-only:cursor-not-allowed read-only:opacity-70"
-                    />
                   </div>
                 </div>
               </div>
@@ -270,7 +151,7 @@ const Consultation = () => {
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
                     <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type</label>
-                    <Select value={facilityType} onValueChange={setFacilityType} required>
+                    <Select value={facilityType} onValueChange={setFacilityType}>
                       <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
                         <SelectValue placeholder="Select environment" />
                       </SelectTrigger>
@@ -283,11 +164,7 @@ const Consultation = () => {
                         <SelectItem value="other" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Other</SelectItem>
                       </SelectContent>
                     </Select>
-                    <input type="hidden" name="facilityType" value={facilityType} />
-                  </div>
-                  <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Floor Area (SQ FT)</label>
-                    <Input name="area" placeholder="Total area" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <input type="hidden" name="facilityType" value={facilityType} required />
                   </div>
                 </div>
               </div>
@@ -300,7 +177,7 @@ const Consultation = () => {
 
                 <div>
                   <label htmlFor="consultation-file-upload" className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">
-                    Upload Floor Plans (Optional)
+                    Floor Plan / CAD (Optional)
                   </label>
                   <input
                     id="consultation-file-upload"

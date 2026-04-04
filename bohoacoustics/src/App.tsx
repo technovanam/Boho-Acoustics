@@ -129,9 +129,54 @@ const RouteSeo = ({ pathname }: { pathname: string }) => {
 };
 
 const PageLoader = () => (
-  <div className="min-h-[50vh] flex items-center justify-center text-primary text-xs tracking-widest uppercase font-bold">
-    Loading...
+  <div className="fixed inset-0 z-[95] flex items-center justify-center bg-[#050505] overflow-hidden" aria-label="Loading">
+    <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
+    <div className="relative flex flex-col items-center gap-5 px-6">
+      <motion.img
+        src="/logo.png"
+        alt="Boho Acoustics"
+        className="w-[clamp(120px,26vw,320px)] max-w-[72vw] h-auto"
+        animate={{ opacity: [0.85, 1, 0.85], scale: [0.96, 1, 0.96] }}
+        transition={{ duration: 1.4, repeat: Infinity, ease: "easeInOut" }}
+      />
+      <p className="text-[10px] tracking-[0.35em] uppercase text-primary/90 font-bold">Boho Acoustics</p>
+    </div>
   </div>
+);
+
+const IntroSplash = ({ reducedMotion }: { reducedMotion: boolean }) => (
+  <motion.div
+    className="fixed inset-0 z-[100] flex items-center justify-center bg-[#050505] overflow-hidden"
+    initial={{ opacity: 1 }}
+    exit={{ opacity: 0 }}
+    transition={{ duration: reducedMotion ? 0.2 : 0.6, ease: "easeInOut" }}
+    aria-label="Website intro"
+  >
+    <div className="pointer-events-none absolute -top-20 left-1/2 -translate-x-1/2 h-72 w-72 rounded-full bg-primary/15 blur-3xl" />
+    <motion.div
+      className="relative flex flex-col items-center gap-5 px-6"
+      initial={reducedMotion ? { opacity: 1 } : { opacity: 0, y: 12 }}
+      animate={reducedMotion ? { opacity: 1 } : { opacity: 1, y: 0 }}
+      transition={{ duration: reducedMotion ? 0.15 : 0.5, ease: "easeOut" }}
+    >
+      <motion.img
+        src="/logo.png"
+        alt="Boho Acoustics"
+        className="w-[clamp(120px,26vw,320px)] max-w-[72vw] h-auto"
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0, scale: 0.82, rotate: -3 }}
+        animate={reducedMotion ? { opacity: 1 } : { opacity: 1, scale: [0.82, 1.05, 1], rotate: [-3, 1, 0] }}
+        transition={{ duration: reducedMotion ? 0.2 : 1.1, ease: "easeOut" }}
+      />
+      <motion.p
+        className="text-[10px] tracking-[0.35em] uppercase text-primary/90 font-bold"
+        initial={reducedMotion ? { opacity: 1 } : { opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: reducedMotion ? 0 : 0.35, duration: 0.35 }}
+      >
+        Boho Acoustics
+      </motion.p>
+    </motion.div>
+  </motion.div>
 );
 
 const AppContent = () => {
@@ -210,7 +255,25 @@ const AppContent = () => {
 };
 
 const App = () => {
+  const [showIntro, setShowIntro] = useState(true);
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
+
   useEffect(() => {
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    const updatePreference = () => setPrefersReducedMotion(mediaQuery.matches);
+
+    updatePreference();
+    mediaQuery.addEventListener("change", updatePreference);
+
+    const introDuration = 2000;
+
+    // Warm up the home route chunk while intro is visible to reduce post-intro lag.
+    void import("./pages/Index");
+
+    const introTimer = window.setTimeout(() => {
+      setShowIntro(false);
+    }, introDuration);
+
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -230,6 +293,8 @@ const App = () => {
     requestAnimationFrame(raf);
 
     return () => {
+      window.clearTimeout(introTimer);
+      mediaQuery.removeEventListener("change", updatePreference);
       lenis.destroy();
     };
   }, []);
@@ -239,6 +304,8 @@ const App = () => {
       <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
         <AppContent />
       </BrowserRouter>
+
+      <AnimatePresence>{showIntro && <IntroSplash key="intro" reducedMotion={prefersReducedMotion} />}</AnimatePresence>
     </QueryClientProvider>
   );
 };

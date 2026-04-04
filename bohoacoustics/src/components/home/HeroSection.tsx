@@ -72,7 +72,7 @@ const HeroSection = () => {
             <img
               src={backgroundImages[currentBg].src}
               alt={backgroundImages[currentBg].alt}
-              fetchPriority={currentBg === 0 ? "high" : "auto"}
+              loading={currentBg === 0 ? "eager" : "lazy"}
               className="w-full h-full object-cover"
               width={1920}
               height={1080}
