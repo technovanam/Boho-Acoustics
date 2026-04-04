@@ -182,7 +182,8 @@ const AppContent = () => {
   const { pathname } = useLocation();
   const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
 
-  const isAdmin = pathname === "/admin";
+  const normalizedPath = pathname.replace(/\/+$/, "") || "/";
+  const isAdmin = normalizedPath === "/admin";
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -247,8 +248,8 @@ const AppContent = () => {
       </AnimatePresence>
 
       {!isAdmin && <Footer />}
-      <FloatingDbMeter />
-      <FloatingWhatsApp />
+      {!isAdmin && <FloatingDbMeter />}
+      {!isAdmin && <FloatingWhatsApp />}
     </TooltipProvider>
   );
 };

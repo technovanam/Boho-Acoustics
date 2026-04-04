@@ -83,6 +83,7 @@ const Admin = () => {
   const [statusFilter, setStatusFilter] = useState<"all" | "new" | "processed">("all");
   const [fromDate, setFromDate] = useState("");
   const [toDate, setToDate] = useState("");
+  const [visibleCount, setVisibleCount] = useState<10 | 20 | 50>(10);
   const [updatingId, setUpdatingId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -115,19 +116,24 @@ const Admin = () => {
 
     return consultations.filter((consultation) => {
       const date = consultation.timestamp?.toDate ? consultation.timestamp.toDate() : consultation.createdAt?.toDate ? consultation.createdAt.toDate() : null;
+      const normalizedStatus = String(consultation.status || "new").toLowerCase();
       const matchesSearch =
         !search ||
         [consultation.name, consultation.email, consultation.contact, consultation.city, consultation.state, consultation.facilityType, consultation.notes]
           .filter(Boolean)
           .some((field) => String(field).toLowerCase().includes(search));
 
-      const matchesStatus = statusFilter === "all" || (consultation.status || "new") === statusFilter;
-      const matchesFrom = !from || (date ? date >= from : true);
-      const matchesTo = !to || (date ? date <= to : true);
+      const matchesStatus = statusFilter === "all" || normalizedStatus === statusFilter;
+      const matchesFrom = !from || (date ? date >= from : false);
+      const matchesTo = !to || (date ? date <= to : false);
 
       return matchesSearch && matchesStatus && matchesFrom && matchesTo;
     });
   }, [consultations, searchTerm, statusFilter, fromDate, toDate]);
+
+  const displayedConsultations = useMemo(() => {
+    return filteredConsultations.slice(0, visibleCount);
+  }, [filteredConsultations, visibleCount]);
 
   const stats = useMemo(() => {
     const total = consultations.length;
@@ -226,26 +232,16 @@ const Admin = () => {
   return (
     <div className="min-h-screen bg-[#050505] text-white px-4 py-6 sm:px-6 lg:px-10 lg:py-10">
       <div className="max-w-7xl mx-auto space-y-8">
-        <header className="flex flex-col gap-6 border-b border-white/10 pb-6 lg:flex-row lg:items-end lg:justify-between">
-          <div className="space-y-4">
-            <div className="flex items-center gap-3">
-              <span className="w-6 h-[1px] bg-primary" />
-              <p className="text-primary text-[10px] tracking-[0.4em] uppercase font-bold">CONTROL CENTER</p>
-            </div>
-            <div className="space-y-2">
-              <h2 className="font-display text-3xl sm:text-4xl font-black uppercase tracking-tight">Diagnostic Intake Dashboard</h2>
-              <p className="text-white/50 text-sm max-w-2xl leading-relaxed">
-                Manage new consultation requests, filter by date, update processing status, and open direct WhatsApp follow-ups from one place.
-              </p>
-            </div>
+        <div className="flex flex-col gap-4 border-b border-white/10 pb-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-3">
+            <img src="/logo.png" alt="Boho Acoustics" className="h-8 w-auto sm:h-9" />
+            <p className="text-primary text-[10px] tracking-[0.35em] uppercase font-bold">Admin Portal</p>
           </div>
 
-          <div className="flex flex-col sm:flex-row gap-3 sm:items-center">
-            <Button onClick={handleLogout} variant="outline" className="border-white/10 rounded-none hover:bg-white/5 hover:text-white h-10 tracking-widest text-[10px] uppercase font-bold">
-              <LogOut className="w-3 h-3 mr-2" /> DISCONNECT
-            </Button>
-          </div>
-        </header>
+          <Button onClick={handleLogout} variant="outline" className="w-full sm:w-auto border-white/10 rounded-none hover:bg-white/5 hover:text-white h-10 tracking-widest text-[10px] uppercase font-bold">
+            <LogOut className="w-3 h-3 mr-2" /> DISCONNECT
+          </Button>
+        </div>
 
         <section className="grid grid-cols-1 md:grid-cols-3 gap-4 lg:gap-6">
           <div className="border border-white/10 bg-white/[0.02] p-5 lg:p-6">
@@ -343,7 +339,7 @@ const Admin = () => {
           </div>
         ) : (
           <div className="grid grid-cols-1 gap-5 lg:gap-6">
-            {filteredConsultations.map((req, index) => {
+            {displayedConsultations.map((req, index) => {
               const whatsappHref = buildWhatsappLink(req.contact, req.name);
               const status = req.status || "new";
               const isProcessed = status === "processed";
@@ -456,6 +452,39 @@ const Admin = () => {
                 </article>
               );
             })}
+
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 border border-white/10 bg-black p-4">
+              <p className="text-[10px] uppercase tracking-widest text-white/50 font-bold">
+                Showing {displayedConsultations.length} of {filteredConsultations.length}
+              </p>
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] uppercase tracking-widest text-white/40 font-bold mr-1">View</span>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setVisibleCount(10)}
+                  className={`h-9 rounded-none text-[10px] uppercase tracking-widest font-bold ${visibleCount === 10 ? "border-primary text-primary" : "border-white/10 text-white/70"}`}
+                >
+                  10
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setVisibleCount(20)}
+                  className={`h-9 rounded-none text-[10px] uppercase tracking-widest font-bold ${visibleCount === 20 ? "border-primary text-primary" : "border-white/10 text-white/70"}`}
+                >
+                  20
+                </Button>
+                <Button
+                  type="button"
+                  variant="outline"
+                  onClick={() => setVisibleCount(50)}
+                  className={`h-9 rounded-none text-[10px] uppercase tracking-widest font-bold ${visibleCount === 50 ? "border-primary text-primary" : "border-white/10 text-white/70"}`}
+                >
+                  50
+                </Button>
+              </div>
+            </div>
           </div>
         )}
       </div>
