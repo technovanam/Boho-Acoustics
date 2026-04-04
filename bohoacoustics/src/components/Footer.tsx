@@ -109,13 +109,11 @@ const Footer = () => {
         </div>
 
         <div className="border-t border-white/5 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center gap-6 text-center md:text-left">
-          <p className="text-[10px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
+          <p className="text-[11px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
             © 2026 Boho Acoustics. Scientific Acoustic Engineering.
           </p>
-          <div className="flex flex-wrap items-center justify-center md:justify-end gap-5 sm:gap-8">
-            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-wider sm:tracking-widest transition-colors">Privacy Policy</a>
-            <a href="#" className="text-[10px] text-white/40 hover:text-white uppercase tracking-wider sm:tracking-widest transition-colors">Terms of Service</a>
-            <p className="text-[10px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
+          <div className="flex items-center justify-center md:justify-end">
+            <p className="text-[11px] text-white/40 tracking-wider sm:tracking-widest uppercase font-medium">
               Developed by <a href="https://www.technovanam.in" target="_blank" rel="noopener noreferrer" className="text-primary hover:text-primary/80 transition-colors">Techno Vanam</a>
             </p>
           </div>
