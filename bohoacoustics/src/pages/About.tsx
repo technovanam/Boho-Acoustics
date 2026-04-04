@@ -64,7 +64,7 @@ const About = () => (
                       <source srcSet="/Founder-1.webp" type="image/webp" />
                       <img
                         src="/Founder-1.jpeg"
-                        alt="Adipta Kedia"
+                        alt="Aadipt Kedia"
                         width={640}
                         height={800}
                         loading="lazy"
@@ -76,7 +76,7 @@ const About = () => (
                     <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Adipta Kedia</h3>
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Aadipt Kedia</h3>
                     <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Founder</p>
                     <p className="text-sm font-light text-white/65 leading-relaxed">
                       The creative spark behind Boho Acoustics, Adipta brings a bold eye for presentation and a constant drive to learn, refine, and reimagine what a space can feel like. He pushes boundaries with fresh ideas and purposeful execution, turning every project into a memorable experience.

@@ -48,8 +48,8 @@ const Consultation = () => {
     const contact = String(formData.get("contact") || "").trim();
     const notes = String(formData.get("notes") || "").trim();
 
-    if (!name || !contact || !facilityType) {
-      toast.error("NAME, PHONE NO AND FACILITY TYPE ARE REQUIRED.");
+    if (!name || !contact) {
+      toast.error("NAME AND PHONE NO ARE REQUIRED.");
       return;
     }
 
@@ -150,7 +150,7 @@ const Consultation = () => {
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type</label>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type (Optional)</label>
                     <Select value={facilityType} onValueChange={setFacilityType}>
                       <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
                         <SelectValue placeholder="Select environment" />

@@ -155,8 +155,8 @@ exports.submitConsultation = onCall(
       throw new HttpsError("invalid-argument", "Invalid consultation ID.");
     }
 
-    if (!name || !contact || !facilityType) {
-      throw new HttpsError("invalid-argument", "Missing required fields.");
+    if (!name || !contact) {
+      throw new HttpsError("invalid-argument", "Name and contact are required.");
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -195,7 +195,7 @@ exports.submitConsultation = onCall(
     const escapedName = escapeHtml(name);
     const escapedEmail = escapeHtml(email || "Not provided");
     const escapedContact = escapeHtml(contact);
-    const escapedFacilityType = escapeHtml(facilityType);
+    const escapedFacilityType = escapeHtml(facilityType || "Not provided");
     const escapedNotes = escapeHtml(notes);
 
     const internalHtml = `

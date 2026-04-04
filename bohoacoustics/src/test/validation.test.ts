@@ -45,17 +45,12 @@ function validateConsultationPayload(payload: any): {
 
   const name = String(payload.name || "").trim();
   const email = String(payload.email || "").trim().toLowerCase();
-  const city = String(payload.city || "").trim();
-  const state = String(payload.state || "").trim();
-  const facilityType = String(payload.facilityType || "").trim();
+  const contact = String(payload.contact || "").trim();
   const consultationId = String(payload.consultationId || "").trim();
   const fileUrl = String(payload.fileUrl || "").trim();
 
   if (!name) errors.push("Name is required");
-  if (!email) errors.push("Email is required");
-  if (!city) errors.push("City is required");
-  if (!state) errors.push("State is required");
-  if (!facilityType) errors.push("Facility type is required");
+  if (!contact) errors.push("Contact is required");
   if (!consultationId) errors.push("Consultation ID is required");
 
   if (email && !validateEmail(email)) {
@@ -176,14 +171,12 @@ describe("Cloud Function Validation", () => {
         consultationId: "abcdefghijklmnopqrst",
         name: "John Doe",
         email: "john@example.com",
-        // missing city, state, facilityType
+        // missing contact
       };
 
       const result = validateConsultationPayload(payload);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain("City is required");
-      expect(result.errors).toContain("State is required");
-      expect(result.errors).toContain("Facility type is required");
+      expect(result.errors).toContain("Contact is required");
     });
 
     it("should reject payload with invalid email", () => {
@@ -224,18 +217,14 @@ describe("Cloud Function Validation", () => {
         consultationId: "",
         name: "   ",
         email: "",
-        contact: "9876543210",
-        city: "    ",
-        state: "Maharashtra",
+        contact: "   ",
         facilityType: "",
       };
 
       const result = validateConsultationPayload(payload);
       expect(result.valid).toBe(false);
       expect(result.errors.some((e) => e.includes("Name"))).toBe(true);
-      expect(result.errors.some((e) => e.includes("Email"))).toBe(true);
-      expect(result.errors.some((e) => e.includes("City"))).toBe(true);
-      expect(result.errors.some((e) => e.includes("Facility"))).toBe(true);
+      expect(result.errors.some((e) => e.includes("Contact"))).toBe(true);
       expect(result.errors.some((e) => e.includes("Consultation"))).toBe(true);
     });
 
