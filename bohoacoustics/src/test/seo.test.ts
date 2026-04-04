@@ -65,7 +65,6 @@ function getSeoForPath(pathname: string): SeoConfig {
       title: "Admin Portal | Boho Acoustics",
       description: "Internal admin portal.",
       canonicalPath: "/admin",
-      robots: "noindex, nofollow",
     };
   }
 
@@ -152,9 +151,9 @@ describe("getSeoForPath", () => {
   });
 
   describe("Admin Pages", () => {
-    it("should return noindex for admin portal", () => {
+    it("should return admin seo without noindex override", () => {
       const seo = getSeoForPath("/admin");
-      expect(seo.robots).toBe("noindex, nofollow");
+      expect(seo.robots).toBeUndefined();
       expect(seo.title).toBe("Admin Portal | Boho Acoustics");
     });
   });
@@ -177,13 +176,11 @@ describe("getSeoForPath", () => {
   });
 
   describe("SEO Best Practices", () => {
-    it("all non-admin titles should be under 70 characters", () => {
+    it("all titles should be under 70 characters", () => {
       const routes = ["/", "/services", "/solutions", "/about", "/consultation", "/blog"];
       routes.forEach((path) => {
         const seo = getSeoForPath(path);
-        if (seo.robots !== "noindex, nofollow") {
-          expect(seo.title.length).toBeLessThanOrEqual(70);
-        }
+        expect(seo.title.length).toBeLessThanOrEqual(70);
       });
     });
 

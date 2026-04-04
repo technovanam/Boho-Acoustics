@@ -1,7 +1,7 @@
 import fs from "node:fs/promises";
 import path from "node:path";
 
-const SITE_URL = "https://bohoacoustic.com";
+const SITE_URL = "https://www.bohoacoustic.com";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png`;
 const DIST_DIR = path.resolve("dist");
 const INDEX_PATH = path.join(DIST_DIR, "index.html");
@@ -48,7 +48,7 @@ const STATIC_SEO = {
   "/admin": {
     title: "Admin Portal | Boho Acoustics",
     description: "Internal admin portal.",
-    robots: "noindex, nofollow",
+    robots: "index, follow, max-image-preview:large",
   },
 };
 

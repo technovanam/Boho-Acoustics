@@ -11,7 +11,7 @@ const Blog = () => (
         name="description"
         content="Read high-intent acoustic guides on soundproofing, home theatre acoustics, office noise control, and consultant-led treatment planning in India."
       />
-      <link rel="canonical" href="https://bohoacoustic.com/blog" />
+      <link rel="canonical" href="https://www.bohoacoustic.com/blog" />
     </Helmet>
 
     <section className="pt-32 pb-24 lg:pt-48 lg:pb-32">

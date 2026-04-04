@@ -4,7 +4,7 @@ import { ArrowRight, CheckCircle2, MapPin, Building2, IndianRupee } from "lucide
 import heroImage from "@/assets/office-acoustics.jpg";
 import type { SeoRouteConfig } from "@/content/seoRoutes";
 
-const SITE_URL = "https://bohoacoustic.com";
+const SITE_URL = "https://www.bohoacoustic.com";
 const DEFAULT_OG_IMAGE = `${SITE_URL}/og-default.png`;
 
 const regionCopy = {

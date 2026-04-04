@@ -5,7 +5,8 @@ import { ArrowLeft, Clock, Share2, ArrowRight } from "lucide-react";
 import { BLOG_POSTS } from "@/content/blogPosts";
 
 const BlogPost = () => {
-  const socialImage = "https://bohoacoustic.com/og-default.png";
+  const siteUrl = "https://www.bohoacoustic.com";
+  const socialImage = `${siteUrl}/og-default.png`;
   const { id } = useParams();
   const post = useMemo(() => BLOG_POSTS.find((item) => item.slug === id), [id]);
 
@@ -49,12 +50,12 @@ const BlogPost = () => {
       name: "Boho Acoustics",
       logo: {
         "@type": "ImageObject",
-        url: "https://bohoacoustic.com/logo.png",
+        url: `${siteUrl}/logo.png`,
       },
     },
     datePublished: post.date,
     dateModified: post.date,
-    mainEntityOfPage: `https://bohoacoustic.com/blog/${post.slug}`,
+    mainEntityOfPage: `${siteUrl}/blog/${post.slug}`,
     keywords: post.keywords.join(", "),
   };
 
@@ -63,11 +64,11 @@ const BlogPost = () => {
       <Helmet>
         <title>{post.seoTitle}</title>
         <meta name="description" content={post.seoDescription} />
-        <link rel="canonical" href={`https://bohoacoustic.com/blog/${post.slug}`} />
+        <link rel="canonical" href={`${siteUrl}/blog/${post.slug}`} />
         <meta property="og:type" content="article" />
         <meta property="og:title" content={post.seoTitle} />
         <meta property="og:description" content={post.seoDescription} />
-        <meta property="og:url" content={`https://bohoacoustic.com/blog/${post.slug}`} />
+        <meta property="og:url" content={`${siteUrl}/blog/${post.slug}`} />
         <meta property="og:image" content={socialImage} />
         <meta property="og:image:width" content="1200" />
         <meta property="og:image:height" content="630" />

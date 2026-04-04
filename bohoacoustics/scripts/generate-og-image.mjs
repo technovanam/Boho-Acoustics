@@ -16,7 +16,7 @@ const svg = `
   <text x="72" y="220" font-size="72" font-family="Georgia, serif" font-weight="700" fill="#f8e6c5">Boho Acoustics</text>
   <text x="72" y="292" font-size="34" font-family="Arial, sans-serif" fill="#e7d8bb">Perfect Sound, Designed For Your Space</text>
   <text x="72" y="360" font-size="24" font-family="Arial, sans-serif" fill="#d9c9a8">Acoustic Consulting • Soundproofing • Home Theatre Acoustics</text>
-  <text x="72" y="535" font-size="22" font-family="Arial, sans-serif" fill="#bda77f">bohoacoustic.com</text>
+  <text x="72" y="535" font-size="22" font-family="Arial, sans-serif" fill="#bda77f">www.bohoacoustic.com</text>
 </svg>
 `;
 

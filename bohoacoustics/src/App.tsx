@@ -27,7 +27,7 @@ const Admin = lazy(() => import("./pages/Admin"));
 const SeoLocationPage = lazy(() => import("./pages/SeoLocationPage"));
 
 const queryClient = new QueryClient();
-const SITE_URL = "https://bohoacoustic.com";
+const SITE_URL = "https://www.bohoacoustic.com";
 const DEFAULT_IMAGE = `${SITE_URL}/og-default.png`;
 
 type SeoConfig = {
@@ -83,7 +83,6 @@ const getSeoForPath = (pathname: string): SeoConfig | null => {
       title: "Admin Portal | Boho Acoustics",
       description: "Internal admin portal.",
       canonicalPath: "/admin",
-      robots: "noindex, nofollow",
     };
   }
 
