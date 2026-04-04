@@ -65,9 +65,9 @@ const SolutionSection = () => (
             Our <span className="text-primary">Process</span>
           </h2>
         </div>
-        <div className="max-w-xl w-1/3">
-          <p className="text-muted-foreground text-xs sm:text-sm lg:text-base font-light leading-relaxed">
-            A scientific, four-step framework refined over 200+ successful acoustic projects. No guesswork, only results.
+        <div className="w-full max-w-xl md:w-1/3">
+          <p className="text-muted-foreground text-sm sm:text-base font-light leading-relaxed">
+            A scientifically grounded four-step framework, refined across 200+ successful acoustic projects, delivering measurable outcomes without guesswork.
           </p>
         </div>
       </div>
