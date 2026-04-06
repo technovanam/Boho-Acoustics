@@ -79,7 +79,7 @@ const About = () => (
                     <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Aadipt Kedia</h3>
                     <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Founder</p>
                     <p className="text-sm font-light text-white/65 leading-relaxed">
-                      The creative spark behind Boho Acoustics, Adipta brings a bold eye for presentation and a constant drive to learn, refine, and reimagine what a space can feel like. He pushes boundaries with fresh ideas and purposeful execution, turning every project into a memorable experience.
+                      The creative spark behind Boho Acoustics, Aadipt brings a bold eye for presentation and a constant drive to learn, refine, and reimagine what a space can feel like. He pushes boundaries with fresh ideas and purposeful execution, turning every project into a memorable experience.
                     </p>
                   </div>
                 </div>
