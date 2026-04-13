@@ -1,4 +1,5 @@
 import HeroSection from "@/components/home/HeroSection";
+import ClientsSection from "@/components/home/ClientsSection";
 import ProblemSection from "@/components/home/ProblemSection";
 import SolutionSection from "@/components/home/SolutionSection";
 import CategoriesSection from "@/components/home/CategoriesSection";
@@ -22,6 +23,15 @@ const sectionVariants = {
 const Index = () => (
   <div className="min-h-screen">
     <HeroSection />
+
+    <motion.div
+      initial="hidden"
+      whileInView="visible"
+      viewport={{ once: true, margin: "-100px" }}
+      variants={sectionVariants}
+    >
+      <ClientsSection />
+    </motion.div>
     
     <motion.div 
       initial="hidden"
