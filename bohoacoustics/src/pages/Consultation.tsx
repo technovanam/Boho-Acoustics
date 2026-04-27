@@ -1,8 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { ArrowRight, LoaderCircle, Upload } from "lucide-react";
+import { ArrowRight, LoaderCircle } from "lucide-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { db, functions } from "@/lib/firebase";
@@ -11,31 +10,6 @@ import { collection, doc } from "firebase/firestore";
 
 const Consultation = () => {
   const [submitting, setSubmitting] = useState(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [facilityType, setFacilityType] = useState("");
-
-  const fileToDataUrl = (file: File) =>
-    new Promise<string>((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve(String(reader.result || ""));
-      reader.onerror = () => reject(new Error("Failed to read file."));
-      reader.readAsDataURL(file);
-    });
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && file.type !== "application/pdf") {
-      toast.error("ONLY PDF FILES ARE ACCEPTED.");
-      e.target.value = "";
-      return;
-    }
-    if (file && file.size > 10 * 1024 * 1024) {
-      toast.error("FILE TOO LARGE. PLEASE KEEP IT UNDER 10MB.");
-      e.target.value = "";
-      return;
-    }
-    setSelectedFile(file || null);
-  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -46,7 +20,7 @@ const Consultation = () => {
     const name = String(formData.get("name") || "").trim();
     const email = String(formData.get("email") || "").trim();
     const contact = String(formData.get("contact") || "").trim();
-    const notes = String(formData.get("notes") || "").trim();
+    const description = String(formData.get("description") || "").trim();
 
     if (!name || !contact) {
       toast.error("NAME AND PHONE NO ARE REQUIRED.");
@@ -60,24 +34,15 @@ const Consultation = () => {
       name,
       email,
       contact,
-      facilityType,
-      notes,
-      fileName: selectedFile?.name || "",
-      fileBase64: "",
+      description,
     };
 
     try {
-      if (selectedFile) {
-        data.fileBase64 = await fileToDataUrl(selectedFile);
-      }
-
       const submitConsultation = httpsCallable(functions, "submitConsultation");
       await submitConsultation(data);
       
       toast.success("TECHNICAL REQUEST RECEIVED. WE WILL RESPOND SHORTLY.");
       form.reset();
-      setSelectedFile(null);
-      setFacilityType("");
     } catch (error) {
       console.error("Error submitting form:", error);
       toast.error("ERROR SUBMITTING REQUEST. PLEASE TRY AGAIN.");
@@ -120,88 +85,32 @@ const Consultation = () => {
               <div className="space-y-6">
                 <div className="flex items-center gap-4 pb-4 border-b border-white/5">
                   <span className="text-[10px] font-black text-white/40 tracking-widest">01</span>
-                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Client Specifications</h3>
+                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Your Details</h3>
                 </div>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Name</label>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Name <span className="text-primary">*</span></label>
                     <Input name="name" required placeholder="John Doe" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email (Optional)</label>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Phone <span className="text-primary">*</span></label>
+                    <Input name="contact" required placeholder="+1 (555) 000-0000" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 gap-6 mt-6">
+                  <div>
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Email</label>
                     <Input type="email" name="email" placeholder="you@domain.com" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
                 </div>
 
                 <div className="grid grid-cols-1 gap-6 mt-6">
                   <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Phone No</label>
-                    <Input name="contact" required placeholder="Phone number" className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white placeholder:text-white/20 text-xs tracking-widest focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
+                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Description</label>
+                    <Textarea name="description" placeholder="Tell us more about your requirements..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                   </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 pb-4 border-b border-white/5 mt-12">
-                  <span className="text-[10px] font-black text-white/40 tracking-widest">02</span>
-                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Project Parameters</h3>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                  <div>
-                    <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Facility Type (Optional)</label>
-                    <Select value={facilityType} onValueChange={setFacilityType}>
-                      <SelectTrigger className="bg-white/[0.02] border-white/10 rounded-none h-14 text-white text-xs tracking-widest focus:ring-1 focus:ring-primary focus:border-primary transition-all">
-                        <SelectValue placeholder="Select environment" />
-                      </SelectTrigger>
-                      <SelectContent className="bg-black border-white/10 rounded-none">
-                        <SelectItem value="home-theatre" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Home Theatre</SelectItem>
-                        <SelectItem value="office" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Office / Commercial</SelectItem>
-                        <SelectItem value="auditorium" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Auditorium</SelectItem>
-                        <SelectItem value="residential" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Residential Core</SelectItem>
-                        <SelectItem value="studio" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Recording Studio</SelectItem>
-                        <SelectItem value="other" className="text-xs uppercase tracking-widest focus:bg-white/5 focus:text-primary rounded-none">Other</SelectItem>
-                      </SelectContent>
-                    </Select>
-                    <input type="hidden" name="facilityType" value={facilityType} required />
-                  </div>
-                </div>
-              </div>
-
-              <div className="space-y-6">
-                <div className="flex items-center gap-4 pb-4 border-b border-white/5 mt-12">
-                  <span className="text-[10px] font-black text-white/40 tracking-widest">03</span>
-                  <h3 className="text-white text-xs tracking-[0.2em] font-bold uppercase">Technical Documentation</h3>
-                </div>
-
-                <div>
-                  <label htmlFor="consultation-file-upload" className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">
-                    Floor Plan / CAD (Optional)
-                  </label>
-                  <input
-                    id="consultation-file-upload"
-                    type="file"
-                    accept=".pdf"
-                    onChange={handleFileChange}
-                    className="sr-only"
-                  />
-                  <div className="flex items-center border border-white/10 bg-white/[0.02] h-14 group-hover:border-white/20 transition-colors">
-                    <label
-                      htmlFor="consultation-file-upload"
-                      className="h-full flex items-center justify-center gap-3 border-r border-white/10 bg-white/5 px-6 cursor-pointer hover:text-primary hover:bg-white/10 transition-colors uppercase text-[10px] font-bold tracking-widest"
-                    >
-                      <Upload className="w-4 h-4" /> BROWSE
-                    </label>
-                    <span className="px-6 text-xs text-white/60 uppercase tracking-widest truncate">
-                      {selectedFile ? selectedFile.name : "No file selected"}
-                    </span>
-                  </div>
-                </div>
-
-                <div>
-                  <label className="text-[11px] font-bold text-white/70 tracking-widest uppercase mb-3 block">Diagnostic Notes</label>
-                  <Textarea name="notes" placeholder="Describe the acoustic issues (e.g. echo, reverberation, sound bleed)..." className="bg-white/[0.02] border-white/10 rounded-none min-h-[120px] text-white placeholder:text-white/20 text-xs tracking-widest p-4 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary transition-all" />
                 </div>
               </div>
 
@@ -222,7 +131,7 @@ const Consultation = () => {
                     </span>
                   ) : (
                     <>
-                      INITIATE DIAGNOSTIC
+                      SUBMIT
                       <ArrowRight className="ml-4 w-5 h-5" />
                     </>
                   )}

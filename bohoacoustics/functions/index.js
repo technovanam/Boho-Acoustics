@@ -15,7 +15,6 @@ const BRAND_LOGO_URL = "https://boho-acoustics.web.app/logo.png";
 const MAX_NAME_LENGTH = 120;
 const MAX_EMAIL_LENGTH = 254;
 const MAX_CONTACT_LENGTH = 30;
-const MAX_FACILITY_TYPE_LENGTH = 80;
 const MAX_NOTES_LENGTH = 2000;
 const MAX_FILE_NAME_LENGTH = 180;
 const MAX_FILE_BASE64_LENGTH = 14 * 1024 * 1024;
@@ -137,8 +136,7 @@ exports.submitConsultation = onCall(
     const name = String(payload.name || "").trim();
     const email = String(payload.email || "").trim().toLowerCase();
     const contact = String(payload.contact || "").trim();
-    const facilityType = String(payload.facilityType || "").trim();
-    const notes = String(payload.notes || "").trim();
+    const description = String(payload.description || payload.notes || "").trim();
     const fileName = String(payload.fileName || "").trim();
     const fileBase64 = String(payload.fileBase64 || "").trim();
     const consultationId = String(payload.consultationId || "").trim();
@@ -146,8 +144,7 @@ exports.submitConsultation = onCall(
     assertMaxLength(name, MAX_NAME_LENGTH, "Name");
     assertMaxLength(email, MAX_EMAIL_LENGTH, "Email");
     assertMaxLength(contact, MAX_CONTACT_LENGTH, "Contact number");
-    assertMaxLength(facilityType, MAX_FACILITY_TYPE_LENGTH, "Facility type");
-    assertMaxLength(notes, MAX_NOTES_LENGTH, "Notes");
+    assertMaxLength(description, MAX_NOTES_LENGTH, "Description");
     assertMaxLength(fileName, MAX_FILE_NAME_LENGTH, "File name");
     assertMaxLength(fileBase64, MAX_FILE_BASE64_LENGTH, "File data");
 
@@ -174,8 +171,8 @@ exports.submitConsultation = onCall(
       name,
       email,
       contact,
-      facilityType,
-      notes,
+      description,
+      notes: description,
       fileName,
       timestamp: FieldValue.serverTimestamp(),
       createdAt: FieldValue.serverTimestamp(),
@@ -195,8 +192,7 @@ exports.submitConsultation = onCall(
     const escapedName = escapeHtml(name);
     const escapedEmail = escapeHtml(email || "Not provided");
     const escapedContact = escapeHtml(contact);
-    const escapedFacilityType = escapeHtml(facilityType || "Not provided");
-    const escapedNotes = escapeHtml(notes);
+    const escapedDescription = escapeHtml(description);
 
     const internalHtml = `
       <div style="margin:0;padding:0;background:#f3eee5;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
@@ -223,16 +219,12 @@ exports.submitConsultation = onCall(
                   <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Phone Number</td>
                   <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedContact}</td>
                 </tr>
-                <tr>
-                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Facility Type</td>
-                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedFacilityType}</td>
-                </tr>
               </table>
 
-              ${notes ? `
+              ${description ? `
               <div style="margin-top:16px;padding:16px;border:1px solid #eadecb;border-radius:12px;background:#fbf8f3;">
-                <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a5d38;font-weight:700;">Diagnostic Notes</p>
-                <p style="margin:0;font-size:14px;line-height:1.7;color:#2b2b2b;white-space:pre-wrap;">${escapedNotes}</p>
+                <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a5d38;font-weight:700;">Description</p>
+                <p style="margin:0;font-size:14px;line-height:1.7;color:#2b2b2b;white-space:pre-wrap;">${escapedDescription}</p>
               </div>
               ` : ""}
 
@@ -268,11 +260,14 @@ exports.submitConsultation = onCall(
                   <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;width:34%;">Submitted Name</td>
                   <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedName}</td>
                 </tr>
-                <tr>
-                  <td style="padding:12px 14px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#7a5d38;font-weight:700;background:#faf6ef;border:1px solid #eadecb;">Facility Type</td>
-                  <td style="padding:12px 14px;font-size:14px;color:#1a1a1a;background:#ffffff;border:1px solid #eadecb;">${escapedFacilityType}</td>
-                </tr>
               </table>
+
+              ${description ? `
+              <div style="margin-top:16px;padding:16px;border:1px solid #eadecb;border-radius:12px;background:#fbf8f3;">
+                <p style="margin:0 0 8px;font-size:11px;letter-spacing:0.16em;text-transform:uppercase;color:#7a5d38;font-weight:700;">Description</p>
+                <p style="margin:0;font-size:14px;line-height:1.7;color:#2b2b2b;white-space:pre-wrap;">${escapedDescription}</p>
+              </div>
+              ` : ""}
 
               <div style="margin-top:16px;padding:14px 16px;border:1px solid #eadecb;border-radius:12px;background:#ffffff;">
                 <p style="margin:0;font-size:13px;line-height:1.7;color:#333333;">Need to add or update details? Simply reply to this email and our team will include it in your request.</p>

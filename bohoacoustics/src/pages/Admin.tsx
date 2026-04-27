@@ -15,7 +15,6 @@ import {
   Filter,
   LogOut,
   Mail,
-  MapPin,
   Phone,
   Search,
   SlidersHorizontal,
@@ -30,10 +29,7 @@ interface Consultation {
   name: string;
   email: string;
   contact: string;
-  city: string;
-  state: string;
-  facilityType: string;
-  area: string;
+  description?: string;
   notes: string;
   fileUrl: string;
   fileName: string;
@@ -119,7 +115,7 @@ const Admin = () => {
       const normalizedStatus = String(consultation.status || "new").toLowerCase();
       const matchesSearch =
         !search ||
-        [consultation.name, consultation.email, consultation.contact, consultation.city, consultation.state, consultation.facilityType, consultation.notes]
+        [consultation.name, consultation.email, consultation.contact, consultation.description, consultation.notes]
           .filter(Boolean)
           .some((field) => String(field).toLowerCase().includes(search));
 
@@ -276,7 +272,7 @@ const Admin = () => {
                 <Input
                   value={searchTerm}
                   onChange={(e) => setSearchTerm(e.target.value)}
-                  placeholder="Name, phone, city, state, notes..."
+                  placeholder="Name, phone, email, description..."
                   className="pl-10 bg-white/[0.02] border-white/10 rounded-none h-12 text-white placeholder:text-white/25 focus-visible:ring-1 focus-visible:ring-primary focus-visible:border-primary"
                 />
               </div>
@@ -363,7 +359,7 @@ const Admin = () => {
                         </div>
                       </div>
 
-                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4 lg:gap-5">
+                      <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-2 gap-4 lg:gap-5">
                         <div className="border border-white/5 bg-white/[0.01] p-4">
                           <p className="text-[9px] text-primary tracking-widest uppercase font-bold mb-2 flex items-center gap-2">
                             <Mail className="w-3 h-3" /> Email
@@ -385,23 +381,12 @@ const Admin = () => {
                             <p className="text-xs sm:text-sm font-medium text-white/85 break-all">{req.contact || "N/A"}</p>
                           )}
                         </div>
-                        <div className="border border-white/5 bg-white/[0.01] p-4">
-                          <p className="text-[9px] text-primary tracking-widest uppercase font-bold mb-2 flex items-center gap-2">
-                            <MapPin className="w-3 h-3" /> Location
-                          </p>
-                          <p className="text-xs sm:text-sm uppercase tracking-wide text-white/80">{req.city}, {req.state}</p>
-                        </div>
-                        <div className="border border-white/5 bg-white/[0.01] p-4">
-                          <p className="text-[9px] text-primary tracking-widest uppercase font-bold mb-2">Facility / Area</p>
-                          <p className="text-xs sm:text-sm uppercase tracking-wide text-white/80">{req.facilityType || "N/A"}</p>
-                          <p className="text-xs sm:text-sm uppercase tracking-wide text-white/50 mt-1">{req.area || "N/A"} SQ FT</p>
-                        </div>
                       </div>
 
-                      {req.notes && (
+                      {(req.description || req.notes) && (
                         <div className="pt-4 border-t border-white/5">
-                          <p className="text-[9px] text-primary tracking-widest uppercase font-bold mb-2">Diagnostic Notes</p>
-                          <p className="text-sm font-light leading-relaxed text-white/65 whitespace-pre-wrap">{req.notes}</p>
+                          <p className="text-[9px] text-primary tracking-widest uppercase font-bold mb-2">Description</p>
+                          <p className="text-sm font-light leading-relaxed text-white/65 whitespace-pre-wrap">{req.description || req.notes}</p>
                         </div>
                       )}
                     </div>
