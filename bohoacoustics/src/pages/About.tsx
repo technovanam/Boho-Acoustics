@@ -90,7 +90,7 @@ const About = () => (
                       <source srcSet="/Founder-2.webp" type="image/webp" />
                       <img
                         src="/Founder-2.jpeg"
-                        alt="Dissha K Kedia"
+                        alt="Dissha Kansal"
                         width={640}
                         height={800}
                         loading="lazy"
@@ -102,7 +102,7 @@ const About = () => (
                     <div className="absolute bottom-0 left-0 h-1 w-full origin-left scale-x-0 bg-primary transition-transform duration-500 group-hover:scale-x-100" />
                   </div>
                   <div>
-                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Dissha K Kedia</h3>
+                    <h3 className="font-display text-2xl font-black uppercase text-white mb-2">Dissha Kansal</h3>
                     <p className="text-primary text-[10px] font-black tracking-widest uppercase mb-6">Founder</p>
                     <p className="text-sm font-light text-white/65 leading-relaxed">
                       The heartbeat of Boho Acoustics, Dissha is focused on transforming transactions into experiences and products into stories. Guided by innovation and a relentless commitment to customer delight, she brings warmth, clarity, and intention to every interaction.
